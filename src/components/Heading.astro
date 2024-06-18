@@ -2,16 +2,17 @@
 import Social from "./Social.astro";
 import Avatar from "../components/Avatar.astro";
 ---
+
 <div class="grid">
-<div class="heading-container">
-  <a href="/">
-    <span class="sr-only">Home</span>
-    <Avatar />
-  </a>
-  <div class="social-icons">
-    <Social />
+  <div class="heading-container">
+    <a href="/">
+      <span class="sr-only">Home</span>
+      <Avatar />
+    </a>
+    <div class="social-icons">
+      <Social />
+    </div>
   </div>
-</div>
 </div>
 
 <style>
@@ -33,10 +34,10 @@ import Avatar from "../components/Avatar.astro";
     h1 {
       margin-bottom: 0;
     }
-    .heading-container{
+    .heading-container {
       grid-template-columns: 1fr;
     }
-    
+
     .social-icons {
       justify-content: left;
     }
