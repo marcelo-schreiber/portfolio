@@ -17,23 +17,23 @@ const { title, body, tags, github, live, href } = Astro.props;
     {
       href && (
         <a href={href}>
-          <h5
+          <h3
             transition:name="project-title"
             class="industry mb-2 text-2xl font-bold tracking-tight text-white underline"
           >
             {title}
-          </h5>
+          </h3>
         </a>
       )
     }
     {
       !href && (
-        <h5
+        <h3
           transition:name="project-title"
           class="mb-2 text-2xl font-bold tracking-tight text-white industry"
         >
           {title}
-        </h5>
+        </h3>
       )
     }
 
