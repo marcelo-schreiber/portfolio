@@ -1,4 +1,4 @@
-# ![Portfolio](/screenshots/landing-marcelo-schreiber.png)
+# ![Portfolio](/screenshots/landing-marcelo-schreiber.jpg)
 
 This is a minimal portfolio website built with Astro and Tailwind CSS.
 
@@ -22,11 +22,11 @@ Here is a working live demo:  <https://marcelo-schreiber.com>
 
 The landing page contains a hero section with a profile picture, a short bio, a project section and a contact form.
 
-![Landing Page](/screenshots/landing-marcelo-schreiber.png)
+![Landing Page](/screenshots/landing-marcelo-schreiber.jpg)
 
 ### Contact Form
 
-![Contact Form](/screenshots/form-marcelo-schreiber.png)
+![Contact Form](/screenshots/form-marcelo-schreiber.jpg)
 
 ## Built with
 
