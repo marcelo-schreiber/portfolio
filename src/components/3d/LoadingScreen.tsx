@@ -1,11 +1,11 @@
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Torus } from "@react-three/drei";
+import { OrbitControls, TorusKnot } from "@react-three/drei";
 
 function SpinningTorus() {
   return (
-    <Torus args={[1, 0.3, 8, 20]} position={[0, 0, 0]} rotation={[0.5, 0, 0]}>
+    <TorusKnot args={[0.9, 0.25, 64, 8, 2, 3]}>
       <meshBasicMaterial color="white" wireframe />
-    </Torus>
+    </TorusKnot>
   );
 }
 
@@ -14,7 +14,7 @@ export default function LoadingScreen() {
     <div
       style={{
         width: "100vw",
-        height: "100vh",
+        height: "100dvh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -26,15 +26,23 @@ export default function LoadingScreen() {
       }}
     >
       <div style={{ width: 180, height: 180 }}>
-        <Canvas camera={{ position: [0, 0, 3] }} style={{ background: "transparent" }}>
+        <Canvas
+          camera={{ position: [0, 0, 3.2] }}
+          style={{ background: "transparent" }}
+        >
           <SpinningTorus />
-          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={20} />
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
+            autoRotate
+            autoRotateSpeed={18}
+          />
         </Canvas>
       </div>
       <div
         style={{
           color: "#fff",
-          fontFamily: 'IndustryBlack, sans-serif',
+          fontFamily: "IndustryBlack, sans-serif",
           fontSize: "1.2rem",
           marginTop: 8,
           letterSpacing: 1,
@@ -43,7 +51,7 @@ export default function LoadingScreen() {
           height: 32,
         }}
       >
-        Loading experience
+        Loading
         <span id="dotone">.</span>
         <span id="dottwo">.</span>
         <span id="dotthree">.</span>

@@ -17,6 +17,7 @@
     "@sentry/astro": "^8.9.2",
     "@types/react-dom": "^19.1.6",
     "astro": "^5.9.1",
+    "leva": "^0.10.0",
     "r3f-perf": "^7.2.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
