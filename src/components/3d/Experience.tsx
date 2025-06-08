@@ -158,11 +158,7 @@ export default function Experience() {
             rotation={[0.1, Math.PI, 0]}
             position={[0, 0.55, -1.15]}
           />
-          <MacBook
-            position-y={-1.3}
-            onPointerEnter={() => debouncedSetHover(true)}
-            onPointerLeave={() => debouncedSetHover(false)}
-          >
+          <MacBook position-y={-1.3}>
             <Html
               transform
               wrapperClass="htmlScreen"
