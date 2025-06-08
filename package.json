@@ -10,10 +10,22 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/react": "^4.3.0",
+    "@astrojs/tailwind": "^6.0.2",
+    "@react-three/drei": "^10.1.2",
+    "@react-three/fiber": "^9.1.2",
     "@sentry/astro": "^8.9.2",
-    "astro": "^4.10.2",
+    "@types/react-dom": "^19.1.6",
+    "astro": "^5.9.1",
+    "r3f-perf": "^7.2.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "sharp": "^0.33.4",
-    "tailwindcss": "^3.4.4"
+    "tailwindcss": "^3.4.4",
+    "three": "^0.177.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.6",
+    "@types/three": "^0.177.0"
   }
 }

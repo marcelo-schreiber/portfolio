@@ -1,204 +1,32 @@
 ---
 import Layout from "../layouts/Layout.astro";
-
-import Card from "../components/Card.astro";
-import Heading from "../components/Heading.astro";
-import Contact from "../components/Contact.astro";
-
-import ProjectImage from "../components/ProjectImage.astro";
-
-// logos
-import RunUserCodeLogo from "../assets/run-user-code-logo.webp";
-import RoomcraftifyLogo from "../assets/roomcraftify-landing.webp";
-import ScribblesVsSketchesLogo from "../assets/scribbles-vs-sketches.webp";
+import Experience from "../components/3d/Experience.tsx";
 ---
 
 <Layout title="Marcelo Schreiber | Portfolio">
-  <div id="contents">
-    <main class="container">
-      <div class="mb-16">
-        <Heading />
-        <p
-          class="mt-4 text-lg text-zinc-500 dark:text-zinc-400 font-light lg:text-xl"
-        >
-          Hey there 👋<br /> I'm a Full-stack developer intern at <a
-            href="https://vidyatec.com/"
-            class="underline text-gray-300">Vidya</a
-          > in Brazil, and I'm also studying Computer Science at <a
-            href="https://ufpr.br/"
-            class="underline text-gray-300">UFPR</a
-          >. If you think I can lend a hand, <a
-            href="#contact"
-            class="underline text-gray-300">get in touch</a
-          >!
-        </p>
-      </div>
-      <h2
-        class="text-3xl mt-6 font-medium lg:text-4xl tracking-tight text-primary dark:text-white mb-2"
-      >
-        Projects
-      </h2>
-      <div class="mx-auto mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <Card
-            title="Run User Code Service"
-            body="An API for running code in different languages. It uses Docker to run the code in a safe environment, avoiding vulnerabilities and security breaches."
-            tags="Python,Ruby,Javascript,Docker"
-            github="https://github.com/marcelo-schreiber/run-user-code-SaaS"
-          >
-            <a href="https://github.com/marcelo-schreiber/run-user-code-SaaS/">
-              <ProjectImage src={RunUserCodeLogo} alt="Run User Code Logo" />
-            </a>
-          </Card>
-        </div>
-        <div>
-          <Card
-            title="Roomcraftify"
-            body="Roomcraftify is fully featured 3D room designer. It allows you to create your own room and decorate it with a wide range of furniture and other items."
-            tags="Typescript,Nextjs,S3,SQL,Threejs"
-            live="https://roomcraftify.com/"
-            github="https://github.com/marcelo-schreiber/roomcraftify"
-          >
-            <a href="https://roomcraftify.com/">
-              <ProjectImage src={RoomcraftifyLogo} alt="Roomcraftify Logo" />
-            </a>
-          </Card>
-        </div>
-        <div>
-          <Card
-            title="Scribbles vs. Sketches"
-            body="Scribbles vs Sketches is a 2D platformer bomberman-like game. It is a story between two illustrators, Scribbles and Sketches."
-            tags="Python,Pygame"
-            github="https://github.com/Gustan13/ScribblesXSketches"
-          >
-            <a href="https://github.com/Gustan13/ScribblesXSketches">
-              <ProjectImage
-                src={ScribblesVsSketchesLogo}
-                alt="Scribbles vs Sketches Game Logo"
-              />
-            </a>
-          </Card>
-        </div>
-      </div>
-      <h2
-        class="text-3xl mt-8 font-medium lg:text-4xl tracking-tight text-primary dark:text-white mb-2"
-      >
-        Skills
-      </h2>
-      <div class="mx-auto mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Card
-            title="Languages"
-            body="Javascript, Typescript, Python, Java, C/C++"
-          />
-        </div>
-
-        <div>
-          <Card
-            title="Tools and frameworks"
-            body="React, Nextjs, Docker, PostgresSQL, Threejs, Vuejs, Pygame"
-          />
-        </div>
-      </div>
-      <div class="my-8">
-        <Contact />
-      </div>
-    </main>
-  </div>
+  <Experience client:only="react" />
 </Layout>
 
 <style is:global>
-  main {
-    margin: auto;
-    padding: 0.75rem;
-    width: 1100px;
-    max-width: 100%;
-    color: white;
-    line-height: 1.6;
+  html,
+  body,
+  #root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: ivory;
   }
-  .project-image {
-    max-width: 100% !important;
-    overflow: hidden;
-  }
-  .project-cards {
-  }
-  .video-wrapper {
-    background: #111111;
-    padding: calc(1.5rem - 1px);
-    line-height: 1.4;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-  }
-  .project-column > div {
-    max-width: 100%;
-    overflow: hidden;
-  }
-  .projects-alt > li {
-    gap: 1rem !important;
-  }
-  .astro-a {
-    position: absolute;
-    top: -32px;
-    left: 50%;
-    transform: translatex(-50%);
-    width: 220px;
-    height: auto;
-    z-index: -1;
+  .r3f {
+    touch-action: none;
   }
 
-  .text-gradient {
-    background-image: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 400%;
-    background-position: 0%;
-    font-size: 2.75rem;
-  }
-  .instructions {
-    margin-bottom: 2rem;
-    border: 1px solid rgba(var(--accent-light), 25%);
-    background: linear-gradient(
-      rgba(var(--accent-dark), 66%),
-      rgba(var(--accent-dark), 33%)
-    );
-    padding: 1.5rem;
-    border-radius: 8px;
-  }
-  .instructions code {
-    font-size: 0.8em;
-    font-weight: bold;
-    background: rgba(var(--accent-light), 12%);
-    color: rgb(var(--accent-light));
-    border-radius: 4px;
-    padding: 0.3em 0.4em;
-  }
-  .instructions strong {
-    color: rgb(var(--accent-light));
-  }
-  .link-card-grid {
-    display: grid;
-    gap: 0;
-    padding: 0;
-  }
-  .read-more {
-    color: #fff;
-  }
-  details {
-    position: relative;
-    top: -1px;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border-radius: 0 0 8px 8px;
-    max-width: 900px;
-  }
-  details > div {
-    max-width: 830px;
-  }
-
-  summary:hover {
-    cursor: pointer;
+  .htmlScreen iframe {
+    width: 1016px;
+    height: 705px;
+    border: none;
+    border-radius: 25px;
+    background-color: #000000;
   }
 </style>
-
-<script></script>
