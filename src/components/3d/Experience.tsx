@@ -1,5 +1,3 @@
-import React from "react";
-import { Canvas } from "@react-three/fiber";
 import {
   Html,
   ContactShadows,
@@ -9,18 +7,29 @@ import {
   Text,
 } from "@react-three/drei";
 import MacBook from "./MacBook.tsx";
+import { useEffect, useState } from "react";
+import { Perf } from "r3f-perf";
 
 export default function Experience() {
+  const [hash, setHash] = useState("");
+
+  useEffect(() => {
+    setHash(window.location.hash);
+
+    const handleHashChange = () => {
+      setHash(window.location.hash);
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
   return (
-    <Canvas
-      className="r3f"
-      camera={{
-        fov: 45,
-        near: 0.1,
-        far: 2000,
-        position: [-3, 1.5, 4],
-      }}
-    >
+    <>
+      {hash === "#debug" && <Perf position="top-left" />}
       <Environment preset="apartment" />
 
       <color args={["#0d1b2a"]} attach="background" />
@@ -74,6 +83,6 @@ export default function Experience() {
         blur={2.4}
         far={3}
       />
-    </Canvas>
+    </>
   );
 }

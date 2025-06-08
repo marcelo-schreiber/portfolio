@@ -1,10 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Experience from "../components/3d/Experience.tsx";
+import MyCanvas from "../components/3d/Canvas.tsx";
 ---
 
 <Layout title="Marcelo Schreiber | Portfolio">
-  <Experience client:only="react" />
+  <MyCanvas client:only="react" />
 </Layout>
 
 <style is:global>
