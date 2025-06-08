@@ -12,12 +12,48 @@ import { Perf } from "r3f-perf";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useHash } from "../../hooks/useHash.ts";
+import { useControls } from "leva";
 
 export default function Experience() {
   const isDebug = useHash("debug");
   const [isScreenHovered, setIsScreenHovered] = useState(false);
   const { camera } = useThree();
   const timeoutRef = useRef<NodeJS.Timeout>(null);
+
+  // only shown when debug is active
+  const {
+    hoveredCameraPosition,
+    defaultCameraPosition,
+    cameraLookAtTarget,
+    environmentPreset,
+    textPosition,
+    textRotationY,
+    textFontSize,
+    textColor,
+  } = useControls("Debug", {
+    hoveredCameraPosition: { value: [0.5, 1.5, 2.0], step: 0.1 },
+    defaultCameraPosition: { value: [-3, 0, 4], step: 0.1 },
+    cameraLookAtTarget: { value: [-0.05, 0.4, -1.4], step: 0.01 },
+    environmentPreset: {
+      value: "city" as const,
+      options: [
+        "apartment",
+        "city",
+        "dawn",
+        "forest",
+        "lobby",
+        "night",
+        "park",
+        "studio",
+        "sunset",
+        "warehouse",
+      ] as const,
+    },
+    textPosition: { value: [2.75, 0.5, 0.8], step: 0.1 },
+    textRotationY: { value: -1.25, min: -Math.PI, max: Math.PI, step: 0.01 },
+    textFontSize: { value: 1, min: 0.1, max: 3, step: 0.1 },
+    textColor: { value: "#e0e1dd" },
+  });
 
   const debouncedSetHover = useCallback((value: boolean) => {
     if (timeoutRef.current) {
@@ -31,8 +67,8 @@ export default function Experience() {
   useFrame(() => {
     if (isScreenHovered) {
       const cloneCamera = camera.clone();
-      cloneCamera.position.set(0.5, 1.5, 2);
-      cloneCamera.lookAt(-0.05, 0.4, -1.4);
+      cloneCamera.position.set(...hoveredCameraPosition);
+      cloneCamera.lookAt(...cameraLookAtTarget);
       camera.rotation.x = THREE.MathUtils.lerp(
         camera.rotation.x,
         cloneCamera.rotation.x,
@@ -49,11 +85,27 @@ export default function Experience() {
         0.1
       );
 
-      camera.position.z = THREE.MathUtils.lerp(camera.position.z, 2.0, 0.1);
-      camera.position.x = THREE.MathUtils.lerp(camera.position.x, 0.5, 0.1);
+      camera.position.z = THREE.MathUtils.lerp(
+        camera.position.z,
+        hoveredCameraPosition[2],
+        0.1
+      );
+      camera.position.x = THREE.MathUtils.lerp(
+        camera.position.x,
+        hoveredCameraPosition[0],
+        0.1
+      );
     } else {
-      camera.position.z = THREE.MathUtils.lerp(camera.position.z, 4, 0.1);
-      camera.position.x = THREE.MathUtils.lerp(camera.position.x, -3, 0.1);
+      camera.position.z = THREE.MathUtils.lerp(
+        camera.position.z,
+        defaultCameraPosition[2],
+        0.1
+      );
+      camera.position.x = THREE.MathUtils.lerp(
+        camera.position.x,
+        defaultCameraPosition[0],
+        0.1
+      );
       camera.rotation.x = THREE.MathUtils.lerp(
         camera.rotation.x,
         -0.35877,
@@ -75,7 +127,7 @@ export default function Experience() {
   return (
     <>
       {isDebug && <Perf position="top-left" />}
-      <Environment preset="apartment" />
+      <Environment preset={environmentPreset} />
 
       <color args={["#0d1b2a"]} attach="background" />
       <PresentationControls
@@ -89,11 +141,11 @@ export default function Experience() {
         <Float rotationIntensity={0.4}>
           <Text
             font="./IndustryBold.otf"
-            color="#e0e1dd"
-            position={[2.75, 0.5, 0.8]}
+            color={textColor}
+            position={textPosition}
             textAlign="center"
-            fontSize={1}
-            rotation-y={-1.25}
+            fontSize={textFontSize}
+            rotation-y={textRotationY}
             maxWidth={2}
           >
             Marcelo Schreiber
