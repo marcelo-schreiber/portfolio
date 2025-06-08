@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import React, { useRef, type JSX } from "react";
+import { useRef, type JSX } from "react";
 import { useGLTF } from "@react-three/drei";
 import type { GLTF } from "three/addons/loaders/GLTFLoader.js";
 
@@ -59,7 +59,7 @@ type GLTFResult = GLTF & {
 export default function Model(props: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>(null);
   const { nodes, materials } = useGLTF(
-    "https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf"
+    "/model.gltf"
   ) as unknown as GLTFResult;
 
   return (
@@ -202,5 +202,5 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
 }
 
 useGLTF.preload(
-  "https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf"
+  "/model.gltf"
 );

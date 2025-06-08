@@ -6,30 +6,39 @@ import {
   PresentationControls,
   Text,
 } from "@react-three/drei";
-import MacBook from "./MacBook.tsx";
-import { useEffect, useState } from "react";
+import MacBook from "./MacBookModel.tsx";
+import { useState, useCallback, useRef } from "react";
 import { Perf } from "r3f-perf";
+import { useFrame, useThree } from "@react-three/fiber";
+import * as THREE from "three";
+import { useHash } from "../../hooks/useHash.ts";
 
 export default function Experience() {
-  const [hash, setHash] = useState("");
+  const isDebug = useHash('debug');
+  const [isScreenHovered, setIsScreenHovered] = useState(false);
+  const { camera } = useThree();
+  const timeoutRef = useRef<NodeJS.Timeout>(null);
 
-  useEffect(() => {
-    setHash(window.location.hash);
-
-    const handleHashChange = () => {
-      setHash(window.location.hash);
-    };
-
-    window.addEventListener("hashchange", handleHashChange);
-
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-    };
+  const debouncedSetHover = useCallback((value: boolean) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setIsScreenHovered(value);
+    }, 100);
   }, []);
+
+  useFrame(() => {
+    if (isScreenHovered) {
+      camera.position.z = THREE.MathUtils.lerp(camera.position.z, 2.5, 0.1);
+    } else {
+      camera.position.z = THREE.MathUtils.lerp(camera.position.z, 4, 0.1);
+    }
+  });
 
   return (
     <>
-      {hash === "#debug" && <Perf position="top-left" />}
+      {isDebug && <Perf position="top-left" />}
       <Environment preset="apartment" />
 
       <color args={["#0d1b2a"]} attach="background" />
@@ -70,7 +79,11 @@ export default function Experience() {
               position={[0, 1.5, -1.36]}
               rotation-x={-0.256}
             >
-              <iframe src="./html" />
+              <iframe 
+                src="./html" 
+                onPointerEnter={() => debouncedSetHover(true)}
+                onPointerLeave={() => debouncedSetHover(false)}
+              />
             </Html>
           </MacBook>
         </Float>
