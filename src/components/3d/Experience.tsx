@@ -129,7 +129,7 @@ export default function Experience() {
       {isDebug && <Perf position="top-left" />}
       <Environment preset={environmentPreset} />
 
-      <color args={["#0d1b2a"]} attach="background" />
+      <color args={["#09090B"]} attach="background" />
       <PresentationControls
         global
         rotation={[0.13, 0.1, 0]}
