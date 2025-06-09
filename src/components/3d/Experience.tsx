@@ -69,21 +69,6 @@ export default function Experience() {
       const cloneCamera = camera.clone();
       cloneCamera.position.set(...hoveredCameraPosition);
       cloneCamera.lookAt(...cameraLookAtTarget);
-      camera.rotation.x = THREE.MathUtils.lerp(
-        camera.rotation.x,
-        cloneCamera.rotation.x,
-        0.1
-      );
-      camera.rotation.y = THREE.MathUtils.lerp(
-        camera.rotation.y,
-        cloneCamera.rotation.y,
-        0.1
-      );
-      camera.rotation.z = THREE.MathUtils.lerp(
-        camera.rotation.z,
-        cloneCamera.rotation.z,
-        0.1
-      );
 
       camera.position.z = THREE.MathUtils.lerp(
         camera.position.z,
@@ -94,6 +79,22 @@ export default function Experience() {
         camera.position.x,
         hoveredCameraPosition[0],
         0.1
+      );
+
+      camera.rotation.x = THREE.MathUtils.lerp(
+        camera.rotation.x,
+        cloneCamera.rotation.x,
+        0.088
+      );
+      camera.rotation.y = THREE.MathUtils.lerp(
+        camera.rotation.y,
+        cloneCamera.rotation.y,
+        0.088
+      );
+      camera.rotation.z = THREE.MathUtils.lerp(
+        camera.rotation.z,
+        cloneCamera.rotation.z,
+        0.088
       );
     } else {
       camera.position.z = THREE.MathUtils.lerp(
