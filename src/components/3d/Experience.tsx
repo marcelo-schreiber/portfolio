@@ -49,9 +49,9 @@ export default function Experience() {
         "warehouse",
       ] as const,
     },
-    textPosition: { value: [2.75, 0.5, 0.8], step: 0.1 },
+    textPosition: { value: [2.1, 0.3, 0.8], step: 0.1 },
     textRotationY: { value: -1.25, min: -Math.PI, max: Math.PI, step: 0.01 },
-    textFontSize: { value: 1, min: 0.1, max: 3, step: 0.1 },
+    textFontSize: { value: 0.8, min: 0.1, max: 3, step: 0.1 },
     textColor: { value: "#e0e1dd" },
   });
 
@@ -143,13 +143,14 @@ export default function Experience() {
             font="./IndustryBold.otf"
             color={textColor}
             position={textPosition}
-            textAlign="center"
             fontSize={textFontSize}
             rotation-y={textRotationY}
             maxWidth={2}
+            lineHeight={0.9}
           >
             Marcelo Schreiber
           </Text>
+
           <rectAreaLight
             width={2.5}
             height={1.65}
