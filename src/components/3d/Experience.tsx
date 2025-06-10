@@ -7,20 +7,17 @@ import {
   Text,
 } from "@react-three/drei";
 import MacBook from "./MacBookModel.tsx";
-import { useState, useCallback, useRef } from "react";
+import { useState } from "react";
 import { Perf } from "r3f-perf";
-import { useFrame, useThree } from "@react-three/fiber";
-import * as THREE from "three";
 import { useHash } from "../../hooks/useHash.ts";
 import { useControls } from "leva";
+import { useCameraController } from "../../hooks/useCameraControler.ts";
 
 export default function Experience() {
   const isDebug = useHash("debug");
   const [isScreenHovered, setIsScreenHovered] = useState(false);
-  const { camera } = useThree();
-  const timeoutRef = useRef<NodeJS.Timeout>(null);
 
-  // only shown when debug is active
+  // Debug controls
   const {
     hoveredCameraPosition,
     defaultCameraPosition,
@@ -55,74 +52,12 @@ export default function Experience() {
     textColor: { value: "#e0e1dd" },
   });
 
-  const debouncedSetHover = useCallback((value: boolean) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    timeoutRef.current = setTimeout(() => {
-      setIsScreenHovered(value);
-    }, 100);
-  }, []);
-
-  useFrame(() => {
-    if (isScreenHovered) {
-      const cloneCamera = camera.clone();
-      cloneCamera.position.set(...hoveredCameraPosition);
-      cloneCamera.lookAt(...cameraLookAtTarget);
-
-      camera.position.z = THREE.MathUtils.lerp(
-        camera.position.z,
-        hoveredCameraPosition[2],
-        0.1
-      );
-      camera.position.x = THREE.MathUtils.lerp(
-        camera.position.x,
-        hoveredCameraPosition[0],
-        0.1
-      );
-
-      camera.rotation.x = THREE.MathUtils.lerp(
-        camera.rotation.x,
-        cloneCamera.rotation.x,
-        0.088
-      );
-      camera.rotation.y = THREE.MathUtils.lerp(
-        camera.rotation.y,
-        cloneCamera.rotation.y,
-        0.088
-      );
-      camera.rotation.z = THREE.MathUtils.lerp(
-        camera.rotation.z,
-        cloneCamera.rotation.z,
-        0.088
-      );
-    } else {
-      camera.position.z = THREE.MathUtils.lerp(
-        camera.position.z,
-        defaultCameraPosition[2],
-        0.1
-      );
-      camera.position.x = THREE.MathUtils.lerp(
-        camera.position.x,
-        defaultCameraPosition[0],
-        0.1
-      );
-      camera.rotation.x = THREE.MathUtils.lerp(
-        camera.rotation.x,
-        -0.35877,
-        0.1
-      );
-      camera.rotation.y = THREE.MathUtils.lerp(
-        camera.rotation.y,
-        -0.61223,
-        0.1
-      );
-      camera.rotation.z = THREE.MathUtils.lerp(
-        camera.rotation.z,
-        -0.212264,
-        0.1
-      );
-    }
+  // Camera controller hook
+  const { debouncedSetHover } = useCameraController({
+    hoveredCameraPosition,
+    defaultCameraPosition,
+    cameraLookAtTarget,
+    isScreenHovered,
   });
 
   return (
@@ -130,7 +65,7 @@ export default function Experience() {
       {isDebug && <Perf position="top-left" />}
       <Environment preset={environmentPreset} />
 
-      <color args={["#09090B"]} attach="background" />
+      <color args={["#73628a"]} attach="background" />
       <PresentationControls
         global
         rotation={[0.13, 0.1, 0]}
@@ -169,9 +104,14 @@ export default function Experience() {
               rotation-x={-0.256}
             >
               <iframe
+                title="Marcelo Schreiber Portfolio"
                 src="./html"
-                onPointerEnter={() => debouncedSetHover(true)}
-                onPointerLeave={() => debouncedSetHover(false)}
+                onPointerEnter={() =>
+                  debouncedSetHover(true, setIsScreenHovered)
+                }
+                onPointerLeave={() =>
+                  debouncedSetHover(false, setIsScreenHovered)
+                }
               />
             </Html>
           </MacBook>
@@ -183,7 +123,7 @@ export default function Experience() {
         scale={5}
         opacity={0.4}
         blur={2.4}
-        far={3}
+        far={1.6}
       />
     </>
   );
