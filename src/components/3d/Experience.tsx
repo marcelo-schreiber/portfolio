@@ -5,6 +5,7 @@ import {
   Float,
   PresentationControls,
   Text,
+  Sparkles,
 } from "@react-three/drei";
 import MacBook from "./MacBookModel.tsx";
 import { useState } from "react";
@@ -58,17 +59,21 @@ export default function Experience() {
     color: { value: "#e0e1dd" },
   });
   const {
-    color: particleColor,
-    size: particleSize,
     count: particleCount,
     speed: particleSpeed,
-    fadeDistance: particleFadeDistance,
+    opacity: particleOpacity,
+    color: particleColor,
+    size: particleSize,
+    scale: particleScale,
+    noise: particleNoise,
   } = useControls("Background", {
+    count: { value: 100, min: 0, max: 1000, step: 1 },
+    speed: { value: 1, min: 0.1, max: 5, step: 0.1 },
+    opacity: { value: 0.8, min: 0, max: 1, step: 0.01 },
     color: { value: "#e0e1dd" },
-    size: { value: 0.06, min: 0.01, max: 0.5, step: 0.01 },
-    count: { value: 300, min: 50, max: 1000, step: 10 },
-    speed: { value: 0.4, min: 0, max: 2, step: 0.1 },
-    fadeDistance: { value: 7.0, min: 1, max: 10, step: 0.1 },
+    size: { value: 0.95, min: 0.01, max: 2, step: 0.01 },
+    scale: { value: [8, 4, 8], step: 0.01 },
+    noise: { value: 1, step: 0.01 },
   });
 
   const {
@@ -93,12 +98,23 @@ export default function Experience() {
     <>
       {isDebug && <Perf position="top-left" />}
       <Environment preset={environmentPreset} />
-      <ParticleBackground
-        color={particleColor}
-        size={particleSize}
-        fadeDistance={particleFadeDistance}
+      <Sparkles
         count={particleCount}
         speed={particleSpeed}
+        opacity={particleOpacity}
+        color={particleColor}
+        size={particleSize}
+        scale={particleScale}
+        noise={particleNoise}
+      />
+      <Sparkles
+        count={particleCount}
+        speed={particleSpeed}
+        opacity={particleOpacity}
+        color={particleColor}
+        size={particleSize}
+        scale={particleScale}
+        noise={particleNoise}
       />
 
       {/* <color args={["#73628a"]} attach="background" /> */}
