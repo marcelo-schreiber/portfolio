@@ -13,7 +13,7 @@ import { Perf } from "r3f-perf";
 import { useHash } from "../../hooks/useHash.ts";
 import { useControls } from "leva";
 import { useCameraController } from "../../hooks/useCameraControler.ts";
-import ParticleBackground from "./Background.tsx";
+// import ParticleBackground from "./Background.tsx";
 
 export default function Experience() {
   const isDebug = useHash("debug");
@@ -25,7 +25,7 @@ export default function Experience() {
     lookAtTarget: cameraLookAtTarget,
   } = useControls("Camera", {
     hoveredPosition: { value: [0.5, 1.5, 2.0], step: 0.1 },
-    defaultPosition: { value: [-3, 0, 4], step: 0.1 },
+    defaultPosition: { value: [-3.5, -11, 4], step: 0.1 },
     lookAtTarget: { value: [-0.05, 0.4, -1.4], step: 0.01 },
   });
 
@@ -53,9 +53,9 @@ export default function Experience() {
     fontSize: textFontSize,
     color: textColor,
   } = useControls("Text", {
-    position: { value: [2.1, 0.3, 0.8], step: 0.1 },
-    rotationY: { value: -1.25, min: -Math.PI, max: Math.PI, step: 0.01 },
-    fontSize: { value: 0.8, min: 0.1, max: 3, step: 0.1 },
+    position: { value: [2.2, -0.5, -0.3], step: 0.1 },
+    rotationY: { value: -1.45, min: -Math.PI, max: Math.PI, step: 0.01 },
+    fontSize: { value: 0.5, min: 0.1, max: 3, step: 0.1 },
     color: { value: "#e0e1dd" },
   });
   const {

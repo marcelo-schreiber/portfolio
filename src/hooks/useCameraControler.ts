@@ -39,54 +39,54 @@ export function useCameraController({
       camera.position.z = THREE.MathUtils.lerp(
         camera.position.z,
         hoveredCameraPosition[2],
-        0.1
+        0.058
       );
       camera.position.x = THREE.MathUtils.lerp(
         camera.position.x,
         hoveredCameraPosition[0],
-        0.1
+        0.058
       );
 
       camera.rotation.x = THREE.MathUtils.lerp(
         camera.rotation.x,
         cloneCamera.rotation.x,
-        0.088
+        0.058
       );
       camera.rotation.y = THREE.MathUtils.lerp(
         camera.rotation.y,
         cloneCamera.rotation.y,
-        0.088
+        0.058
       );
       camera.rotation.z = THREE.MathUtils.lerp(
         camera.rotation.z,
         cloneCamera.rotation.z,
-        0.088
+        0.058
       );
     } else {
       camera.position.z = THREE.MathUtils.lerp(
         camera.position.z,
         defaultCameraPosition[2],
-        0.1
+        0.058
       );
       camera.position.x = THREE.MathUtils.lerp(
         camera.position.x,
         defaultCameraPosition[0],
-        0.1
+        0.058
       );
       camera.rotation.x = THREE.MathUtils.lerp(
         camera.rotation.x,
         -0.35877,
-        0.1
+        0.058
       );
       camera.rotation.y = THREE.MathUtils.lerp(
         camera.rotation.y,
         -0.61223,
-        0.1
+        0.058
       );
       camera.rotation.z = THREE.MathUtils.lerp(
         camera.rotation.z,
         -0.212264,
-        0.1
+        0.058
       );
     }
   });
