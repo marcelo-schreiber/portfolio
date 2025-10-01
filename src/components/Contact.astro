@@ -90,7 +90,7 @@ const formSpreeURL = "https://formspree.io/f/mnqeewle";
           });
         }
       })
-      .catch((error) => {
+      .catch(() => {
         status.innerHTML = "Oops! There was a problem submitting your form";
       });
   }

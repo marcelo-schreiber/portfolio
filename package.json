@@ -7,11 +7,15 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "format": "prettier --write .",
+    "check": "astro check"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.4",
     "@astrojs/react": "^4.3.0",
     "@astrojs/tailwind": "^6.0.2",
+    "@react-spring/three": "^10.0.3",
     "@react-three/drei": "^10.1.2",
     "@react-three/fiber": "^9.1.2",
     "@sentry/astro": "^8.9.2",
@@ -23,7 +27,8 @@
     "react-dom": "^19.1.0",
     "sharp": "^0.33.4",
     "tailwindcss": "^3.4.4",
-    "three": "^0.177.0"
+    "three": "^0.177.0",
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

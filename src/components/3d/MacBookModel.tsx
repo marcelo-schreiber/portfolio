@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { useRef, type JSX } from "react";
 import { useGLTF } from "@react-three/drei";
 import type { GLTF } from "three/addons/loaders/GLTFLoader.js";
+import { useSpring, animated } from "@react-spring/three";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -56,11 +57,25 @@ type GLTFResult = GLTF & {
   };
 };
 
-export default function Model(props: JSX.IntrinsicElements["group"]) {
+export default function Model(props: JSX.IntrinsicElements["group"] & { 
+  onRotationChange?: (rotation: number) => void;
+}) {
   const group = useRef<THREE.Group>(null);
   const { nodes, materials } = useGLTF(
     "/model.gltf"
   ) as unknown as GLTFResult;
+
+  // Animation for opening the lid
+  const { rotation } = useSpring({
+    from: { rotation: 2.6 },
+    to: { rotation: 1.31 },
+    config: { tension: 170, friction: 50 },
+    onChange: ({ value }) => {
+      if (props.onRotationChange) {
+        props.onRotationChange(value.rotation);
+      }
+    },
+  });
 
   return (
     <group ref={group} {...props} dispose={null}>
@@ -143,9 +158,9 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
             material={materials.Touchbar}
           />
         </group>
-        <group
+        <animated.group
           position={[0.01, -0.47, -10.41]}
-          rotation={[1.31, 0, 0]}
+          rotation-x={rotation}
           scale={5.8}
         >
           <mesh
@@ -175,7 +190,7 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
             rotation={[-Math.PI, 0, -Math.PI]}
             scale={[0.58, 0.58, 0.58]}
           />
-        </group>
+        </animated.group>
         <group position={[-15.03, 0.03, 0.6]} scale={5.8}>
           <mesh
             geometry={nodes.Circle009.geometry}

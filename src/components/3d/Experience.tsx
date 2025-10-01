@@ -7,17 +7,40 @@ import {
   Text,
   Sparkles,
 } from "@react-three/drei";
-import MacBook from "./MacBookModel.tsx";
-import { useState } from "react";
+import MacBook from "./MacBookModel";
+import { useState, useEffect } from "react";
 import { Perf } from "r3f-perf";
-import { useHash } from "../../hooks/useHash.ts";
+import { useHash } from "../../hooks/useHash";
 import { useControls } from "leva";
-import { useCameraController } from "../../hooks/useCameraControler.ts";
+import { useCameraController } from "../../hooks/useCameraControler";
 // import ParticleBackground from "./Background.tsx";
 
 export default function Experience() {
   const isDebug = useHash("debug");
   const [isScreenHovered, setIsScreenHovered] = useState(false);
+  const [screenOpacity, setScreenOpacity] = useState(0);
+  const [isLidOpen, setIsLidOpen] = useState(false);
+
+  // Fade in screen after lid opens
+  useEffect(() => {
+    if (isLidOpen) {
+      // Delay screen turn on slightly after lid opens
+      const timer = setTimeout(() => {
+        const fadeInterval = setInterval(() => {
+          setScreenOpacity((prev) => {
+            if (prev >= 1) {
+              clearInterval(fadeInterval);
+              return 1;
+            }
+            return prev + 0.05;
+          });
+        }, 30);
+        return () => clearInterval(fadeInterval);
+      }, 230);
+      return () => clearTimeout(timer);
+    }
+  }, [isLidOpen]);
+
   // Debug controls organized in folders
   const {
     hoveredPosition: hoveredCameraPosition,
@@ -146,7 +169,15 @@ export default function Experience() {
             rotation={[0.1, Math.PI, 0]}
             position={[0, 0.55, -1.15]}
           />{" "}
-          <MacBook position-y={-1.3}>
+          <MacBook 
+            position-y={-1.3}
+            onRotationChange={(rotation) => {
+              // Consider lid "open" when rotation is close to final position
+              if (rotation < 2 && !isLidOpen) {
+                setIsLidOpen(true);
+              }
+            }}
+          >
             <Html
               transform
               wrapperClass="htmlScreen"
@@ -157,6 +188,10 @@ export default function Experience() {
               <iframe
                 title="Marcelo Schreiber Portfolio"
                 src="./html"
+                style={{
+                  opacity: screenOpacity,
+                  transition: 'opacity 0.3s ease-in-out',
+                }}
                 onPointerEnter={() =>
                   debouncedSetHover(true, setIsScreenHovered)
                 }
