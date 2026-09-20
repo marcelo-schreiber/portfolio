@@ -47,7 +47,7 @@ export default function Experience() {
     defaultPosition: defaultCameraPosition,
     lookAtTarget: cameraLookAtTarget,
   } = useControls("Camera", {
-    hoveredPosition: { value: [0.15, 1.35, 1.3], step: 0.05 },
+    hoveredPosition: { value: [0.15, 1.3, 1.3], step: 0.05 },
     defaultPosition: { value: [-3.5, -11, 4], step: 0.05 },
     lookAtTarget: { value: [-0.05, 0.4, -1.4], step: 0.01 },
   });
@@ -120,7 +120,11 @@ export default function Experience() {
   return (
     <>
       {isDebug && <Perf position="top-left" />}
-      <Environment preset={environmentPreset} />
+      <Environment
+        preset={environmentPreset}
+        background={false}
+        environmentIntensity={0.5}
+      />
       <Sparkles
         count={particleCount}
         speed={particleSpeed}
@@ -164,11 +168,12 @@ export default function Experience() {
           <rectAreaLight
             width={2.5}
             height={1.65}
-            intensity={65}
-            color={"#151b1c"}
+            intensity={13}
+            castShadow
+            color={"#cfd6d7"}
             rotation={[0.1, Math.PI, 0]}
             position={[0, 0.55, -1.15]}
-          />{" "}
+          />
           <MacBook
             position-y={-1.3}
             onRotationChange={(rotation) => {
@@ -190,7 +195,7 @@ export default function Experience() {
                 src="./en/html"
                 style={{
                   opacity: screenOpacity,
-                  transition: "opacity 0.3s ease-in-out",
+                  transition: "opacity 0.35s ease-in-out",
                 }}
                 onPointerEnter={() =>
                   debouncedSetHover(true, setIsScreenHovered)
