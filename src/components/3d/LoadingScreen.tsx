@@ -28,6 +28,7 @@ export default function LoadingScreen() {
       <div style={{ width: 180, height: 180 }}>
         <Canvas
           camera={{ position: [0, 0, 3.2] }}
+          gl={{ antialias: true }}
           style={{ background: "transparent" }}
         >
           <SpinningTorus />
