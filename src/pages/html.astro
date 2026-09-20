@@ -71,6 +71,14 @@ const copy = isPortuguese
 
 const projects = [
   {
+    title: "Scribbles Vs. Sketches",
+    meta: "Personal project | Python + Pygame",
+    letter: "S",
+    href: "https://github.com/Gustan13/ScribblesXSketches",
+    art: "bg-[linear-gradient(to_bottom_right,#f5d0bd,#f3e3c7)]",
+    image: scribblesImage,
+  },
+  {
     title: "3D Sort",
     meta: "Personal project | React + Three.js",
     letter: "3",
@@ -86,14 +94,6 @@ const projects = [
     art: "bg-[linear-gradient(to_bottom_right,#c7d8f5,#e4e8f7)]",
   },
   {
-    title: "Scribbles Vs. Sketches",
-    meta: "Personal project | Python + Pygame",
-    letter: "S",
-    href: "https://github.com/Gustan13/ScribblesXSketches",
-    art: "bg-[linear-gradient(to_bottom_right,#f5d0bd,#f3e3c7)]",
-    image: scribblesImage,
-  },
-  {
     title: "Run User Code",
     meta: "Personal project | TypeScript + Docker",
     letter: "R",
@@ -107,13 +107,13 @@ const readme = isPortuguese
 
 Se você tem interesse neste portfólio, ele está disponível no GitHub:
 
-GitHub: ${me.github.replace("https://", "")}/portfolio
+Repo no GitHub: ${me.github.replace("https://", "")}/portfolio
 `
   : `Hello there!
 
 If you're interested in this portfolio website, you can find it on GitHub at:
 
-GitHub: ${me.github.replace("https://", "")}/portfolio
+Github Repo: ${me.github.replace("https://", "")}/portfolio
 `;
 
 /* ---------------------------------------------------------------- */
@@ -181,7 +181,7 @@ const nav = [
         <span id="os-clock" class="max-[760px]:hidden"></span>
         <Search size={14} />
         <span class="font-bold tracking-[2px] max-[760px]:hidden">•••</span>
-        <a href={alternatePath} class="font-bold uppercase text-[#8e493e]">{alternateLocale}</a>
+        <a href={alternatePath} target="_blank" rel="noreferrer" class="font-bold uppercase text-[#8e493e]">{alternateLocale}</a>
       </div>
     </header>
 
@@ -207,6 +207,8 @@ const nav = [
           <div class="flex gap-[7px]">
             <a
               href="#home"
+              target="_blank"
+              rel="noreferrer"
               aria-label="Close"
               class={`${trafficLight} bg-[#ff625b]`}
             >
@@ -260,7 +262,7 @@ const nav = [
           aria-label="Site"
           class="relative flex h-[65px] items-center bg-[#f8f5ec] px-[38px] dark:bg-[#102131] dark:text-[#f3f7fb] max-[760px]:px-[17px]"
         >
-          <a href="#home" class="flex items-center gap-2.5 p-0">
+          <a href="#home" target="_blank" rel="noreferrer" class="flex items-center gap-2.5 p-0">
             <span
               class="grid size-[29px] -rotate-3 place-items-center rounded-[4px] bg-[#b65343] text-[11px] font-bold tracking-[-.05em] text-white"
               >{me.initials}</span
@@ -304,7 +306,7 @@ const nav = [
                 ></path></svg
               >
             </a>
-            <a href={`mailto:${me.email}`} aria-label="Email" class={socialLink}
+            <a href={`mailto:${me.email}`} target="_blank" rel="noreferrer" aria-label="Email" class={socialLink}
               ><Mail size={14} /></a
             >
             <a

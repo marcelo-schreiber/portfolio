@@ -26,11 +26,11 @@ const eyebrow = "text-[13px] font-bold tracking-[.15em] text-[#8e493e] uppercase
       <span class={eyebrow}>{copy.selectedWork}</span>
       <h2 class="mt-2 font-serif text-[29px] tracking-tighter text-[#222833] dark:text-[#f3f7fb]">{copy.workHeading}</h2>
     </div>
-    <a href="#work" aria-label="View all work" class="grid size-9 place-items-center rounded-full border border-[#deddd9] bg-white text-[#69717b] dark:border-[#527891] dark:bg-[#1c3b51] dark:text-[#f3f7fb]"><ArrowRight size={17} /></a>
+    <a href="#work" target="_blank" rel="noreferrer" aria-label="View all work" class="grid size-9 place-items-center rounded-full border border-[#deddd9] bg-white text-[#69717b] dark:border-[#527891] dark:bg-[#1c3b51] dark:text-[#f3f7fb]"><ArrowRight size={17} /></a>
   </div>
   <div class="grid grid-cols-3 gap-3.5 max-[760px]:grid-cols-1">
     {projects.map((project) => (
-      <a href={project.href} class="block p-0 text-left">
+      <a href={project.href} target="_blank" rel="noreferrer" class="block p-0 text-left">
         <div class:list={["relative grid min-h-55 place-items-center overflow-hidden rounded-xs border border-[rgba(35,52,78,.2)] before:absolute before:size-37.5 before:rounded-full before:border before:border-white/65 before:transform-[rotate(25deg)_scaleX(1.6)] before:content-['']", project.art]}>
           {project.image ? (
             <Image src={project.image} alt={`${project.title} preview`} class="absolute inset-0 size-full object-cover" />
