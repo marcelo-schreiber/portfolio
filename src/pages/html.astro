@@ -1,211 +1,488 @@
 ---
+// src/pages/index.astro
+// Needs: Tailwind v4 (imported in your Layout) and `npm i @lucide/astro`.
+// No client JS: navigation uses #ids + :target, and every toggle is plain HTML/CSS
+// (<details>, the popover attribute, and hidden radios/checkboxes read through :has()).
 import Layout from "../layouts/Layout.astro";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CalendarDays,
+  Earth,
+  Folder,
+  Mail,
+  MapPin,
+  Maximize2,
+  MessageCircle,
+  Minus,
+  Plus,
+  Search,
+  Settings,
+  Wifi,
+  X,
+} from "@lucide/astro";
 
-import Card from "../components/Card.astro";
-import Heading from "../components/Heading.astro";
-import Contact from "../components/Contact.astro";
+/* ---------------------------------------------------------------- */
+/* Your info — edit here                                             */
+/* ---------------------------------------------------------------- */
+const me = {
+  name: "Marcelo Schreiber",
+  initials: "MS",
+  role: "Full-Stack Developer",
+  domain: "marcelo-schreiber.com",
+  email: "marcelorissette15@gmail.com",
+  github: "https://github.com/marcelo-schreiber",
+  linkedin: "https://www.linkedin.com/in/marcelo-sch",
+  company: { name: "Vidya Technology", url: "https://vidyatec.com" },
+};
 
-import ProjectImage from "../components/ProjectImage.astro";
+const projects = [
+  {
+    title: "3d-sort",
+    meta: "Personal project · React + Three.js",
+    letter: "3",
+    href: "#work",
+    art: "bg-[linear-gradient(to_bottom_right,#b6ddbd,#e5efc9)]",
+  },
+];
 
-// logos
-import RunUserCodeLogo from "../assets/run-user-code-logo.webp";
-import RoomcraftifyLogo from "../assets/roomcraftify-landing.webp";
-import ScribblesVsSketchesLogo from "../assets/scribbles-vs-sketches.webp";
+const readme = `Hi, I'm Marcelo.
+
+I'm a full-stack developer, and I'm finishing a Computer Science degree at UFPR.
+
+Have a look around, or say hello.
+
+GitHub: ${me.github.replace("https://", "")}`;
+
+/* ---------------------------------------------------------------- */
+/* Shared class strings                                              */
+/* ---------------------------------------------------------------- */
+const eyebrow = "text-[12px] font-bold tracking-[.15em] text-[#c2715d] uppercase";
+const emphasis = "font-serif font-normal italic tracking-[-.08em] text-[#c56f5e]";
+const focusRing =
+  "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[#25344e]";
+// invisible radio/checkbox laid over its <label>: the label stays clickable and keyboard-focusable
+const hiddenInput = "absolute inset-0 m-0 cursor-pointer appearance-none opacity-0";
+const trafficLight = "relative grid size-3 cursor-pointer place-items-center rounded-full p-0 text-black/45";
+const socialLink =
+  "grid place-items-center text-[#25344e] transition-[color,transform,translate,rotate] duration-150 hover:-translate-y-0.5 hover:-rotate-[4deg] hover:text-[#ef775b]";
+const dockItem =
+  "relative block cursor-pointer p-0 list-none transition-transform duration-[180ms] hover:[transform:translateY(-3px)_rotate(-2deg)] [&::-webkit-details-marker]:hidden";
+const dockIcon =
+  "grid size-[43px] place-items-center rounded-[4px] border border-[rgba(37,52,78,.3)] text-white shadow-[2px_2px_0_rgba(37,52,78,.22)] max-[760px]:size-[35px] max-[760px]:[&_svg]:w-[19px] max-[430px]:size-8";
+
+// Active tab = the section that is the current :target. Home is active until another one is.
+const navBase =
+  "relative py-[9px] font-serif text-[13px] after:absolute after:inset-x-0 after:bottom-0 after:m-auto after:h-0.5 after:w-[18px] after:bg-[#ef775b] after:content-['']";
+const nav = [
+  {
+    id: "home",
+    label: "Home",
+    state:
+      "text-[#202631] after:opacity-100 group-has-[#work:target,#about:target,#contact:target]/desktop:text-[#8b8c92] group-has-[#work:target,#about:target,#contact:target]/desktop:after:opacity-0 group-has-[#work:target,#about:target,#contact:target]/desktop:hover:text-[#202631]",
+  },
+  {
+    id: "work",
+    label: "Work",
+    state:
+      "text-[#8b8c92] after:opacity-0 hover:text-[#202631] group-has-[#work:target]/desktop:text-[#202631] group-has-[#work:target]/desktop:after:opacity-100",
+  },
+  {
+    id: "about",
+    label: "About",
+    state:
+      "text-[#8b8c92] after:opacity-0 hover:text-[#202631] group-has-[#about:target]/desktop:text-[#202631] group-has-[#about:target]/desktop:after:opacity-100",
+  },
+  {
+    id: "contact",
+    label: "Contact",
+    state:
+      "text-[#8b8c92] after:opacity-0 hover:text-[#202631] group-has-[#contact:target]/desktop:text-[#202631] group-has-[#contact:target]/desktop:after:opacity-100",
+  },
+];
 ---
 
-<Layout title="Marcelo Schreiber | Portfolio">
-  <div id="contents">
-    <main class="container">
-      <div class="mb-16">
-        <Heading />
-        <p
-          class="mt-4 text-lg text-zinc-500 dark:text-zinc-400 font-light lg:text-xl"
+<Layout title={`${me.name} — ${me.role}`}>
+  <main
+    class="group/desktop relative min-h-screen bg-[radial-gradient(circle_at_18%_14%,rgba(255,255,255,.64),transparent_23%),repeating-linear-gradient(0deg,rgba(33,58,74,.035)_0_1px,transparent_1px_4px),linear-gradient(135deg,#c9d8df_0%,#9eb8c8_48%,#c6d3d7_100%)] text-[#f4f7fb]"
+  >
+    <!-- Menu bar -->
+    <header
+      class="flex h-[29px] items-center justify-between bg-white/[.46] px-4 text-[12px] text-[#17263a] backdrop-blur-[18px]"
+    >
+      <div class="flex items-center gap-[18px]">
+        <span>●</span>
+        <strong class="font-bold">Finder</strong>
+        <span>File</span>
+        <span class="max-[760px]:hidden">Edit</span>
+        <span class="max-[760px]:hidden">View</span>
+        <span class="max-[760px]:hidden">Go</span>
+        <span class="max-[760px]:hidden">Window</span>
+        <span class="max-[760px]:hidden">Help</span>
+      </div>
+      <div class="flex items-center gap-3 text-[11px]">
+        <span class="size-[7px] rounded-full bg-[#2cbd7e]"></span>
+        <Wifi size={14} />
+        <span class="max-[760px]:hidden">Wed Sep 18 10:42 AM</span>
+        <Search size={14} />
+        <span class="font-bold tracking-[2px] max-[760px]:hidden">•••</span>
+      </div>
+    </header>
+
+    <section
+      class="relative flex min-h-[calc(100vh_-_29px)] w-full flex-col items-center overflow-hidden px-4 pt-[38px] pb-24 max-[760px]:pt-5"
+    >
+      <!-- Browser window -->
+      <article
+        aria-label="Portfolio website"
+        class:list={[
+          "mx-auto h-[min(820px,calc(100vh_-_105px))] w-[min(1440px,calc(100vw_-_32px))] max-w-[1165px] overflow-hidden rounded-lg border border-[rgba(49,71,83,.38)] bg-white text-[#202631] shadow-[10px_12px_0_rgba(45,70,82,.12),0_24px_55px_rgba(45,76,104,.25)] max-[760px]:h-[calc(100vh_-_128px)]",
+          // maximized (#win-max is checked)
+          "group-has-[#win-max:checked]/desktop:fixed group-has-[#win-max:checked]/desktop:inset-x-0 group-has-[#win-max:checked]/desktop:top-[29px] group-has-[#win-max:checked]/desktop:bottom-0 group-has-[#win-max:checked]/desktop:z-20 group-has-[#win-max:checked]/desktop:m-0 group-has-[#win-max:checked]/desktop:h-auto group-has-[#win-max:checked]/desktop:w-auto group-has-[#win-max:checked]/desktop:max-w-none group-has-[#win-max:checked]/desktop:rounded-none",
+          // minimized (#win-min is checked)
+          "group-has-[#win-min:checked]/desktop:pointer-events-none group-has-[#win-min:checked]/desktop:origin-bottom group-has-[#win-min:checked]/desktop:opacity-0 group-has-[#win-min:checked]/desktop:[transform:translateY(calc(100vh_-_130px))_scale(.15)] group-has-[#win-min:checked]/desktop:[transition:transform_.35s_ease,opacity_.25s_ease]",
+        ]}
+      >
+        <!-- Title bar -->
+        <div class="flex h-[37px] items-center gap-[17px] border-b border-[#aebbc1] bg-[#d9e0e3] px-[13px]">
+          <div class="flex gap-[7px]">
+            <a href="#home" aria-label="Close" class={`${trafficLight} bg-[#ff625b]`}>
+              <X size={10} />
+            </a>
+            <label class={`${trafficLight} bg-[#ffc14c] ${focusRing}`}>
+              <input type="radio" name="win" id="win-min" aria-label="Minimize window" class={hiddenInput} />
+              <Minus size={10} />
+            </label>
+            <label class={`${trafficLight} bg-[#2dcf63] ${focusRing}`}>
+              <input type="checkbox" id="win-max" aria-label="Maximize window" class={hiddenInput} />
+              <Maximize2 size={9} />
+            </label>
+          </div>
+          <div
+            class="flex h-[27px] max-w-[350px] min-w-[250px] items-center gap-2 rounded-t-[7px] bg-white px-2.5 text-[11px] text-[#4a4e58] max-[430px]:min-w-[180px]"
+          >
+            <span class="flex-1 truncate">{me.name} — {me.role}</span>
+            <X size={12} />
+          </div>
+          <Plus size={15} class="text-[#969da8]" />
+        </div>
+
+        <!-- Toolbar -->
+        <div
+          class="flex h-[38px] items-center gap-4 border-b border-[#bdc6c7] bg-[#f0f1ed] px-[15px] text-[#777e89] max-[760px]:gap-2.5"
         >
-          Hey there 👋<br /> I'm a Full-stack developer intern at <a
-            href="https://vidyatec.com/"
-            target="_blank"
-            class="underline text-gray-300">Vidya</a
-          > in Brazil, and I'm also studying Computer Science at <a
-            href="https://ufpr.br/"
-            target="_blank"
-            class="underline text-gray-300">UFPR</a
-          >. If you think I can lend a hand, <a
-            href="#contact"
-            class="underline text-gray-300">get in touch</a
-          >!
-        </p>
-      </div>
-      <h2
-        class="text-3xl mt-6 font-medium lg:text-4xl tracking-tight text-primary dark:text-white mb-2"
-      >
-        Projects
-      </h2>
-      <div class="mx-auto mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <Card
-            title="Run User Code Service"
-            body="An API for running code in different languages. It uses Docker to run the code in a safe environment, avoiding vulnerabilities and security breaches."
-            tags="Python,Ruby,Javascript,Docker"
-            github="https://github.com/marcelo-schreiber/run-user-code-SaaS"
+          <ArrowLeft size={16} />
+          <ArrowRight size={16} class="opacity-[.26]" />
+          <div
+            class="m-auto flex h-[25px] max-w-[560px] flex-1 items-center gap-2 rounded-[7px] bg-[#e9ebef] px-3 text-[11px] text-[#717780]"
           >
-            <a
-              href="https://github.com/marcelo-schreiber/run-user-code-SaaS/"
-              target="_blank"
-            >
-              <ProjectImage src={RunUserCodeLogo} alt="Run User Code Logo" />
-            </a>
-          </Card>
-        </div>
-        <div>
-          <Card
-            title="Roomcraftify"
-            body="Roomcraftify is fully featured 3D room designer. It allows you to create your own room and decorate it with a wide range of furniture and other items."
-            tags="Typescript,Nextjs,S3,SQL,Threejs"
-            live="https://roomcraftify.com/"
-          >
-            <a href="https://roomcraftify.com/" target="_blank">
-              <ProjectImage src={RoomcraftifyLogo} alt="Roomcraftify Logo" />
-            </a>
-          </Card>
-        </div>
-        <div>
-          <Card
-            title="Scribbles vs. Sketches"
-            body="Scribbles vs Sketches is a 2D platformer bomberman-like game. It is a story between two illustrators, Scribbles and Sketches."
-            tags="Python,Pygame"
-            github="https://github.com/Gustan13/ScribblesXSketches"
-          >
-            <a
-              href="https://github.com/Gustan13/ScribblesXSketches"
-              target="_blank"
-            >
-              <ProjectImage
-                src={ScribblesVsSketchesLogo}
-                alt="Scribbles vs Sketches Game Logo"
-              />
-            </a>
-          </Card>
-        </div>
-      </div>
-      <h2
-        class="text-3xl mt-8 font-medium lg:text-4xl tracking-tight text-primary dark:text-white mb-2"
-      >
-        Skills
-      </h2>
-      <div class="mx-auto mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Card
-            title="Languages"
-            body="Javascript, Typescript, Python, Java, C/C++"
-          />
+            <Search size={13} />
+            <span class="flex-1">{me.domain}</span>
+          </div>
         </div>
 
-        <div>
-          <Card
-            title="Tools and frameworks"
-            body="React, Nextjs, Docker, PostgresSQL, Threejs, Vuejs, Pygame"
-          />
+        <!-- Site nav -->
+        <nav aria-label="Site" class="relative flex h-[65px] items-center bg-[#f8f5ec] px-[38px] max-[760px]:px-[17px]">
+          <a href="#home" class="flex items-center gap-2.5 p-0">
+            <span
+              class="grid size-[29px] -rotate-3 place-items-center rounded-[4px] bg-[#ef775b] text-[11px] font-bold tracking-[-.05em] text-white"
+              >{me.initials}</span
+            >
+            <small class="font-serif text-[13px] font-bold text-[#232a34] max-[760px]:hidden">{me.name}</small>
+          </a>
+          <div
+            class="absolute left-1/2 flex -translate-x-1/2 gap-[27px] max-[760px]:static max-[760px]:ml-auto max-[760px]:translate-x-0 max-[760px]:gap-3.5 max-[430px]:gap-[9px]"
+          >
+            {nav.map((item) => <a href={`#${item.id}`} class:list={[navBase, item.state]}>{item.label}</a>)}
+          </div>
+          <div
+            role="group"
+            aria-label="Social links"
+            class="mr-3.5 ml-auto flex items-center gap-2.5 max-[760px]:mr-2 max-[760px]:ml-3 max-[760px]:gap-2 [&_svg]:size-3.5 max-[760px]:[&_svg]:w-[13px]"
+          >
+            <a href={me.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" class={socialLink}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"
+                ><path
+                  fill="currentColor"
+                  d="M5.2 8.4H1.6V20h3.6V8.4ZM3.4 3A2.1 2.1 0 1 0 3.4 7.2 2.1 2.1 0 0 0 3.4 3ZM22.4 13.3c0-3.5-1.9-5.2-4.5-5.2-2.1 0-3 1.2-3.5 2v-1.7h-3.6V20h3.6v-5.8c0-1.5.3-3 2.1-3 1.7 0 1.7 1.7 1.7 3.1V20h3.6v-6.7Z"
+                ></path></svg
+              >
+            </a>
+            <a href={`mailto:${me.email}`} aria-label="Email" class={socialLink}><Mail size={14} /></a>
+            <a href={me.github} target="_blank" rel="noreferrer" aria-label="GitHub" class={socialLink}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"
+                ><path
+                  fill="currentColor"
+                  d="M12 2.5a9.7 9.7 0 0 0-3.1 18.9c.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.2-3.4-1.2-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 0 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.2-4.5-1.1-4.5-4.8 0-1.1.4-2 1-2.7-.1-.2-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.3 9.3 0 0 1 4.9 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.5.1 2.7.6.7 1 1.6 1 2.7 0 3.7-2.3 4.6-4.5 4.8.3.3.6.9.6 1.8v2.7c0 .3.2.6.7.5A9.7 9.7 0 0 0 12 2.5Z"
+                ></path></svg
+              >
+            </a>
+          </div>
+        </nav>
+
+        <!-- Scrolling page content -->
+        <div
+          class="h-[calc(100%_-_140px)] scroll-smooth overflow-y-auto overscroll-contain bg-white [scrollbar-color:#9b8e7a_#eee9df] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-[11px] [&::-webkit-scrollbar-thumb]:rounded-lg [&::-webkit-scrollbar-thumb]:border-[3px] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-[#eee9df] [&::-webkit-scrollbar-thumb]:bg-[#a99b87] [&::-webkit-scrollbar-track]:bg-[#eee9df]"
+        >
+          <!-- Home -->
+          <section
+            id="home"
+            class="relative min-h-[410px] overflow-hidden border-b border-[#d9d2c6] bg-[#f8f5ec] px-[10%] pt-[70px] pb-[50px] after:absolute after:top-[45px] after:right-[9%] after:size-[200px] after:rounded-full after:bg-[radial-gradient(circle_at_36%_30%,#f9dfb2_0_8%,#ecaa78_9%_28%,#ba6d65_29%_47%,#555777_48%_62%,#343f65_63%)] after:opacity-40 after:blur-[22px] after:saturate-[.8] after:content-[''] max-[760px]:min-h-[460px] max-[760px]:px-6 max-[760px]:pt-[52px] max-[760px]:pb-[100px] max-[760px]:after:top-[100px] max-[760px]:after:-right-[30px]"
+          >
+            <h1
+              class="relative z-[1] mt-[17px] mb-[13px] max-w-[600px] font-serif text-[clamp(37px,5.2vw,65px)] leading-[.98] font-semibold tracking-[-.06em] text-[#202631] max-[430px]:text-[42px]"
+            >
+              Full-stack software<br />
+              <em class={emphasis}>for industrial assets.</em>
+            </h1>
+            <p class="relative z-[1] max-w-[350px] text-[17px] leading-[1.65] text-[#777983]">
+              I'm Marcelo, a full-stack developer at {me.company.name}. I build web tools for oil and gas inspection
+              with React, Java, and PostgreSQL.
+            </p>
+            <div class="relative z-[1] mt-[26px] flex items-center gap-[22px]">
+              <a
+                href="#work"
+                class="flex items-center gap-4 rounded-[2px] bg-[#ef775b] px-[15px] py-3 text-[11px] text-white shadow-[3px_3px_0_#25344e]"
+              >
+                Explore my work <ArrowRight size={16} />
+              </a>
+              <a href="#about" class="flex items-center gap-2 text-[11px] text-[#555d6b]">
+                More about me <ArrowRight size={15} />
+              </a>
+            </div>
+            <div
+              class="absolute right-[11%] bottom-[52px] z-[1] flex flex-col gap-1.5 text-[14px] text-[#8e9094] max-[760px]:right-auto max-[760px]:bottom-[30px] max-[760px]:left-6"
+            >
+              <span>Currently</span>
+              <strong class="text-[12px] font-semibold text-[#313844]">
+                Building at{" "}
+                <a href={me.company.url} target="_blank" rel="noreferrer" class="text-inherit">
+                  <u class="text-[#b26b5a] underline underline-offset-[3px]">{me.company.name}</u>
+                </a>
+              </strong>
+              <span>Previously: Petrobras projects via Vidya</span>
+            </div>
+          </section>
+
+          <!-- Work -->
+          <section id="work" class="bg-[#eee9df] px-[10%] py-[60px] max-[760px]:px-6 max-[760px]:py-[45px]">
+            <div class="mb-[25px] flex items-end justify-between">
+              <div>
+                <span class={eyebrow}>Selected work</span>
+                <h2 class="mt-2 font-serif text-[27px] tracking-[-.05em] text-[#222833]">A few things I've made.</h2>
+              </div>
+              <a
+                href="#work"
+                aria-label="View all work"
+                class="grid size-[34px] place-items-center rounded-full border border-[#deddd9] bg-white text-[#69717b]"
+              >
+                <ArrowRight size={17} />
+              </a>
+            </div>
+            <div class="grid grid-cols-3 gap-3.5 max-[760px]:grid-cols-1">
+              {
+                projects.map((project) => (
+                  <a href={project.href} class="block p-0 text-left">
+                    <div
+                      class:list={[
+                        "relative grid min-h-[220px] place-items-center overflow-hidden rounded-[2px] border border-[rgba(35,52,78,.2)] before:absolute before:size-[150px] before:rounded-full before:border before:border-white/65 before:[transform:rotate(25deg)_scaleX(1.6)] before:content-['']",
+                        project.art,
+                      ]}
+                    >
+                      <div class="-rotate-[8deg] font-serif text-[52px] font-bold text-white [text-shadow:0_8px_18px_#0002]">
+                        {project.letter}
+                      </div>
+                      <span class="absolute top-3 right-3 grid size-[27px] place-items-center rounded-full bg-[#ffffff99] text-[#243149]">
+                        <ArrowRight size={13} />
+                      </span>
+                    </div>
+                    <div class="flex justify-between gap-2 px-px py-[13px]">
+                      <div>
+                        <h3 class="font-serif text-[15px] text-[#2c323a]">{project.title}</h3>
+                        <p class="my-1 text-[15px] leading-[1.65] text-[#989ba0]">{project.meta}</p>
+                      </div>
+                      <span class="flex items-center gap-1 pt-1 text-[9px] whitespace-nowrap text-[#8c8f94]">
+                        View project <ArrowRight size={13} />
+                      </span>
+                    </div>
+                  </a>
+                ))
+              }
+            </div>
+          </section>
+
+          <!-- About -->
+          <section
+            id="about"
+            class="flex items-center gap-[50px] border-y border-[#c1cbc4] bg-[#dce4df] px-[10%] py-[60px] max-[760px]:items-start max-[760px]:gap-5 max-[760px]:px-6 max-[760px]:py-[45px]"
+          >
+            <div
+              class="grid size-[105px] shrink-0 rotate-2 place-items-center rounded-[3px] bg-[linear-gradient(135deg,#263954,#be7b68)] text-[20px] tracking-[-.1em] text-white max-[760px]:size-[65px] max-[760px]:text-[14px]"
+            >
+              {me.initials}
+            </div>
+            <div>
+              <span class={eyebrow}>A little about me</span>
+              <h2 class="mt-2 font-serif text-[30px] font-normal tracking-[-.05em] text-[#222833] max-[760px]:text-[23px]">
+                Full-stack, with a backend bias.
+              </h2>
+              <p class="max-w-[570px] text-[15px] leading-[1.65] text-[#73757b]">
+                I work on the front end, back end, and deployment of inspection software at {me.company.name} in
+                Curitiba, mostly with React, Java, PostgreSQL, AWS, and Docker. I'm graduating in Computer Science from
+                UFPR in December 2026, and I handle operations and finances for its IEEE Student Branch. Outside work I
+                tinker with ESP32 boards.
+              </p>
+              <div class="mt-[22px] flex gap-6 text-[10px] text-[#7a7c81] max-[760px]:flex-col max-[760px]:gap-2">
+                <span class="flex items-center gap-[7px]">
+                  <MapPin size={15} class="text-[#c67861]" /> Based in Curitiba, Brazil
+                </span>
+                <span class="flex items-center gap-[7px]">
+                  <CalendarDays size={15} class="text-[#c67861]" /> At {me.company.name} since 2023
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Contact -->
+          <section
+            id="contact"
+            class="flex items-center justify-between gap-[30px] bg-[#f8f5ec] px-[10%] py-[60px] max-[760px]:block max-[760px]:px-6 max-[760px]:py-[45px]"
+          >
+            <div>
+              <span class={eyebrow}>Have a project in mind?</span>
+              <h2 class="mt-2 font-serif text-[37px] leading-[1.05] tracking-[-.05em] text-[#222833]">
+                Let's make something<br />
+                <em class={emphasis}>meaningful.</em>
+              </h2>
+            </div>
+            <label
+              class={`relative flex min-w-[290px] cursor-pointer items-center gap-3.5 rounded-[2px] border border-[#25344e] bg-white px-[18px] py-[17px] text-left shadow-[4px_4px_0_#ef775b] max-[760px]:mt-[25px] max-[760px]:min-w-0 ${focusRing}`}
+            >
+              <input type="checkbox" id="mail-sent" aria-label="Start a conversation" class={hiddenInput} />
+              <span class="grid size-[38px] place-items-center rounded-full bg-[#fae7db] text-[#c7765f]">
+                <Mail size={21} />
+              </span>
+              <span class="flex flex-1 flex-col gap-[5px]">
+                <span class="text-[10px] text-[#96979b] group-has-[#mail-sent:checked]/desktop:hidden">
+                  Start a conversation
+                </span>
+                <span class="hidden text-[10px] text-[#96979b] group-has-[#mail-sent:checked]/desktop:inline">
+                  Thanks! I'll be in touch.
+                </span>
+                <strong class="text-[11px] font-semibold text-[#333944]">{me.email}</strong>
+              </span>
+              <ArrowRight size={17} class="text-[#a0a2a4]" />
+            </label>
+          </section>
         </div>
-      </div>
-      <div class="my-8">
-        <Contact />
-      </div>
-    </main>
-  </div>
+      </article>
+
+      <!-- Desktop file: opens the read_me popover -->
+      <button
+        type="button"
+        popovertarget="readme"
+        aria-label="Open read me text file"
+        class="absolute top-14 right-6 z-[3] m-0 grid cursor-pointer justify-items-center gap-[7px] p-0 text-[11px] text-[rgba(22,47,69,.72)]"
+      >
+        <span
+          class="grid h-[38px] w-[46px] place-items-center rounded-lg bg-[linear-gradient(#5ea5e4,#327ec0)] shadow-[0_5px_9px_rgba(52,95,132,.2)]"
+        >
+          <Folder size={30} fill="white" />
+        </span>
+        <span>read_me.txt</span>
+      </button>
+    </section>
+
+    <!-- Dock -->
+    <nav
+      aria-label="Dock"
+      class="fixed bottom-2.5 left-1/2 z-10 flex -translate-x-1/2 items-end gap-1.5 rounded-[7px] border-2 border-[#25344e] bg-[#f2eee5e8] px-3 pt-2 pb-[9px] shadow-[5px_5px_0_rgba(37,52,78,.28)] backdrop-blur-[18px] max-[760px]:max-w-[calc(100vw_-_16px)]"
+    >
+      <!-- Website: restores the minimized window -->
+      <label title="Website" class={`${dockItem} ${focusRing}`}>
+        <input type="radio" name="win" id="win-open" checked aria-label="Show website" class={hiddenInput} />
+        <span class={`${dockIcon} bg-[linear-gradient(135deg,#ef775b_0_35%,#25344e_35%_68%,#dce4df_68%)]`}>
+          <Earth size={25} />
+        </span>
+      </label>
+      <button type="button" title="Messages" class={dockItem}>
+        <span class={`${dockIcon} bg-[linear-gradient(#5ad779,#1cac53)]`}>
+          <MessageCircle size={24} fill="white" />
+        </span>
+      </button>
+      <!-- Settings: <details> gives the open/close toggle without JS -->
+      <details class="relative">
+        <summary title="Settings" class={dockItem}>
+          <span class={`${dockIcon} bg-[linear-gradient(#b8c1cc,#687584)]`}>
+            <Settings size={23} />
+          </span>
+        </summary>
+        <div
+          role="dialog"
+          aria-label="Display settings"
+          class="absolute -right-3 bottom-[49px] flex min-w-[178px] flex-col gap-2.5 rounded-[4px] border border-[#25344e] bg-[#fffdf7] p-[13px] text-left text-[11px] text-[#25344e] shadow-[4px_4px_0_#25344e]"
+        >
+          <strong class="font-serif text-[13px] font-bold">Display</strong>
+          <label class="flex items-center gap-2 whitespace-nowrap">
+            <input type="checkbox" id="dark" class="accent-[#ef775b]" /> Dark mode
+          </label>
+          <label class="flex items-center gap-2 whitespace-nowrap">
+            <input type="checkbox" id="hc" class="accent-[#ef775b]" /> High contrast
+          </label>
+        </div>
+      </details>
+    </nav>
+
+    <!-- read_me.txt window (native popover: Esc / click outside / Close button) -->
+    <section
+      id="readme"
+      popover
+      role="dialog"
+      aria-labelledby="readme-title"
+      class="m-auto h-fit w-[min(560px,calc(100%_-_48px))] -rotate-[.35deg] overflow-hidden border border-[#25344e] bg-[#f8f5ec] p-0 text-[#25344e] shadow-[8px_8px_0_#25344e,0_18px_35px_rgba(37,52,78,.18)] backdrop:bg-[rgba(29,45,58,.28)] max-[760px]:w-[min(560px,calc(100%_-_24px))]"
+    >
+      <header class="flex h-[38px] items-center gap-[18px] border-b border-[#aebbc1] bg-[#d9e0e3] px-3 font-serif text-[12px]">
+        <div class="flex gap-[7px]">
+          <button
+            type="button"
+            popovertarget="readme"
+            popovertargetaction="hide"
+            aria-label="Close read me"
+            class={`${trafficLight} bg-[#ff625b]`}
+          >
+            <X size={10} />
+          </button>
+          <span class="size-3 rounded-full bg-[#ffc14c]"></span>
+          <span class="size-3 rounded-full bg-[#2dcf63]"></span>
+        </div>
+        <strong id="readme-title">read_me.txt</strong>
+      </header>
+      <textarea
+        aria-label="Read me notes"
+        class="block min-h-[275px] w-full resize-none bg-[#fffdf7] p-6 font-serif text-[15px] leading-[1.75] text-[#3c4a53] outline-0 max-[760px]:min-h-[240px] max-[760px]:px-[18px] max-[760px]:py-[17px]"
+        >{readme}</textarea
+      >
+      <footer class="flex items-center justify-between border-t border-[#d2cabc] px-3.5 py-3 text-[11px]">
+        <a href={me.github} target="_blank" rel="noreferrer" class="font-bold text-[#c56853]">
+          Open GitHub profile ↗
+        </a>
+        <button
+          type="button"
+          popovertarget="readme"
+          popovertargetaction="hide"
+          class="cursor-pointer rounded-[2px] border border-[#25344e] bg-[#ef775b] px-[13px] py-1.5 text-[11px] text-[#25344e]"
+        >
+          Close
+        </button>
+      </footer>
+    </section>
+
+    <!-- Dark mode / high contrast. A backdrop-filter overlay (not `filter` on an ancestor)
+         so the fixed dock and the maximized window keep positioning against the viewport. -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none fixed inset-0 z-40 transition-[backdrop-filter] duration-300 group-has-[#dark:checked]/desktop:backdrop-brightness-[.78] group-has-[#dark:checked]/desktop:backdrop-saturate-[.82] group-has-[#hc:checked]/desktop:backdrop-contrast-[1.35]"
+    >
+    </div>
+  </main>
 </Layout>
-
-<style is:global>
-  main {
-    margin: auto;
-    padding: 0.75rem;
-    width: 1100px;
-    max-width: 100%;
-    color: white;
-    line-height: 1.6;
-  }
-  .project-image {
-    max-width: 100% !important;
-    overflow: hidden;
-  }
-  .project-cards {
-  }
-  .video-wrapper {
-    background: #111111;
-    padding: calc(1.5rem - 1px);
-    line-height: 1.4;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-  }
-  .project-column > div {
-    max-width: 100%;
-    overflow: hidden;
-  }
-  .projects-alt > li {
-    gap: 1rem !important;
-  }
-  .astro-a {
-    position: absolute;
-    top: -32px;
-    left: 50%;
-    transform: translatex(-50%);
-    width: 220px;
-    height: auto;
-    z-index: -1;
-  }
-
-  .text-gradient {
-    background-image: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 400%;
-    background-position: 0%;
-    font-size: 2.75rem;
-  }
-  .instructions {
-    margin-bottom: 2rem;
-    border: 1px solid rgba(var(--accent-light), 25%);
-    background: linear-gradient(
-      rgba(var(--accent-dark), 66%),
-      rgba(var(--accent-dark), 33%)
-    );
-    padding: 1.5rem;
-    border-radius: 8px;
-  }
-  .instructions code {
-    font-size: 0.8em;
-    font-weight: bold;
-    background: rgba(var(--accent-light), 12%);
-    color: rgb(var(--accent-light));
-    border-radius: 4px;
-    padding: 0.3em 0.4em;
-  }
-  .instructions strong {
-    color: rgb(var(--accent-light));
-  }
-  .link-card-grid {
-    display: grid;
-    gap: 0;
-    padding: 0;
-  }
-  .read-more {
-    color: #fff;
-  }
-  details {
-    position: relative;
-    top: -1px;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border-radius: 0 0 8px 8px;
-    max-width: 900px;
-  }
-  details > div {
-    max-width: 830px;
-  }
-
-  summary:hover {
-    cursor: pointer;
-  }
-</style>
-
-<script></script>
