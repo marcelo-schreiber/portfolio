@@ -47,8 +47,8 @@ export default function Experience() {
     defaultPosition: defaultCameraPosition,
     lookAtTarget: cameraLookAtTarget,
   } = useControls("Camera", {
-    hoveredPosition: { value: [0, 1.5, 1.3], step: 0.1 },
-    defaultPosition: { value: [-3.5, -11, 4], step: 0.1 },
+    hoveredPosition: { value: [0.15, 1.35, 1.3], step: 0.05 },
+    defaultPosition: { value: [-3.5, -11, 4], step: 0.05 },
     lookAtTarget: { value: [-0.05, 0.4, -1.4], step: 0.01 },
   });
 
