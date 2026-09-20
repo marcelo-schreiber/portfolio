@@ -47,7 +47,7 @@ export default function Experience() {
     defaultPosition: defaultCameraPosition,
     lookAtTarget: cameraLookAtTarget,
   } = useControls("Camera", {
-    hoveredPosition: { value: [0.5, 1.5, 2.0], step: 0.1 },
+    hoveredPosition: { value: [0, 1.5, 1.3], step: 0.1 },
     defaultPosition: { value: [-3.5, -11, 4], step: 0.1 },
     lookAtTarget: { value: [-0.05, 0.4, -1.4], step: 0.01 },
   });
@@ -149,7 +149,7 @@ export default function Experience() {
         azimuth={[-1, 0.75]}
         snap
       >
-        <Float rotationIntensity={0.4}>
+        <Float rotationIntensity={isScreenHovered ? 0.4 : 0.1}>
           <Text
             font="./IndustryBold.otf"
             color={textColor}
@@ -169,7 +169,7 @@ export default function Experience() {
             rotation={[0.1, Math.PI, 0]}
             position={[0, 0.55, -1.15]}
           />{" "}
-          <MacBook 
+          <MacBook
             position-y={-1.3}
             onRotationChange={(rotation) => {
               // Consider lid "open" when rotation is close to final position
@@ -187,10 +187,10 @@ export default function Experience() {
             >
               <iframe
                 title="Marcelo Schreiber Portfolio"
-                src="./html"
+                src="./en/html"
                 style={{
                   opacity: screenOpacity,
-                  transition: 'opacity 0.3s ease-in-out',
+                  transition: "opacity 0.3s ease-in-out",
                 }}
                 onPointerEnter={() =>
                   debouncedSetHover(true, setIsScreenHovered)

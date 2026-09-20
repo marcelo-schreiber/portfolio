@@ -16,7 +16,7 @@ export function useCameraController({
   isScreenHovered,
 }: CameraControllerOptions) {
   const { camera } = useThree();
-  const timeoutRef = useRef<NodeJS.Timeout>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   const debouncedSetHover = useCallback(
     (value: boolean, callback: (value: boolean) => void) => {

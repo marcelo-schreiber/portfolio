@@ -6,6 +6,7 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const locale = Astro.currentLocale ?? "en";
 
 const siteDescription =
   "I'm a Full-stack developer at Vidya Technology in Curitiba, Brazil, and I'm finishing my Computer Science degree at UFPR. If you think I can lend a hand, get in touch!";
@@ -14,7 +15,7 @@ const siteURL = "https://marcelo-schreiber.com";
 ---
 
 <!doctype html>
-<html lang="en" class="bg-[#b6c8d6]">
+<html lang={locale} class="bg-[#b6c8d6]">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={siteDescription} />

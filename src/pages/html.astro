@@ -1,15 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import HomeSection from "../components/HomeSection.astro";
+import WorkSection from "../components/WorkSection.astro";
+import AboutSection from "../components/AboutSection.astro";
+import ContactSection from "../components/ContactSection.astro";
 import {
   ArrowLeft,
   ArrowRight,
-  CalendarDays,
   Earth,
   Folder,
   Mail,
-  MapPin,
   Maximize2,
-  MessageCircle,
   Minus,
   Plus,
   Search,
@@ -29,31 +30,88 @@ const me = {
   company: { name: "Vidya Technology", url: "https://vidyatec.com" },
 };
 
+const locale = Astro.currentLocale ?? "en";
+const isPortuguese = locale === "pt";
+const alternateLocale = isPortuguese ? "en" : "pt";
+const alternatePath = Astro.url.pathname.startsWith("/html")
+  ? `/${alternateLocale}/html`
+  : Astro.url.pathname.replace(`/${locale}`, `/${alternateLocale}`);
+const copy = isPortuguese
+  ? {
+      home: "Início", work: "Trabalho", about: "Sobre", contact: "Contato",
+      intro: "Olá, sou Marcelo.", introAccent: "Eu crio software bem feito.",
+      introBody: "Sou Marcelo, desenvolvedor full-stack na Vidya Technology. Crio aplicações web e os backends por trás delas, trabalhando próximo dos sistemas, do deploy aos sockets.",
+      workCta: "Alguns projetos", aboutCta: "Sobre mim", current: "Atualmente", building: "Construindo na",
+      selectedWork: "Projetos selecionados", workHeading: "Algumas coisas que criei.",
+      aboutLabel: "Um pouco sobre mim", aboutHeading: "Full-stack, com viés para backend.",
+      aboutBody: "Trabalho no front-end, back-end e deploy de softwares de inspeção na Vidya Technology em Curitiba, principalmente com React, Vue, Three.js, Java, PostgreSQL, AWS e Docker. Concluo Ciência da Computação na UFPR em dezembro de 2026.",
+      basedIn: "Moro em Curitiba, Brasil", since: "Na empresa desde 2023", talk: "Vamos conversar?",
+      contactHeading: "Vamos construir algo", neat: "bem feito.", emailLabel: "Seu e-mail", messageLabel: "Sua mensagem",
+      emailPlaceholder: "nome@email.com", messagePlaceholder: "Deixe uma mensagem...", send: "Enviar mensagem",
+      success: "Obrigado pelo contato!", error: "Não foi possível enviar sua mensagem.",
+    }
+  : {
+      home: "Home", work: "Work", about: "About", contact: "Contact",
+      intro: "Hi, I'm Marcelo.", introAccent: "I build neat software.",
+      introBody: "I'm Marcelo, a full-stack developer at Vidya Technology. I build web apps and the backends behind them, and I like working close to the systems, from deployment to sockets.",
+      workCta: "Some of my work", aboutCta: "About me", current: "Currently", building: "Building at",
+      selectedWork: "Selected work", workHeading: "A few things I've made.",
+      aboutLabel: "A little about me", aboutHeading: "Full-stack, with a backend bias.",
+      aboutBody: "I work on the front end, back end, and deployment of inspection software at Vidya Technology in Curitiba, mostly with React, Vue, Three.js, Java, PostgreSQL, AWS, and Docker. I'm graduating in Computer Science from UFPR in December 2026.",
+      basedIn: "Based in Curitiba, Brazil", since: "At the company since 2023", talk: "Wanna talk?",
+      contactHeading: "Let's build something", neat: "neat.", emailLabel: "Your email", messageLabel: "Your message",
+      emailPlaceholder: "name@email.com", messagePlaceholder: "Leave a message...", send: "Send message",
+      success: "Thanks for your submission!", error: "Oops! There was a problem submitting your form.",
+    };
+
 const projects = [
   {
-    title: "3d-sort",
-    meta: "Personal project · React + Three.js",
+    title: "3d Sort",
+    meta: "Personal project - React + Three.js",
     letter: "3",
-    href: "#work",
+    href: "https://github.com/marcelo-schreiber/3d-sort",
     art: "bg-[linear-gradient(to_bottom_right,#b6ddbd,#e5efc9)]",
+  },
+  {
+    title: "LCS Parallel",
+    meta: "University project - C + OpenMP + MPI",
+    letter: "L",
+    href: "https://github.com/marcelo-schreiber/lcs-parallel",
+    art: "bg-[linear-gradient(to_bottom_right,#c7d8f5,#e4e8f7)]",
+  },
+  {
+    title: "Scribbles Vs. Sketches",
+    meta: "University project - Python + Pygame",
+    letter: "S",
+    href: "https://github.com/Gustan13/ScribblesXSketches",
+    art: "bg-[linear-gradient(to_bottom_right,#f5d0bd,#f3e3c7)]",
+  },
+  {
+    title: "Run User Code",
+    meta: "Personal project - TypeScript + Docker",
+    letter: "R",
+    href: "https://github.com/marcelo-schreiber/run-user-code",
+    art: "bg-[linear-gradient(to_bottom_right,#d4c7ed,#e7dff0)]",
   },
 ];
 
-const readme = `Hi, I'm Marcelo.
+const readme = isPortuguese
+  ? `Olá!
 
-I'm a full-stack developer, and I'm finishing a Computer Science degree at UFPR.
+Se você tem interesse neste portfólio, ele está disponível no GitHub:
 
-Have a look around, or say hello.
+GitHub: ${me.github.replace("https://", "")}/portfolio
+`
+  : `Hello there!
 
-GitHub: ${me.github.replace("https://", "")}`;
+If you're interested in this portfolio website, you can find it on GitHub at:
+
+GitHub: ${me.github.replace("https://", "")}/portfolio
+`;
 
 /* ---------------------------------------------------------------- */
 /* Shared class strings                                              */
 /* ---------------------------------------------------------------- */
-const eyebrow =
-  "text-[12px] font-bold tracking-[.15em] text-[#8e493e] uppercase";
-const emphasis =
-  "font-serif font-normal italic tracking-[-.08em] text-[#a95749]";
 const focusRing =
   "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[#25344e]";
 const hiddenInput =
@@ -61,44 +119,44 @@ const hiddenInput =
 const trafficLight =
   "relative grid size-3 cursor-pointer place-items-center rounded-full p-0 text-black/45";
 const socialLink =
-  "grid place-items-center text-[#25344e] transition-[color,transform,translate,rotate] duration-150 hover:-translate-y-0.5 hover:-rotate-[4deg] hover:text-[#ef775b]";
+  "grid place-items-center text-[#25344e] transition-[color,transform,translate,rotate] duration-150 hover:-translate-y-0.5 hover:-rotate-[4deg] hover:text-[#ef775b] dark:text-[#e7f1f7]";
 const dockItem =
   "relative block cursor-pointer p-0 list-none transition-transform duration-[180ms] hover:[transform:translateY(-3px)_rotate(-2deg)] [&::-webkit-details-marker]:hidden";
 const dockIcon =
   "grid size-[43px] place-items-center rounded-[4px] border border-[rgba(37,52,78,.3)] text-white shadow-[2px_2px_0_rgba(37,52,78,.22)] max-[760px]:size-[35px] max-[760px]:[&_svg]:w-[19px] max-[430px]:size-8";
 const navBase =
-  "relative py-[9px] font-serif text-[13px] after:absolute after:inset-x-0 after:bottom-0 after:m-auto after:h-0.5 after:w-[18px] after:bg-[#ef775b] after:content-[''] [&.is-active]:text-[#202631] [&.is-active]:after:opacity-100";
+  "relative py-[9px] font-serif text-[13px] after:absolute after:inset-x-0 after:bottom-0 after:m-auto after:h-0.5 after:w-[18px] after:bg-[#ef775b] after:content-[''] [&.is-active]:text-[#202631] dark:[&.is-active]:text-[#ffffff] [&.is-active]:after:opacity-100";
 const nav = [
   {
     id: "home",
-    label: "Home",
-    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631]",
+    label: copy.home,
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631] dark:text-[#b9d0de] dark:hover:text-white",
   },
   {
     id: "work",
-    label: "Work",
-    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631]",
+    label: copy.work,
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631] dark:text-[#b9d0de] dark:hover:text-white",
   },
   {
     id: "about",
-    label: "About",
-    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631]",
+    label: copy.about,
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631] dark:text-[#b9d0de] dark:hover:text-white",
   },
   {
     id: "contact",
-    label: "Contact",
-    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631]",
+    label: copy.contact,
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631] dark:text-[#b9d0de] dark:hover:text-white",
   },
 ];
 ---
 
 <Layout title={`${me.name} — ${me.role}`}>
   <main
-    class="group/desktop relative min-h-screen bg-[radial-gradient(circle_at_18%_14%,rgba(255,255,255,.64),transparent_23%),repeating-linear-gradient(0deg,rgba(33,58,74,.035)_0_1px,transparent_1px_4px),linear-gradient(135deg,#c9d8df_0%,#9eb8c8_48%,#c6d3d7_100%)] text-[#f4f7fb]"
+    class="group/desktop relative min-h-screen bg-[radial-gradient(circle_at_18%_14%,rgba(255,255,255,.64),transparent_23%),repeating-linear-gradient(0deg,rgba(33,58,74,.035)_0_1px,transparent_1px_4px),linear-gradient(135deg,#c9d8df_0%,#9eb8c8_48%,#c6d3d7_100%)] text-[14px] text-[#f4f7fb] dark:bg-[linear-gradient(135deg,#07131f_0%,#10283a_52%,#07131f_100%)]"
   >
     <!-- Menu bar -->
     <header
-      class="flex h-[29px] items-center justify-between bg-white/[.46] px-4 text-[12px] text-[#17263a] backdrop-blur-[18px]"
+      class="flex h-[29px] items-center justify-between bg-white/[.46] px-4 text-[12px] text-[#17263a] backdrop-blur-[18px] dark:bg-[#0a1724]/95 dark:text-[#f3f7fb]"
     >
       <div class="flex items-center gap-[18px]">
         <span>●</span>
@@ -116,6 +174,7 @@ const nav = [
         <span id="os-clock" class="max-[760px]:hidden"></span>
         <Search size={14} />
         <span class="font-bold tracking-[2px] max-[760px]:hidden">•••</span>
+        <a href={alternatePath} class="font-bold uppercase text-[#8e493e]">{alternateLocale}</a>
       </div>
     </header>
 
@@ -126,7 +185,7 @@ const nav = [
       <article
         aria-label="Portfolio website"
         class:list={[
-          "relative z-[5] mx-auto h-[min(820px,calc(100vh_-_105px))] w-[min(1440px,calc(100vw_-_32px))] max-w-[1165px] overflow-hidden rounded-lg border border-[rgba(49,71,83,.38)] bg-white text-[#202631] shadow-[10px_12px_0_rgba(45,70,82,.12),0_24px_55px_rgba(45,76,104,.25)] [translate:var(--window-x,0px)_var(--window-y,0px)] max-[760px]:h-[calc(100vh_-_128px)]",
+          "relative z-[5] mx-auto h-[min(820px,calc(100vh_-_105px))] w-[min(1440px,calc(100vw_-_32px))] max-w-[1165px] overflow-hidden rounded-lg border border-[rgba(49,71,83,.38)] bg-white text-[#202631] shadow-[10px_12px_0_rgba(45,70,82,.12),0_24px_55px_rgba(45,76,104,.25)] [translate:var(--window-x,0px)_var(--window-y,0px)] dark:border-[#7895a8] dark:bg-[#122333] dark:text-[#f3f7fb] dark:shadow-[10px_12px_0_rgba(0,0,0,.45),0_24px_55px_rgba(0,0,0,.5)] max-[760px]:h-[calc(100vh_-_128px)]",
           // maximized (#win-max is checked)
           "group-has-[#win-max:checked]/desktop:fixed group-has-[#win-max:checked]/desktop:inset-x-0 group-has-[#win-max:checked]/desktop:top-[29px] group-has-[#win-max:checked]/desktop:bottom-0 group-has-[#win-max:checked]/desktop:z-20 group-has-[#win-max:checked]/desktop:m-0 group-has-[#win-max:checked]/desktop:h-auto group-has-[#win-max:checked]/desktop:w-auto group-has-[#win-max:checked]/desktop:max-w-none group-has-[#win-max:checked]/desktop:rounded-none",
           // minimized (#win-min is checked)
@@ -136,7 +195,7 @@ const nav = [
         <!-- Title bar -->
         <div
           data-drag-handle
-          class="flex h-[37px] items-center gap-[17px] border-b border-[#aebbc1] bg-[#d9e0e3] px-[13px]"
+          class="flex h-[37px] items-center gap-[17px] border-b border-[#aebbc1] bg-[#d9e0e3] px-[13px] dark:border-[#547187] dark:bg-[#20394d]"
         >
           <div class="flex gap-[7px]">
             <a
@@ -167,7 +226,7 @@ const nav = [
             </label>
           </div>
           <div
-            class="flex h-[27px] max-w-[350px] min-w-[250px] items-center gap-2 rounded-t-[7px] bg-white px-2.5 text-[11px] text-[#4a4e58] max-[430px]:min-w-[180px]"
+            class="flex h-[27px] max-w-[350px] min-w-[250px] items-center gap-2 rounded-t-[7px] bg-white px-2.5 text-[11px] text-[#4a4e58] dark:bg-[#102131] dark:text-[#dceaf3] max-[430px]:min-w-[180px]"
           >
             <span class="flex-1 truncate">{me.name} — {me.role}</span>
             <X size={12} />
@@ -177,12 +236,12 @@ const nav = [
 
         <!-- Toolbar -->
         <div
-          class="flex h-[38px] items-center gap-4 border-b border-[#bdc6c7] bg-[#f0f1ed] px-[15px] text-[#777e89] max-[760px]:gap-2.5"
+          class="flex h-[38px] items-center gap-4 border-b border-[#bdc6c7] bg-[#f0f1ed] px-[15px] text-[#777e89] dark:border-[#547187] dark:bg-[#172d3f] dark:text-[#c6d9e6] max-[760px]:gap-2.5"
         >
           <ArrowLeft size={16} />
           <ArrowRight size={16} class="opacity-[.26]" />
           <div
-            class="m-auto flex h-[25px] max-w-[560px] flex-1 items-center gap-2 rounded-[7px] bg-[#e9ebef] px-3 text-[11px] text-[#525b68]"
+            class="m-auto flex h-[25px] max-w-[560px] flex-1 items-center gap-2 rounded-[7px] bg-[#e9ebef] px-3 text-[11px] text-[#525b68] dark:bg-[#0d1d2b] dark:text-[#c6d9e6]"
           >
             <Search size={13} />
             <span class="flex-1">{me.domain}</span>
@@ -192,7 +251,7 @@ const nav = [
         <!-- Site nav -->
         <nav
           aria-label="Site"
-          class="relative flex h-[65px] items-center bg-[#f8f5ec] px-[38px] max-[760px]:px-[17px]"
+          class="relative flex h-[65px] items-center bg-[#f8f5ec] px-[38px] dark:bg-[#102131] dark:text-[#f3f7fb] max-[760px]:px-[17px]"
         >
           <a href="#home" class="flex items-center gap-2.5 p-0">
             <span
@@ -200,7 +259,7 @@ const nav = [
               >{me.initials}</span
             >
             <small
-              class="font-serif text-[13px] font-bold text-[#232a34] max-[760px]:hidden"
+              class="font-serif text-[13px] font-bold text-[#232a34] dark:text-[#f3f7fb] max-[760px]:hidden"
               >{me.name}</small
             >
           </a>
@@ -260,204 +319,15 @@ const nav = [
 
         <!-- Scrolling page content -->
         <div
-          class="h-[calc(100%_-_140px)] scroll-smooth overflow-y-auto overscroll-contain bg-white [scrollbar-color:#9b8e7a_#eee9df] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-[11px] [&::-webkit-scrollbar-thumb]:rounded-lg [&::-webkit-scrollbar-thumb]:border-[3px] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-[#eee9df] [&::-webkit-scrollbar-thumb]:bg-[#a99b87] [&::-webkit-scrollbar-track]:bg-[#eee9df]"
+          class="h-[calc(100%_-_140px)] scroll-smooth overflow-y-auto overscroll-contain bg-white [scrollbar-color:#9b8e7a_#eee9df] [scrollbar-width:thin] dark:bg-[#0d1c29] dark:[scrollbar-color:#5c829b_#102536] [&::-webkit-scrollbar]:w-[11px] [&::-webkit-scrollbar-thumb]:rounded-lg [&::-webkit-scrollbar-thumb]:border-[3px] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-[#eee9df] [&::-webkit-scrollbar-thumb]:bg-[#a99b87] [&::-webkit-scrollbar-track]:bg-[#eee9df] dark:[&::-webkit-scrollbar-thumb]:border-[#102536] dark:[&::-webkit-scrollbar-thumb]:bg-[#5c829b] dark:[&::-webkit-scrollbar-track]:bg-[#102536]"
         >
-          <!-- Home -->
-          <section
-            id="home"
-            class="relative isolate min-h-[410px] overflow-hidden border-b border-[#d9d2c6] bg-[#f8f5ec] px-[10%] pt-[70px] pb-[50px] [backface-visibility:hidden] [transform:translateZ(0)] after:absolute after:top-[45px] after:right-[9%] after:size-[200px] after:rounded-full after:bg-[radial-gradient(circle_at_36%_30%,#f9dfb2_0_8%,#ecaa78_9%_28%,#ba6d65_29%_47%,#555777_48%_62%,#343f65_63%)] after:opacity-40 after:saturate-[.8] after:content-[''] max-[760px]:min-h-[460px] max-[760px]:px-6 max-[760px]:pt-[52px] max-[760px]:pb-[100px] max-[760px]:after:top-[100px] max-[760px]:after:-right-[30px]"
-          >
-            <h1
-              class="relative z-[1] mt-[17px] mb-[13px] max-w-[600px] font-serif text-[clamp(37px,5.2vw,65px)] leading-[.98] font-semibold tracking-[-.06em] text-[#202631] max-[430px]:text-[42px]"
-            >
-              Full-stack software<br />
-              <em class={emphasis}>for assets.</em>
-            </h1>
-            <p
-              class="relative z-[1] max-w-[350px] text-[17px] leading-[1.65] text-[#777983]"
-            >
-              I'm Marcelo, a full-stack developer at {me.company.name}. I build
-              web tools for oil and gas inspection with React, Java, and
-              PostgreSQL.
-            </p>
-            <div class="relative z-[1] mt-[26px] flex items-center gap-[22px]">
-              <a
-                href="#work"
-                class="flex items-center gap-4 rounded-[2px] bg-[#ef775b] px-[15px] py-3 text-[11px] text-white shadow-[3px_3px_0_#25344e]"
-              >
-                Explore my work <ArrowRight size={16} />
-              </a>
-              <a
-                href="#about"
-                class="flex items-center gap-2 text-[11px] text-[#555d6b]"
-              >
-                More about me <ArrowRight size={15} />
-              </a>
-            </div>
-            <div
-              class="absolute right-[11%] bottom-[52px] z-[1] flex flex-col gap-1.5 text-[14px] text-[#8e9094] max-[760px]:right-auto max-[760px]:bottom-[30px] max-[760px]:left-6"
-            >
-              <span>Currently</span>
-              <strong class="text-[12px] font-semibold text-[#313844]">
-                Building at{" "}
-                <a
-                  href={me.company.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  class="text-inherit"
-                >
-                  <u class="text-[#b26b5a] underline underline-offset-[3px]"
-                    >{me.company.name}</u
-                  >
-                </a>
-              </strong>
-            </div>
-          </section>
+          <HomeSection copy={copy} me={me} />
 
-          <!-- Work -->
-          <section
-            id="work"
-            class="bg-[#eee9df] px-[10%] py-[60px] max-[760px]:px-6 max-[760px]:py-[45px]"
-          >
-            <div class="mb-[25px] flex items-end justify-between">
-              <div>
-                <span class={eyebrow}>Selected work</span>
-                <h2
-                  class="mt-2 font-serif text-[27px] tracking-[-.05em] text-[#222833]"
-                >
-                  A few things I've made.
-                </h2>
-              </div>
-              <a
-                href="#work"
-                aria-label="View all work"
-                class="grid size-[34px] place-items-center rounded-full border border-[#deddd9] bg-white text-[#69717b]"
-              >
-                <ArrowRight size={17} />
-              </a>
-            </div>
-            <div class="grid grid-cols-3 gap-3.5 max-[760px]:grid-cols-1">
-              {
-                projects.map((project) => (
-                  <a href={project.href} class="block p-0 text-left">
-                    <div
-                      class:list={[
-                        "relative grid min-h-[220px] place-items-center overflow-hidden rounded-[2px] border border-[rgba(35,52,78,.2)] before:absolute before:size-[150px] before:rounded-full before:border before:border-white/65 before:[transform:rotate(25deg)_scaleX(1.6)] before:content-['']",
-                        project.art,
-                      ]}
-                    >
-                      <div class="-rotate-[8deg] font-serif text-[52px] font-bold text-white [text-shadow:0_8px_18px_#0002]">
-                        {project.letter}
-                      </div>
-                      <span class="absolute top-3 right-3 grid size-[27px] place-items-center rounded-full bg-[#ffffff99] text-[#243149]">
-                        <ArrowRight size={13} />
-                      </span>
-                    </div>
-                    <div class="flex justify-between gap-2 px-px py-[13px]">
-                      <div>
-                        <h3 class="font-serif text-[15px] text-[#2c323a]">
-                          {project.title}
-                        </h3>
-                        <p class="my-1 text-[15px] leading-[1.65] text-[#989ba0]">
-                          {project.meta}
-                        </p>
-                      </div>
-                      <span class="flex items-center gap-1 pt-1 text-[9px] whitespace-nowrap text-[#8c8f94]">
-                        View <ArrowRight size={13} />
-                      </span>
-                    </div>
-                  </a>
-                ))
-              }
-            </div>
-          </section>
+          <WorkSection copy={copy} projects={projects} />
 
-          <!-- About -->
-          <section
-            id="about"
-            class="flex items-center gap-[50px] border-y border-[#c1cbc4] bg-[#dce4df] px-[10%] py-[60px] max-[760px]:items-start max-[760px]:gap-5 max-[760px]:px-6 max-[760px]:py-[45px]"
-          >
-            <div
-              class="grid size-[105px] shrink-0 rotate-2 place-items-center rounded-[3px] bg-[linear-gradient(135deg,#263954,#be7b68)] text-[20px] tracking-[-.1em] text-white max-[760px]:size-[65px] max-[760px]:text-[14px]"
-            >
-              {me.initials}
-            </div>
-            <div>
-              <span class={eyebrow}>A little about me</span>
-              <h2
-                class="mt-2 font-serif text-[30px] font-normal tracking-[-.05em] text-[#222833] max-[760px]:text-[23px]"
-              >
-                Full-stack, with a backend bias.
-              </h2>
-              <p
-                class="max-w-[570px] text-[15px] leading-[1.65] text-[#73757b]"
-              >
-                I work on the front end, back end, and deployment of inspection
-                software at {me.company.name} in Curitiba, mostly with React, Java,
-                PostgreSQL, AWS, and Docker. I'm graduating in Computer Science from
-                UFPR in December 2026.
-              </p>
-              <div
-                class="mt-[22px] flex gap-6 text-[10px] text-[#7a7c81] max-[760px]:flex-col max-[760px]:gap-2"
-              >
-                <span class="flex items-center gap-[7px]">
-                  <MapPin size={15} class="text-[#c67861]" /> Based in Curitiba, Brazil
-                </span>
-                <span class="flex items-center gap-[7px]">
-                  <CalendarDays size={15} class="text-[#c67861]" /> At {
-                    me.company.name
-                  } since 2023
-                </span>
-              </div>
-            </div>
-          </section>
+          <AboutSection copy={copy} me={me} />
 
-          <!-- Contact -->
-          <section
-            id="contact"
-            class="flex items-center justify-between gap-[30px] bg-[#f8f5ec] px-[10%] py-[60px] max-[760px]:block max-[760px]:px-6 max-[760px]:py-[45px]"
-          >
-            <div>
-              <span class={eyebrow}>Have a project in mind?</span>
-              <h2
-                class="mt-2 font-serif text-[37px] leading-[1.05] tracking-[-.05em] text-[#222833]"
-              >
-                Let's make something<br />
-                <em class={emphasis}>meaningful.</em>
-              </h2>
-            </div>
-            <label
-              class={`relative flex min-w-[290px] cursor-pointer items-center gap-3.5 rounded-[2px] border border-[#25344e] bg-white px-[18px] py-[17px] text-left shadow-[4px_4px_0_#ef775b] max-[760px]:mt-[25px] max-[760px]:min-w-0 ${focusRing}`}
-            >
-              <input
-                type="checkbox"
-                id="mail-sent"
-                aria-label="Start a conversation"
-                class={hiddenInput}
-              />
-              <span
-                class="grid size-[38px] place-items-center rounded-full bg-[#fae7db] text-[#c7765f]"
-              >
-                <Mail size={21} />
-              </span>
-              <span class="flex flex-1 flex-col gap-[5px]">
-                <span
-                  class="text-[10px] text-[#96979b] group-has-[#mail-sent:checked]/desktop:hidden"
-                >
-                  Start a conversation
-                </span>
-                <span
-                  class="hidden text-[10px] text-[#96979b] group-has-[#mail-sent:checked]/desktop:inline"
-                >
-                  Thanks! I'll be in touch.
-                </span>
-                <strong class="text-[11px] font-semibold text-[#333944]"
-                  >{me.email}</strong
-                >
-              </span>
-              <ArrowRight size={17} class="text-[#a0a2a4]" />
-            </label>
-          </section>
+          <ContactSection copy={copy} />
         </div>
       </article>
 
@@ -466,7 +336,7 @@ const nav = [
         type="button"
         popovertarget="readme"
         aria-label="Open read me text file"
-        class="absolute top-14 right-6 z-[3] m-0 grid cursor-pointer justify-items-center gap-[7px] p-0 text-[11px] text-[rgba(22,47,69,.72)]"
+        class="absolute top-14 right-6 z-[3] m-0 grid cursor-pointer justify-items-center gap-[7px] p-0 text-[11px] text-[rgba(22,47,69,.72)] dark:text-[#dceaf3]"
       >
         <span
           class="grid h-[38px] w-[46px] place-items-center rounded-lg bg-[linear-gradient(#5ea5e4,#327ec0)] shadow-[0_5px_9px_rgba(52,95,132,.2)]"
@@ -480,13 +350,12 @@ const nav = [
     <!-- Dock -->
     <nav
       aria-label="Dock"
-      class="fixed bottom-2.5 left-1/2 z-10 flex -translate-x-1/2 items-end gap-1.5 rounded-[7px] border-2 border-[#25344e] bg-[#f2eee5e8] px-3 pt-2 pb-[9px] shadow-[5px_5px_0_rgba(37,52,78,.28)] backdrop-blur-[18px] max-[760px]:max-w-[calc(100vw_-_16px)]"
+      class="fixed bottom-2.5 left-1/2 z-10 flex -translate-x-1/2 items-end gap-1.5 rounded-[7px] border-2 border-[#25344e] bg-[#f2eee5e8] px-3 pt-2 pb-[9px] shadow-[5px_5px_0_rgba(37,52,78,.28)] backdrop-blur-[18px] dark:border-[#7895a8] dark:bg-[#102536]/95 dark:shadow-[5px_5px_0_rgba(0,0,0,.5)] max-[760px]:max-w-[calc(100vw_-_16px)]"
     >
       <!-- Website: restores the minimized window -->
       <label title="Website" class={`${dockItem} ${focusRing}`}>
         <input
-          type="radio"
-          name="win"
+          type="checkbox"
           id="win-open"
           checked
           aria-label="Show website"
@@ -498,11 +367,6 @@ const nav = [
           <Earth size={25} />
         </span>
       </label>
-      <button type="button" title="Messages" class={dockItem}>
-        <span class={`${dockIcon} bg-[linear-gradient(#5ad779,#1cac53)]`}>
-          <MessageCircle size={24} fill="white" />
-        </span>
-      </button>
       <!-- Settings: <details> gives the open/close toggle without JS -->
       <details class="relative">
         <summary title="Settings" class={dockItem}>
@@ -513,14 +377,11 @@ const nav = [
         <div
           role="dialog"
           aria-label="Display settings"
-          class="absolute -right-3 bottom-[49px] flex min-w-[178px] flex-col gap-2.5 rounded-[4px] border border-[#25344e] bg-[#fffdf7] p-[13px] text-left text-[11px] text-[#25344e] shadow-[4px_4px_0_#25344e]"
+          class="absolute -right-3 bottom-[49px] flex min-w-[178px] flex-col gap-2.5 rounded-[4px] border border-[#25344e] bg-[#fffdf7] p-[13px] text-left text-[11px] text-[#25344e] shadow-[4px_4px_0_#25344e] dark:border-[#7895a8] dark:bg-[#172f42] dark:text-[#f3f7fb] dark:shadow-[4px_4px_0_#050b10]"
         >
           <strong class="font-serif text-[13px] font-bold">Display</strong>
           <label class="flex items-center gap-2 whitespace-nowrap">
             <input type="checkbox" id="dark" class="accent-[#ef775b]" /> Dark mode
-          </label>
-          <label class="flex items-center gap-2 whitespace-nowrap">
-            <input type="checkbox" id="hc" class="accent-[#ef775b]" /> High contrast
           </label>
         </div>
       </details>
@@ -532,10 +393,10 @@ const nav = [
       popover
       role="dialog"
       aria-labelledby="readme-title"
-      class="m-auto h-fit w-[min(560px,calc(100%_-_48px))] -rotate-[.35deg] overflow-hidden border border-[#25344e] bg-[#f8f5ec] p-0 text-[#25344e] shadow-[8px_8px_0_#25344e,0_18px_35px_rgba(37,52,78,.18)] backdrop:bg-[rgba(29,45,58,.28)] max-[760px]:w-[min(560px,calc(100%_-_24px))]"
+      class="m-auto h-fit w-[min(560px,calc(100%_-_48px))] -rotate-[.35deg] overflow-hidden border border-[#25344e] bg-[#f8f5ec] p-0 text-[#25344e] shadow-[8px_8px_0_#25344e,0_18px_35px_rgba(37,52,78,.18)] backdrop:bg-[rgba(29,45,58,.28)] dark:border-[#7895a8] dark:bg-[#172f42] dark:text-[#f3f7fb] dark:shadow-[8px_8px_0_#050b10,0_18px_35px_rgba(0,0,0,.55)] max-[760px]:w-[min(560px,calc(100%_-_24px))]"
     >
       <header
-        class="flex h-[38px] items-center gap-[18px] border-b border-[#aebbc1] bg-[#d9e0e3] px-3 font-serif text-[12px]"
+        class="flex h-[38px] items-center gap-[18px] border-b border-[#aebbc1] bg-[#d9e0e3] px-3 font-serif text-[12px] dark:border-[#547187] dark:bg-[#20394d] dark:text-[#f3f7fb]"
       >
         <div class="flex gap-[7px]">
           <button
@@ -554,20 +415,12 @@ const nav = [
       </header>
       <textarea
         aria-label="Read me notes"
-        class="block min-h-[275px] w-full resize-none bg-[#fffdf7] p-6 font-serif text-[15px] leading-[1.75] text-[#3c4a53] outline-0 max-[760px]:min-h-[240px] max-[760px]:px-[18px] max-[760px]:py-[17px]"
+        class="block min-h-[275px] w-full resize-none bg-[#fffdf7] p-6 font-serif text-[15px] leading-[1.75] text-[#3c4a53] outline-0 dark:bg-[#0d1d2b] dark:text-[#e7f1f7] max-[760px]:min-h-[240px] max-[760px]:px-[18px] max-[760px]:py-[17px]"
         >{readme}</textarea
       >
       <footer
-        class="flex items-center justify-between border-t border-[#d2cabc] px-3.5 py-3 text-[11px]"
+        class="flex items-center justify-between border-t border-[#d2cabc] px-3.5 py-3 text-[11px] dark:border-[#547187]"
       >
-        <a
-          href={me.github}
-          target="_blank"
-          rel="noreferrer"
-          class="font-bold text-[#c56853]"
-        >
-          Open GitHub profile ↗
-        </a>
         <button
           type="button"
           popovertarget="readme"
@@ -579,16 +432,21 @@ const nav = [
       </footer>
     </section>
 
-    <!-- Dark mode / high contrast. A backdrop-filter overlay (not `filter` on an ancestor)
-         so the fixed dock and the maximized window keep positioning against the viewport. -->
-    <div
-      aria-hidden="true"
-      class="pointer-events-none fixed inset-0 z-40 transition-[backdrop-filter] duration-300 group-has-[#dark:checked]/desktop:backdrop-brightness-[.78] group-has-[#dark:checked]/desktop:backdrop-saturate-[.82] group-has-[#hc:checked]/desktop:backdrop-contrast-[1.35]"
-    >
-    </div>
   </main>
 
   <script>
+    const desktop = document.querySelector("main");
+    const darkToggle = document.querySelector("#dark");
+
+    if (desktop instanceof HTMLElement && darkToggle instanceof HTMLInputElement) {
+      const updateDarkMode = () => {
+        desktop.classList.toggle("dark", darkToggle.checked);
+      };
+
+      darkToggle.addEventListener("change", updateDarkMode);
+      updateDarkMode();
+    }
+
     const clockElement = document.querySelector("#os-clock");
 
     if (clockElement instanceof HTMLElement) {
@@ -606,17 +464,17 @@ const nav = [
       window.setInterval(updateClock, 30_000);
     }
 
-    const contentScroller = document.querySelector(
-      "#home",
-    )?.parentElement;
+    const contentScroller = document.querySelector("#home")?.parentElement;
 
     if (contentScroller instanceof HTMLElement) {
-      const navLinks = [
-        ...document.querySelectorAll("a[data-section]"),
-      ];
+      const navLinks = [...document.querySelectorAll("a[data-section]")];
       const sections = navLinks
-        .map((link) => document.getElementById(link.getAttribute("data-section") ?? ""))
-        .filter((section): section is HTMLElement => section instanceof HTMLElement);
+        .map((link) =>
+          document.getElementById(link.getAttribute("data-section") ?? ""),
+        )
+        .filter(
+          (section): section is HTMLElement => section instanceof HTMLElement,
+        );
       const getSectionTop = (section: HTMLElement) =>
         section.offsetTop - contentScroller.offsetTop;
 
@@ -630,8 +488,7 @@ const nav = [
         navLinks.forEach((link) => {
           link.classList.toggle(
             "is-active",
-            link.getAttribute("data-section") ===
-              activeSection?.id,
+            link.getAttribute("data-section") === activeSection?.id,
           );
         });
       };
@@ -663,14 +520,47 @@ const nav = [
       window.addEventListener("popstate", updateActiveSection);
     }
 
+    const contactForm = document.querySelector("#contact-form");
+    const contactStatus = document.querySelector("#contact-status");
+    contactForm?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!(contactForm instanceof HTMLFormElement) || !(contactStatus instanceof HTMLElement)) return;
+      contactStatus.textContent = "...";
+      try {
+        const response = await fetch(contactForm.action, {
+          method: "POST",
+          body: new FormData(contactForm),
+          headers: { Accept: "application/json" },
+        });
+        contactStatus.textContent = response.ok ? "{copy.success}" : "{copy.error}";
+        if (response.ok) contactForm.reset();
+      } catch {
+        contactStatus.textContent = "{copy.error}";
+      }
+    });
+
     const windowElement = document.querySelector(
       "[aria-label='Portfolio website']",
     );
     const dragHandle = windowElement?.querySelector("[data-drag-handle]");
     const maximizeToggle = document.querySelector("#win-max");
+    const minimizeToggle = document.querySelector("#win-min");
+    const openToggle = document.querySelector("#win-open");
     const maximizeInput =
       maximizeToggle instanceof HTMLInputElement ? maximizeToggle : null;
     const isMaximized = () => maximizeInput?.checked === true;
+
+    if (minimizeToggle instanceof HTMLInputElement && openToggle instanceof HTMLInputElement) {
+      openToggle.addEventListener("click", (event) => {
+        event.preventDefault();
+        const shouldMinimize = !minimizeToggle.checked;
+        minimizeToggle.checked = shouldMinimize;
+        openToggle.checked = !shouldMinimize;
+      });
+      minimizeToggle.addEventListener("change", () => {
+        openToggle.checked = !minimizeToggle.checked;
+      });
+    }
 
     if (
       windowElement instanceof HTMLElement &&

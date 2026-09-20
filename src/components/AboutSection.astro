@@ -1,0 +1,24 @@
+---
+import { CalendarDays, MapPin } from "@lucide/astro";
+
+interface Props {
+  copy: Record<string, string>;
+  me: { initials: string; company: { name: string } };
+}
+
+const { copy, me } = Astro.props;
+const eyebrow = "text-[13px] font-bold tracking-[.15em] text-[#8e493e] uppercase";
+---
+
+<section id="about" class="flex items-center gap-[50px] border-y border-[#c1cbc4] bg-[#dce4df] px-[10%] py-[60px] dark:border-[#48718a] dark:bg-[#193b3d] max-[760px]:items-start max-[760px]:gap-5 max-[760px]:px-6 max-[760px]:py-[45px]">
+  <div class="grid size-[105px] shrink-0 rotate-2 place-items-center rounded-[3px] bg-[linear-gradient(135deg,#263954,#be7b68)] text-[20px] tracking-[-.1em] text-white max-[760px]:size-[65px] max-[760px]:text-[14px]">{me.initials}</div>
+  <div>
+    <span class={eyebrow}>{copy.aboutLabel}</span>
+    <h2 class="mt-2 font-serif text-[32px] font-normal tracking-[-.05em] text-[#222833] dark:text-[#f3f7fb] max-[760px]:text-[25px]">{copy.aboutHeading}</h2>
+    <p class="max-w-[570px] text-[16px] leading-[1.65] text-[#73757b] dark:text-[#c5d9e6]">{copy.aboutBody}</p>
+    <div class="mt-[22px] flex gap-6 text-[11px] text-[#7a7c81] dark:text-[#c5d9e6] max-[760px]:flex-col max-[760px]:gap-2">
+      <span class="flex items-center gap-[7px]"><MapPin size={15} class="text-[#c67861]" /> {copy.basedIn}</span>
+      <span class="flex items-center gap-[7px]"><CalendarDays size={15} class="text-[#c67861]" /> {me.company.name} {copy.since}</span>
+    </div>
+  </div>
+</section>
