@@ -18,6 +18,7 @@ import { useCameraController } from "../../hooks/useCameraControler";
 export default function Experience() {
   const isDebug = useHash("debug");
   const [isScreenHovered, setIsScreenHovered] = useState(false);
+  const [isScreenZoomed, setIsScreenZoomed] = useState(false);
   const [screenOpacity, setScreenOpacity] = useState(0);
   const [isLidOpen, setIsLidOpen] = useState(false);
 
@@ -47,7 +48,7 @@ export default function Experience() {
     defaultPosition: defaultCameraPosition,
     lookAtTarget: cameraLookAtTarget,
   } = useControls("Camera", {
-    hoveredPosition: { value: [0.15, 1.3, 1.3], step: 0.05 },
+    hoveredPosition: { value: [0.15, 1.4, 1.35], step: 0.05 },
     defaultPosition: { value: [-3.5, -11, 4], step: 0.05 },
     lookAtTarget: { value: [-0.05, 0.4, -1.4], step: 0.01 },
   });
@@ -114,8 +115,16 @@ export default function Experience() {
     hoveredCameraPosition,
     defaultCameraPosition,
     cameraLookAtTarget,
-    isScreenHovered,
+    isScreenHovered: isScreenHovered || isScreenZoomed,
   });
+
+  const handleScreenLoad = (event: React.SyntheticEvent<HTMLIFrameElement>) => {
+    event.currentTarget.contentDocument?.addEventListener(
+      "pointerdown",
+      () => setIsScreenZoomed(true),
+      { once: true },
+    );
+  };
 
   return (
     <>
@@ -197,12 +206,15 @@ export default function Experience() {
                   opacity: screenOpacity,
                   transition: "opacity 0.35s ease-in-out",
                 }}
+                onLoad={handleScreenLoad}
                 onPointerEnter={() =>
                   debouncedSetHover(true, setIsScreenHovered)
                 }
                 onPointerLeave={() =>
+                  !isScreenZoomed &&
                   debouncedSetHover(false, setIsScreenHovered)
                 }
+                onPointerDown={() => setIsScreenZoomed(true)}
               />
             </Html>
           </MacBook>

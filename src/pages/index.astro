@@ -4,6 +4,11 @@ import ExperiencePage from "../components/3d/ExperiencePage.tsx";
 ---
 
 <Layout title="Marcelo Schreiber | Portfolio">
+  <script is:inline>
+    if (window.innerWidth < 800) {
+      window.location.replace("/html");
+    }
+  </script>
   <ExperiencePage client:only="react" />
 </Layout>
 
