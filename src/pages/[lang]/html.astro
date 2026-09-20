@@ -1,0 +1,14 @@
+---
+import Portfolio from "../html.astro";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "en" } }, { params: { lang: "pt" } }];
+}
+
+const { lang } = Astro.params;
+if (lang !== "en" && lang !== "pt") {
+  return Astro.redirect("/en/html");
+}
+---
+
+<Portfolio />

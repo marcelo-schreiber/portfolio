@@ -5,6 +5,7 @@ export default function MyCanvas() {
   return (
     <Canvas
       className="r3f"
+      gl={{ antialias: true }}
       camera={{
         fov: 45,
         near: 0.1,

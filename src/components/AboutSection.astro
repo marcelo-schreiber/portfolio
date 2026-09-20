@@ -1,0 +1,27 @@
+---
+import { CalendarDays, MapPin } from "@lucide/astro";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  copy: Record<string, string>;
+  me: { initials: string; company: { name: string } };
+  image: ImageMetadata;
+}
+
+const { copy, me, image } = Astro.props;
+const eyebrow = "text-[13px] font-bold tracking-[.15em] text-[#8e493e] uppercase";
+---
+
+<section id="about" class="flex items-center gap-12.5 border-y border-[#c1cbc4] bg-[#dce4df] px-[10%] py-15 dark:border-[#48718a] dark:bg-[#193b3d] max-[760px]:items-start max-[760px]:gap-5 max-[760px]:px-6 max-[760px]:py-11.25">
+  <Image src={image} alt="Marcelo Schreiber" class="size-26.25 shrink-0 rotate-2 rounded-[3px] object-cover max-[760px]:size-16.25" />
+  <div>
+    <span class={eyebrow}>{copy.aboutLabel}</span>
+    <h2 class="mt-2 font-serif text-[32px] font-normal tracking-tighter text-[#222833] dark:text-[#f3f7fb] max-[760px]:text-[25px]">{copy.aboutHeading}</h2>
+    <p class="max-w-142.5 text-[16px] leading-[1.65] text-[#73757b] dark:text-[#c5d9e6]">{copy.aboutBody}</p>
+    <div class="mt-5.5 flex gap-6 text-[11px] text-[#7a7c81] dark:text-[#c5d9e6] max-[760px]:flex-col max-[760px]:gap-2">
+      <span class="flex items-center gap-1.75"><MapPin size={15} class="text-[#c67861]" /> {copy.basedIn}</span>
+      <span class="flex items-center gap-1.75"><CalendarDays size={15} class="text-[#c67861]" /> {copy.since}</span>
+    </div>
+  </div>
+</section>

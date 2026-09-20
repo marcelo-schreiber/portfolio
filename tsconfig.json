@@ -3,5 +3,12 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "react"
-  }
+  },
+  "exclude": [
+    "src/components/Avatar.astro",
+    "src/components/Card.astro",
+    "src/components/Heading.astro",
+    "src/components/ProjectImage.astro",
+    "src/components/Social.astro"
+  ]
 }

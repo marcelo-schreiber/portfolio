@@ -1,211 +1,628 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import HomeSection from "../components/HomeSection.astro";
+import WorkSection from "../components/WorkSection.astro";
+import AboutSection from "../components/AboutSection.astro";
+import ContactSection from "../components/ContactSection.astro";
+import ThreeDSortImage from "../assets/3dsort.webp";
+import scribblesImage from "../assets/scribbles-vs-sketches.webp";
+import meImage from "../assets/eu.webp";
 
-import Card from "../components/Card.astro";
-import Heading from "../components/Heading.astro";
-import Contact from "../components/Contact.astro";
+import {
+  ArrowLeft,
+  ArrowRight,
+  DotIcon,
+  Earth,
+  Folder,
+  Mail,
+  Maximize2,
+  Minus,
+  Plus,
+  Search,
+  Settings,
+  Wifi,
+  X,
+} from "@lucide/astro";
 
-import ProjectImage from "../components/ProjectImage.astro";
+const me = {
+  name: "Marcelo Schreiber",
+  initials: "MS",
+  role: "Full-Stack Developer",
+  domain: "marcelo-schreiber.com",
+  email: "marcelorissette15@gmail.com",
+  github: "https://github.com/marcelo-schreiber",
+  linkedin: "https://www.linkedin.com/in/marcelo-sch",
+  company: { name: "Vidya Technology", url: "https://vidyatec.com" },
+};
 
-// logos
-import RunUserCodeLogo from "../assets/run-user-code-logo.webp";
-import RoomcraftifyLogo from "../assets/roomcraftify-landing.webp";
-import ScribblesVsSketchesLogo from "../assets/scribbles-vs-sketches.webp";
+const locale = Astro.currentLocale ?? "en";
+const isPortuguese = locale === "pt";
+const alternateLocale = isPortuguese ? "en" : "pt";
+const alternatePath = Astro.url.pathname.startsWith("/html")
+  ? `/${alternateLocale}/html`
+  : Astro.url.pathname.replace(`/${locale}`, `/${alternateLocale}`);
+const copy = isPortuguese
+  ? {
+      home: "Início", work: "Trabalho", about: "Sobre", contact: "Contato",
+      intro: "Me chamo Marcelo.", introAccent: "Crio software maneiro.",
+      introBody: "Sou Marcelo, desenvolvedor full-stack na Vidya Technology. Crio aplicações web, trabalhando próximo dos sistemas.",
+      workCta: "Alguns projetos", aboutCta: "Sobre mim", current: "Atualmente", building: "Trabalhando na",
+      selectedWork: "Projetos selecionados", workHeading: "Algumas coisas que fiz.",
+      aboutLabel: "Um pouco sobre mim", aboutHeading: "Full-stack, generalista.",
+      aboutBody: "Gosto de trabalhar em diferentes partes de um sistema, do front-end à infra. Já trabalhei com desenvolvimento web, 3D, jogos, programação de baixo nível e DevOps. Hoje atuo com React, Vue, Three.js, Java, PostgreSQL, AWS e Docker na Vidya Technology e concluo Ciência da Computação na UFPR em dezembro de 2026.",
+      basedIn: "Moro em Curitiba", since: "Trabalhando profissionalmente desde 2023", talk: "Vamos conversar?",
+      contactHeading: "Vamos construir algo", neat: "maneiro.", emailLabel: "Seu e-mail", messageLabel: "Sua mensagem",
+      emailPlaceholder: "nome@email.com", messagePlaceholder: "Deixe uma mensagem...", send: "Enviar mensagem",
+      success: "Obrigado pelo contato!", error: "Não foi possível enviar sua mensagem.",
+    }
+  : {
+      home: "Home", work: "Work", about: "About", contact: "Contact",
+      intro: "Hi, I'm Marcelo.", introAccent: "I build neat software.",
+      introBody: "A full-stack developer. I build web apps, and I like working close to the systems.",
+      workCta: "Some of my work", aboutCta: "About me", current: "Currently", building: "Building at",
+      selectedWork: "Selected work", workHeading: "A few things I've made.",
+      aboutLabel: "A little about me", aboutHeading: "Full-stack, Jack-of-all-trades.",
+      aboutBody: "I enjoy working across different parts of a system, from the front end to the infrastructure. I've worked with web development, 3D, game development, low-level programming, and DevOps. I currently work with React, Vue, Three.js, Java, PostgreSQL, AWS, and Docker at Vidya Technology, and I'm completing my Computer Science degree at UFPR in December 2026.",
+      basedIn: "Based in Curitiba, Brazil", since: "Working professionally since 2023", talk: "Wanna talk?",
+      contactHeading: "Let's build something", neat: "neat.", emailLabel: "Your email", messageLabel: "Your message",
+      emailPlaceholder: "name@email.com", messagePlaceholder: "Leave a message...", send: "Send message",
+      success: "Thanks for your submission!", error: "Oops! There was a problem submitting your form.",
+    };
+
+const projects = [
+  {
+    title: "Scribbles Vs. Sketches",
+    meta: "Personal project | Python + Pygame",
+    letter: "S",
+    href: "https://github.com/Gustan13/ScribblesXSketches",
+    art: "bg-[linear-gradient(to_bottom_right,#f5d0bd,#f3e3c7)]",
+    image: scribblesImage,
+  },
+  {
+    title: "3D Sort",
+    meta: "Personal project | React + Three.js",
+    letter: "3",
+    href: "https://github.com/marcelo-schreiber/3d-sort",
+    art: "bg-[linear-gradient(to_bottom_right,#b6ddbd,#e5efc9)]",
+    image: ThreeDSortImage,
+  },
+  {
+    title: "LCS Parallel",
+    meta: "University project | C + OpenMP + MPI",
+    letter: "L",
+    href: "https://github.com/marcelo-schreiber/lcs-parallel",
+    art: "bg-[linear-gradient(to_bottom_right,#c7d8f5,#e4e8f7)]",
+  },
+  {
+    title: "Run User Code",
+    meta: "Personal project | TypeScript + Docker",
+    letter: "R",
+    href: "https://github.com/marcelo-schreiber/run-user-code",
+    art: "bg-[linear-gradient(to_bottom_right,#d4c7ed,#e7dff0)]",
+  },
+];
+
+const readme = isPortuguese
+  ? `Olá!
+
+Se você tem interesse neste portfólio, ele está disponível no GitHub:
+
+Repo no GitHub: ${me.github.replace("https://", "")}/portfolio
+`
+  : `Hello there!
+
+If you're interested in this portfolio website, you can find it on GitHub at:
+
+Github Repo: ${me.github.replace("https://", "")}/portfolio
+`;
+
+/* ---------------------------------------------------------------- */
+/* Shared class strings                                              */
+/* ---------------------------------------------------------------- */
+const focusRing =
+  "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[#25344e]";
+const hiddenInput =
+  "absolute inset-0 m-0 cursor-pointer appearance-none opacity-0";
+const trafficLight =
+  "relative grid size-3 cursor-pointer place-items-center rounded-full p-0 text-black/45";
+const socialLink =
+  "grid place-items-center text-[#25344e] transition-[color,transform,translate,rotate] duration-150 hover:-translate-y-0.5 hover:-rotate-[4deg] hover:text-[#ef775b] dark:text-[#e7f1f7]";
+const dockItem =
+  "relative block cursor-pointer p-0 list-none transition-transform duration-[180ms] hover:[transform:translateY(-3px)_rotate(-2deg)] [&::-webkit-details-marker]:hidden";
+const dockIcon =
+  "grid size-[43px] place-items-center rounded-[4px] border border-[rgba(37,52,78,.3)] text-white shadow-[2px_2px_0_rgba(37,52,78,.22)] max-[760px]:size-[35px] max-[760px]:[&_svg]:w-[19px] max-[430px]:size-8";
+const navBase =
+  "relative py-[9px] font-serif text-[13px] after:absolute after:inset-x-0 after:bottom-0 after:m-auto after:h-0.5 after:w-[18px] after:bg-[#ef775b] after:content-[''] [&.is-active]:text-[#202631] dark:[&.is-active]:text-[#ffffff] [&.is-active]:after:opacity-100";
+const nav = [
+  {
+    id: "home",
+    label: copy.home,
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631] dark:text-[#b9d0de] dark:hover:text-white",
+  },
+  {
+    id: "work",
+    label: copy.work,
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631] dark:text-[#b9d0de] dark:hover:text-white",
+  },
+  {
+    id: "about",
+    label: copy.about,
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631] dark:text-[#b9d0de] dark:hover:text-white",
+  },
+  {
+    id: "contact",
+    label: copy.contact,
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631] dark:text-[#b9d0de] dark:hover:text-white",
+  },
+];
 ---
 
-<Layout title="Marcelo Schreiber | Portfolio">
-  <div id="contents">
-    <main class="container">
-      <div class="mb-16">
-        <Heading />
-        <p
-          class="mt-4 text-lg text-zinc-500 dark:text-zinc-400 font-light lg:text-xl"
+<Layout title={`${me.name} | ${me.role}`}>
+  <main
+    class="group/desktop relative min-h-screen bg-[radial-gradient(circle_at_18%_14%,rgba(255,255,255,.64),transparent_23%),repeating-linear-gradient(0deg,rgba(33,58,74,.035)_0_1px,transparent_1px_4px),linear-gradient(135deg,#c9d8df_0%,#9eb8c8_48%,#c6d3d7_100%)] text-[14px] text-[#f4f7fb] dark:bg-[linear-gradient(135deg,#07131f_0%,#10283a_52%,#07131f_100%)]"
+  >
+    <!-- Menu bar -->
+    <header
+      class="flex h-[29px] items-center justify-between bg-white/[.46] px-4 text-[12px] text-[#17263a] backdrop-blur-[18px] dark:bg-[#0a1724]/95 dark:text-[#f3f7fb]"
+    >
+      <div class="flex items-center gap-[18px]">
+        <DotIcon />
+        <strong class="font-bold">Finder</strong>
+        <span>File</span>
+        <span class="max-[760px]:hidden">Edit</span>
+        <span class="max-[760px]:hidden">View</span>
+        <span class="max-[760px]:hidden">Go</span>
+        <span class="max-[760px]:hidden">Window</span>
+        <span class="max-[760px]:hidden">Help</span>
+      </div>
+      <div class="flex items-center gap-3 text-[11px]">
+        <span class="size-[7px] rounded-full bg-[#2cbd7e]"></span>
+        <Wifi size={14} />
+        <span id="os-clock" class="max-[760px]:hidden"></span>
+        <Search size={14} />
+        <span class="font-bold tracking-[2px] max-[760px]:hidden">•••</span>
+        <a href={alternatePath} class="font-bold uppercase text-[#8e493e]">{alternateLocale}</a>
+      </div>
+    </header>
+
+    <section
+      class="relative flex min-h-[calc(100vh_-_29px)] w-full flex-col items-center overflow-hidden px-4 pt-[38px] max-[760px]:pt-5"
+    >
+      <!-- Browser window -->
+      <article
+        aria-label="Portfolio website"
+        class:list={[
+          "relative z-[5] mx-auto h-[min(820px,calc(100vh_-_105px))] w-[min(1440px,calc(100vw_-_32px))] max-w-[1165px] overflow-hidden rounded-lg border border-[rgba(49,71,83,.38)] bg-white text-[#202631] shadow-[10px_12px_0_rgba(45,70,82,.12),0_24px_55px_rgba(45,76,104,.25)] [translate:var(--window-x,0px)_var(--window-y,0px)] dark:border-[#7895a8] dark:bg-[#122333] dark:text-[#f3f7fb] dark:shadow-[10px_12px_0_rgba(0,0,0,.45),0_24px_55px_rgba(0,0,0,.5)] max-[760px]:h-[calc(100vh_-_128px)]",
+          // maximized (#win-max is checked)
+          "group-has-[#win-max:checked]/desktop:fixed group-has-[#win-max:checked]/desktop:inset-x-0 group-has-[#win-max:checked]/desktop:top-[29px] group-has-[#win-max:checked]/desktop:bottom-0 group-has-[#win-max:checked]/desktop:z-20 group-has-[#win-max:checked]/desktop:m-0 group-has-[#win-max:checked]/desktop:h-auto group-has-[#win-max:checked]/desktop:w-auto group-has-[#win-max:checked]/desktop:max-w-none group-has-[#win-max:checked]/desktop:rounded-none",
+          // minimized (#win-min is checked)
+          "group-has-[#win-min:checked]/desktop:pointer-events-none group-has-[#win-min:checked]/desktop:origin-bottom group-has-[#win-min:checked]/desktop:opacity-0 group-has-[#win-min:checked]/desktop:[transform:translateY(calc(100vh_-_130px))_scale(.15)] group-has-[#win-min:checked]/desktop:[transition:transform_.35s_ease,opacity_.25s_ease]",
+        ]}
+      >
+        <!-- Title bar -->
+        <div
+          data-drag-handle
+          class="flex h-[37px] items-center gap-[17px] border-b border-[#aebbc1] bg-[#d9e0e3] px-[13px] dark:border-[#547187] dark:bg-[#20394d]"
         >
-          Hey there 👋<br /> I'm a Full-stack developer intern at <a
-            href="https://vidyatec.com/"
-            target="_blank"
-            class="underline text-gray-300">Vidya</a
-          > in Brazil, and I'm also studying Computer Science at <a
-            href="https://ufpr.br/"
-            target="_blank"
-            class="underline text-gray-300">UFPR</a
-          >. If you think I can lend a hand, <a
-            href="#contact"
-            class="underline text-gray-300">get in touch</a
-          >!
-        </p>
-      </div>
-      <h2
-        class="text-3xl mt-6 font-medium lg:text-4xl tracking-tight text-primary dark:text-white mb-2"
-      >
-        Projects
-      </h2>
-      <div class="mx-auto mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <Card
-            title="Run User Code Service"
-            body="An API for running code in different languages. It uses Docker to run the code in a safe environment, avoiding vulnerabilities and security breaches."
-            tags="Python,Ruby,Javascript,Docker"
-            github="https://github.com/marcelo-schreiber/run-user-code-SaaS"
-          >
+          <div class="flex gap-[7px]">
             <a
-              href="https://github.com/marcelo-schreiber/run-user-code-SaaS/"
+              href="#home"
               target="_blank"
+              rel="noreferrer"
+              aria-label="Close"
+              class={`${trafficLight} bg-[#ff625b]`}
             >
-              <ProjectImage src={RunUserCodeLogo} alt="Run User Code Logo" />
+              <X size={10} />
             </a>
-          </Card>
-        </div>
-        <div>
-          <Card
-            title="Roomcraftify"
-            body="Roomcraftify is fully featured 3D room designer. It allows you to create your own room and decorate it with a wide range of furniture and other items."
-            tags="Typescript,Nextjs,S3,SQL,Threejs"
-            live="https://roomcraftify.com/"
-          >
-            <a href="https://roomcraftify.com/" target="_blank">
-              <ProjectImage src={RoomcraftifyLogo} alt="Roomcraftify Logo" />
-            </a>
-          </Card>
-        </div>
-        <div>
-          <Card
-            title="Scribbles vs. Sketches"
-            body="Scribbles vs Sketches is a 2D platformer bomberman-like game. It is a story between two illustrators, Scribbles and Sketches."
-            tags="Python,Pygame"
-            github="https://github.com/Gustan13/ScribblesXSketches"
-          >
-            <a
-              href="https://github.com/Gustan13/ScribblesXSketches"
-              target="_blank"
-            >
-              <ProjectImage
-                src={ScribblesVsSketchesLogo}
-                alt="Scribbles vs Sketches Game Logo"
+            <label class={`${trafficLight} bg-[#ffc14c] ${focusRing}`}>
+              <input
+                type="radio"
+                name="win"
+                id="win-min"
+                aria-label="Minimize window"
+                class={hiddenInput}
               />
+              <Minus size={10} />
+            </label>
+            <label class={`${trafficLight} bg-[#2dcf63] ${focusRing}`}>
+              <input
+                type="checkbox"
+                id="win-max"
+                aria-label="Maximize window"
+                class={hiddenInput}
+              />
+              <Maximize2 size={9} />
+            </label>
+          </div>
+          <div
+            class="flex h-[27px] max-w-[350px] min-w-[250px] items-center gap-2 rounded-t-[7px] bg-white px-2.5 text-[11px] text-[#4a4e58] dark:bg-[#102131] dark:text-[#dceaf3] max-[430px]:min-w-[180px]"
+          >
+            <span class="flex-1 truncate">{me.name} | {me.role}</span>
+            <X size={12} />
+          </div>
+          <Plus size={15} class="text-[#969da8]" />
+        </div>
+
+        <!-- Toolbar -->
+        <div
+          class="flex h-[38px] items-center gap-4 border-b border-[#bdc6c7] bg-[#f0f1ed] px-[15px] text-[#777e89] dark:border-[#547187] dark:bg-[#172d3f] dark:text-[#c6d9e6] max-[760px]:gap-2.5"
+        >
+          <ArrowLeft size={16} />
+          <ArrowRight size={16} class="opacity-[.26]" />
+          <div
+            class="m-auto flex h-[25px] max-w-[560px] flex-1 items-center gap-2 rounded-[7px] bg-[#e9ebef] px-3 text-[11px] text-[#525b68] dark:bg-[#0d1d2b] dark:text-[#c6d9e6]"
+          >
+            <Search size={13} />
+            <span class="flex-1">{me.domain}</span>
+          </div>
+        </div>
+
+        <!-- Site nav -->
+        <nav
+          aria-label="Site"
+          class="relative flex h-[65px] items-center bg-[#f8f5ec] px-[38px] dark:bg-[#102131] dark:text-[#f3f7fb] max-[760px]:px-[17px]"
+        >
+          <a href="#home" target="_blank" rel="noreferrer" class="flex items-center gap-2.5 p-0">
+            <span
+              class="grid size-[29px] -rotate-3 place-items-center rounded-[4px] bg-[#b65343] text-[11px] font-bold tracking-[-.05em] text-white"
+              >{me.initials}</span
+            >
+            <small
+              class="font-serif text-[13px] font-bold text-[#232a34] dark:text-[#f3f7fb] max-[760px]:hidden"
+              >{me.name}</small
+            >
+          </a>
+          <div
+            class="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 gap-[27px] max-[760px]:static max-[760px]:ml-auto max-[760px]:translate-x-0 max-[760px]:translate-y-0 max-[760px]:gap-3.5 max-[430px]:gap-[9px]"
+          >
+            {
+              nav.map((item) => (
+                <a
+                  href={`#${item.id}`}
+                  data-section={item.id}
+                  class:list={[navBase, item.state]}
+                >
+                  {item.label}
+                </a>
+              ))
+            }
+          </div>
+          <div
+            role="group"
+            aria-label="Social links"
+            class="mr-3.5 ml-auto flex items-center gap-3 max-[760px]:mr-2 max-[760px]:ml-3 max-[760px]:gap-2 [&_svg]:size-[18px] max-[760px]:[&_svg]:size-4"
+          >
+            <a
+              href={me.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+              class={socialLink}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true"
+                ><path
+                  fill="currentColor"
+                  d="M5.2 8.4H1.6V20h3.6V8.4ZM3.4 3A2.1 2.1 0 1 0 3.4 7.2 2.1 2.1 0 0 0 3.4 3ZM22.4 13.3c0-3.5-1.9-5.2-4.5-5.2-2.1 0-3 1.2-3.5 2v-1.7h-3.6V20h3.6v-5.8c0-1.5.3-3 2.1-3 1.7 0 1.7 1.7 1.7 3.1V20h3.6v-6.7Z"
+                ></path></svg
+              >
             </a>
-          </Card>
+            <a href={`mailto:${me.email}`} target="_blank" rel="noreferrer" aria-label="Email" class={socialLink}
+              ><Mail size={14} /></a
+            >
+            <a
+              href={me.github}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+              class={socialLink}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true"
+                ><path
+                  fill="currentColor"
+                  d="M12 2.5a9.7 9.7 0 0 0-3.1 18.9c.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.2-3.4-1.2-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 0 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.2-4.5-1.1-4.5-4.8 0-1.1.4-2 1-2.7-.1-.2-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.3 9.3 0 0 1 4.9 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.5.1 2.7.6.7 1 1.6 1 2.7 0 3.7-2.3 4.6-4.5 4.8.3.3.6.9.6 1.8v2.7c0 .3.2.6.7.5A9.7 9.7 0 0 0 12 2.5Z"
+                ></path></svg
+              >
+            </a>
+          </div>
+        </nav>
+
+        <!-- Scrolling page content -->
+        <div
+          class="h-[calc(100%_-_140px)] scroll-smooth overflow-y-auto overscroll-contain bg-white [scrollbar-color:#9b8e7a_#eee9df] [scrollbar-width:thin] dark:bg-[#0d1c29] dark:[scrollbar-color:#5c829b_#102536] [&::-webkit-scrollbar]:w-[11px] [&::-webkit-scrollbar-thumb]:rounded-lg [&::-webkit-scrollbar-thumb]:border-[3px] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-[#eee9df] [&::-webkit-scrollbar-thumb]:bg-[#a99b87] [&::-webkit-scrollbar-track]:bg-[#eee9df] dark:[&::-webkit-scrollbar-thumb]:border-[#102536] dark:[&::-webkit-scrollbar-thumb]:bg-[#5c829b] dark:[&::-webkit-scrollbar-track]:bg-[#102536]"
+        >
+          <HomeSection copy={copy} me={me} />
+
+          <WorkSection copy={copy} projects={projects} />
+
+          <AboutSection copy={copy} me={me} image={meImage} />
+
+          <ContactSection copy={copy} />
         </div>
-      </div>
-      <h2
-        class="text-3xl mt-8 font-medium lg:text-4xl tracking-tight text-primary dark:text-white mb-2"
+      </article>
+
+      <!-- Desktop file: opens the read_me popover -->
+      <button
+        type="button"
+        popovertarget="readme"
+        aria-label="Open read me text file"
+        class="absolute top-14 right-6 z-[3] m-0 grid cursor-pointer justify-items-center gap-[7px] p-0 text-[11px] text-[rgba(22,47,69,.72)] dark:text-[#dceaf3]"
       >
-        Skills
-      </h2>
-      <div class="mx-auto mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Card
-            title="Languages"
-            body="Javascript, Typescript, Python, Java, C/C++"
-          />
+        <span
+          class="grid h-[38px] w-[46px] place-items-center rounded-lg bg-[linear-gradient(#5ea5e4,#327ec0)] shadow-[0_5px_9px_rgba(52,95,132,.2)]"
+        >
+          <Folder size={30} fill="white" />
+        </span>
+        <span>read_me.txt</span>
+      </button>
+    </section>
+
+    <!-- Dock -->
+    <nav
+      aria-label="Dock"
+      class="fixed bottom-2.5 left-1/2 z-10 flex -translate-x-1/2 items-end gap-1.5 rounded-[7px] border-2 border-[#25344e] bg-[#f2eee5e8] px-3 pt-2 pb-[9px] shadow-[5px_5px_0_rgba(37,52,78,.28)] backdrop-blur-[18px] dark:border-[#7895a8] dark:bg-[#102536]/95 dark:shadow-[5px_5px_0_rgba(0,0,0,.5)] max-[760px]:max-w-[calc(100vw_-_16px)]"
+    >
+      <!-- Website: restores the minimized window -->
+      <label title="Website" class={`${dockItem} ${focusRing}`}>
+        <input
+          type="checkbox"
+          id="win-open"
+          checked
+          aria-label="Show website"
+          class={hiddenInput}
+        />
+        <span
+          class={`${dockIcon} bg-[linear-gradient(135deg,#ef775b_0_35%,#25344e_35%_68%,#dce4df_68%)]`}
+        >
+          <Earth size={25} />
+        </span>
+      </label>
+      <!-- Settings: <details> gives the open/close toggle without JS -->
+      <details class="relative">
+        <summary title="Settings" class={dockItem}>
+          <span class={`${dockIcon} bg-[linear-gradient(#b8c1cc,#687584)]`}>
+            <Settings size={23} />
+          </span>
+        </summary>
+        <div
+          role="dialog"
+          aria-label="Display settings"
+          class="absolute -right-3 bottom-[49px] flex min-w-[178px] flex-col gap-2.5 rounded-[4px] border border-[#25344e] bg-[#fffdf7] p-[13px] text-left text-[11px] text-[#25344e] shadow-[4px_4px_0_#25344e] dark:border-[#7895a8] dark:bg-[#172f42] dark:text-[#f3f7fb] dark:shadow-[4px_4px_0_#050b10]"
+        >
+          <strong class="font-serif text-[13px] font-bold">Display</strong>
+          <label class="flex items-center gap-2 whitespace-nowrap">
+            <input type="checkbox" id="dark" class="accent-[#ef775b]" /> Dark mode
+          </label>
         </div>
+      </details>
+    </nav>
 
-        <div>
-          <Card
-            title="Tools and frameworks"
-            body="React, Nextjs, Docker, PostgresSQL, Threejs, Vuejs, Pygame"
-          />
+    <!-- read_me.txt window (native popover: Esc / click outside / Close button) -->
+    <section
+      id="readme"
+      popover
+      role="dialog"
+      aria-labelledby="readme-title"
+      class="m-auto h-fit w-[min(560px,calc(100%_-_48px))] -rotate-[.35deg] overflow-hidden border border-[#25344e] bg-[#f8f5ec] p-0 text-[#25344e] shadow-[8px_8px_0_#25344e,0_18px_35px_rgba(37,52,78,.18)] backdrop:bg-[rgba(29,45,58,.28)] dark:border-[#7895a8] dark:bg-[#172f42] dark:text-[#f3f7fb] dark:shadow-[8px_8px_0_#050b10,0_18px_35px_rgba(0,0,0,.55)] max-[760px]:w-[min(560px,calc(100%_-_24px))]"
+    >
+      <header
+        class="flex h-[38px] items-center gap-[18px] border-b border-[#aebbc1] bg-[#d9e0e3] px-3 font-serif text-[12px] dark:border-[#547187] dark:bg-[#20394d] dark:text-[#f3f7fb]"
+      >
+        <div class="flex gap-[7px]">
+          <button
+            type="button"
+            popovertarget="readme"
+            popovertargetaction="hide"
+            aria-label="Close read me"
+            class={`${trafficLight} bg-[#ff625b]`}
+          >
+            <X size={10} />
+          </button>
+          <span class="size-3 rounded-full bg-[#ffc14c]"></span>
+          <span class="size-3 rounded-full bg-[#2dcf63]"></span>
         </div>
-      </div>
-      <div class="my-8">
-        <Contact />
-      </div>
-    </main>
-  </div>
-</Layout>
+        <strong id="readme-title">read_me.txt</strong>
+      </header>
+      <textarea
+        aria-label="Read me notes"
+        class="block min-h-[275px] w-full resize-none bg-[#fffdf7] p-6 font-serif text-[15px] leading-[1.75] text-[#3c4a53] outline-0 dark:bg-[#0d1d2b] dark:text-[#e7f1f7] max-[760px]:min-h-[240px] max-[760px]:px-[18px] max-[760px]:py-[17px]"
+        >{readme}</textarea
+      >
+      <footer
+        class="flex items-center justify-between border-t border-[#d2cabc] px-3.5 py-3 text-[11px] dark:border-[#547187]"
+      >
+        <button
+          type="button"
+          popovertarget="readme"
+          popovertargetaction="hide"
+          class="cursor-pointer rounded-[2px] border border-[#25344e] bg-[#ef775b] px-[13px] py-1.5 text-[11px] text-[#25344e]"
+        >
+          Close
+        </button>
+      </footer>
+    </section>
 
-<style is:global>
-  main {
-    margin: auto;
-    padding: 0.75rem;
-    width: 1100px;
-    max-width: 100%;
-    color: white;
-    line-height: 1.6;
-  }
-  .project-image {
-    max-width: 100% !important;
-    overflow: hidden;
-  }
-  .project-cards {
-  }
-  .video-wrapper {
-    background: #111111;
-    padding: calc(1.5rem - 1px);
-    line-height: 1.4;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-  }
-  .project-column > div {
-    max-width: 100%;
-    overflow: hidden;
-  }
-  .projects-alt > li {
-    gap: 1rem !important;
-  }
-  .astro-a {
-    position: absolute;
-    top: -32px;
-    left: 50%;
-    transform: translatex(-50%);
-    width: 220px;
-    height: auto;
-    z-index: -1;
-  }
+  </main>
 
-  .text-gradient {
-    background-image: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 400%;
-    background-position: 0%;
-    font-size: 2.75rem;
-  }
-  .instructions {
-    margin-bottom: 2rem;
-    border: 1px solid rgba(var(--accent-light), 25%);
-    background: linear-gradient(
-      rgba(var(--accent-dark), 66%),
-      rgba(var(--accent-dark), 33%)
+  <script>
+    const desktop = document.querySelector("main");
+    const darkToggle = document.querySelector("#dark");
+
+    if (desktop instanceof HTMLElement && darkToggle instanceof HTMLInputElement) {
+      const updateDarkMode = () => {
+        desktop.classList.toggle("dark", darkToggle.checked);
+      };
+
+      darkToggle.addEventListener("change", updateDarkMode);
+      updateDarkMode();
+    }
+
+    const clockElement = document.querySelector("#os-clock");
+
+    if (clockElement instanceof HTMLElement) {
+      const updateClock = () => {
+        clockElement.textContent = new Intl.DateTimeFormat(undefined, {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+        }).format(new Date());
+      };
+
+      updateClock();
+      window.setInterval(updateClock, 30_000);
+    }
+
+    const contentScroller = document.querySelector("#home")?.parentElement;
+
+    if (contentScroller instanceof HTMLElement) {
+      const navLinks = [...document.querySelectorAll("a[data-section]")];
+      const sections = navLinks
+        .map((link) =>
+          document.getElementById(link.getAttribute("data-section") ?? ""),
+        )
+        .filter(
+          (section): section is HTMLElement => section instanceof HTMLElement,
+        );
+      const getSectionTop = (section: HTMLElement) =>
+        section.offsetTop - contentScroller.offsetTop;
+
+      const updateActiveSection = () => {
+        const activeSection = sections.reduce((current, section) => {
+          return getSectionTop(section) <= contentScroller.scrollTop + 80
+            ? section
+            : current;
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.toggle(
+            "is-active",
+            link.getAttribute("data-section") === activeSection?.id,
+          );
+        });
+      };
+
+      contentScroller.addEventListener("scroll", updateActiveSection, {
+        passive: true,
+      });
+      updateActiveSection();
+
+      document.querySelectorAll("a[href^='#']").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          const targetId = link.getAttribute("href")?.slice(1);
+          const target = targetId
+            ? document.getElementById(targetId)
+            : undefined;
+
+          if (!target) return;
+
+          event.preventDefault();
+          history.pushState(null, "", `#${targetId}`);
+          contentScroller.scrollTo({
+            top: getSectionTop(target),
+            behavior: "smooth",
+          });
+          updateActiveSection();
+        });
+      });
+
+      window.addEventListener("popstate", updateActiveSection);
+    }
+
+    const contactForm = document.querySelector("#contact-form");
+    const contactStatus = document.querySelector("#contact-status");
+    contactForm?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!(contactForm instanceof HTMLFormElement) || !(contactStatus instanceof HTMLElement)) return;
+      contactStatus.textContent = "...";
+      try {
+        const response = await fetch(contactForm.action, {
+          method: "POST",
+          body: new FormData(contactForm),
+          headers: { Accept: "application/json" },
+        });
+        contactStatus.textContent = response.ok ? "{copy.success}" : "{copy.error}";
+        if (response.ok) contactForm.reset();
+      } catch {
+        contactStatus.textContent = "{copy.error}";
+      }
+    });
+
+    const windowElement = document.querySelector(
+      "[aria-label='Portfolio website']",
     );
-    padding: 1.5rem;
-    border-radius: 8px;
-  }
-  .instructions code {
-    font-size: 0.8em;
-    font-weight: bold;
-    background: rgba(var(--accent-light), 12%);
-    color: rgb(var(--accent-light));
-    border-radius: 4px;
-    padding: 0.3em 0.4em;
-  }
-  .instructions strong {
-    color: rgb(var(--accent-light));
-  }
-  .link-card-grid {
-    display: grid;
-    gap: 0;
-    padding: 0;
-  }
-  .read-more {
-    color: #fff;
-  }
-  details {
-    position: relative;
-    top: -1px;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border-radius: 0 0 8px 8px;
-    max-width: 900px;
-  }
-  details > div {
-    max-width: 830px;
-  }
+    const dragHandle = windowElement?.querySelector("[data-drag-handle]");
+    const maximizeToggle = document.querySelector("#win-max");
+    const minimizeToggle = document.querySelector("#win-min");
+    const openToggle = document.querySelector("#win-open");
+    const maximizeInput =
+      maximizeToggle instanceof HTMLInputElement ? maximizeToggle : null;
+    const isMaximized = () => maximizeInput?.checked === true;
 
-  summary:hover {
-    cursor: pointer;
-  }
-</style>
+    if (minimizeToggle instanceof HTMLInputElement && openToggle instanceof HTMLInputElement) {
+      openToggle.addEventListener("click", (event) => {
+        event.preventDefault();
+        const shouldMinimize = !minimizeToggle.checked;
+        minimizeToggle.checked = shouldMinimize;
+        openToggle.checked = !shouldMinimize;
+      });
+      minimizeToggle.addEventListener("change", () => {
+        openToggle.checked = !minimizeToggle.checked;
+      });
+    }
 
-<script></script>
+    if (
+      windowElement instanceof HTMLElement &&
+      dragHandle instanceof HTMLElement
+    ) {
+      let startX = 0;
+      let startY = 0;
+      let offsetX = 0;
+      let offsetY = 0;
+      let baseTop = 0;
+
+      dragHandle.addEventListener("pointerdown", (event) => {
+        if (event.button !== 0 || isMaximized()) return;
+        if (
+          event.target instanceof Element &&
+          event.target.closest("a, button, input, label")
+        )
+          return;
+
+        startX = event.clientX;
+        startY = event.clientY;
+        baseTop = windowElement.getBoundingClientRect().top - offsetY;
+        dragHandle.setPointerCapture(event.pointerId);
+        dragHandle.dataset.dragging = "true";
+      });
+
+      dragHandle.addEventListener("pointermove", (event) => {
+        if (!dragHandle.hasPointerCapture(event.pointerId)) return;
+
+        offsetX += event.clientX - startX;
+        offsetY = Math.max(29 - baseTop, offsetY + event.clientY - startY);
+        startX = event.clientX;
+        startY = event.clientY;
+        windowElement.style.setProperty("--window-x", `${offsetX}px`);
+        windowElement.style.setProperty("--window-y", `${offsetY}px`);
+      });
+
+      const stopDragging = (event: PointerEvent) => {
+        if (!dragHandle.hasPointerCapture(event.pointerId)) return;
+        dragHandle.releasePointerCapture(event.pointerId);
+        delete dragHandle.dataset.dragging;
+      };
+
+      dragHandle.addEventListener("pointerup", stopDragging);
+      dragHandle.addEventListener("pointercancel", stopDragging);
+
+      maximizeInput?.addEventListener("change", () => {
+        if (!isMaximized()) return;
+        offsetX = 0;
+        offsetY = 0;
+        windowElement.style.setProperty("--window-x", "0px");
+        windowElement.style.setProperty("--window-y", "0px");
+      });
+    }
+  </script>
+</Layout>

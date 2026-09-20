@@ -1,0 +1,25 @@
+---
+import { ArrowRight } from "@lucide/astro";
+
+interface Props {
+  copy: Record<string, string>;
+}
+
+const { copy } = Astro.props;
+const emphasis = "font-serif font-normal italic tracking-[-.08em] text-[#a95749]";
+---
+
+<section id="contact" class="flex items-center justify-between gap-7.5 bg-[#f8f5ec] px-[10%] py-15 dark:bg-[#152b3d] dark:text-[#f3f7fb] max-[760px]:block max-[760px]:px-6 max-[760px]:py-11.25">
+  <div>
+    <span class="text-[13px] font-bold tracking-[.15em] text-[#8e493e] uppercase">{copy.talk}</span>
+    <h2 class="mt-2 font-serif text-[39px] leading-[1.05] tracking-tighter text-[#222833] dark:text-[#f3f7fb]">{copy.contactHeading}<br /><em class={emphasis}>{copy.neat}</em></h2>
+  </div>
+  <form id="contact-form" action="https://formspree.io/f/mnqeewle" method="POST" class="relative flex min-w-72.5 flex-col gap-3 rounded-xs border border-[#25344e] bg-white p-4.5 text-left shadow-[4px_4px_0_#ef775b] dark:border-[#6f9db7] dark:bg-[#0d1d2b] max-[760px]:mt-6.25 max-[760px]:min-w-0">
+    <label for="contact-email" class="text-[11px] text-[#777983] dark:text-[#c5d9e6]">{copy.emailLabel}</label>
+    <input id="contact-email" name="email" type="email" required autocomplete="email" placeholder={copy.emailPlaceholder} class="border border-[#d9d2c6] bg-[#fffdf7] px-2.5 py-2 text-[13px] text-[#202631] outline-none focus:border-[#ef775b] dark:border-[#527891] dark:bg-[#172f42] dark:text-[#f3f7fb]" />
+    <label for="contact-message" class="text-[11px] text-[#777983] dark:text-[#c5d9e6]">{copy.messageLabel}</label>
+    <textarea id="contact-message" name="message" rows="4" required placeholder={copy.messagePlaceholder} class="resize-y border border-[#d9d2c6] bg-[#fffdf7] px-2.5 py-2 text-[13px] text-[#202631] outline-none focus:border-[#ef775b] dark:border-[#527891] dark:bg-[#172f42] dark:text-[#f3f7fb]"></textarea>
+    <button type="submit" class="flex items-center justify-center gap-2 bg-[#ef775b] px-3 py-2.5 text-[12px] text-white shadow-[2px_2px_0_#25344e]">{copy.send} <ArrowRight size={15} /></button>
+    <p id="contact-status" class="m-0 text-[11px] text-[#777983]" aria-live="polite"></p>
+  </form>
+</section>

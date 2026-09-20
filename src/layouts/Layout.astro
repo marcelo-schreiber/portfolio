@@ -6,19 +6,23 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const locale = Astro.currentLocale ?? "en";
 
 const siteDescription =
-  "I'm a Full-stack developer intern at Vidya in Brazil, and I'm also studying Computer Science at UFPR. If you think I can lend a hand, get in touch!";
+  "I'm a Full-stack developer at Vidya Technology in Curitiba, Brazil, and I'm finishing my Computer Science degree at UFPR. If you think I can lend a hand, get in touch!";
 const siteTitle = "Marcelo Schreiber | Portfolio";
 const siteURL = "https://marcelo-schreiber.com";
 ---
 
 <!doctype html>
-<html lang="en" class="bg-zinc-950">
+<html lang={locale} class="bg-[#b6c8d6]">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={siteDescription} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="white" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="black" media="(prefers-color-scheme: dark)" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -31,7 +35,6 @@ const siteURL = "https://marcelo-schreiber.com";
     <meta property="og:title" content={siteTitle} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={siteURL} />
-
     <meta property="og:description" content={siteDescription} />
     <meta property="og:site_name" content={siteTitle} />
 
@@ -42,179 +45,15 @@ const siteURL = "https://marcelo-schreiber.com";
     <meta name="twitter:description" content={siteDescription} />
     <meta name="twitter:image" content="" />
 
-    <link
-      rel="preload"
-      href="/IndustryBold.otf"
-      as="font"
-      type="font/otf"
-      crossorigin
-    />
-
+    <!-- Tailwind v4 reads these to build `font-sans` / `font-serif` -->
     <style is:global>
-      main {
-        animation: fadein 1.6s;
-      }
-      @font-face {
-        font-family: IndustryBlack;
-        src: url("/IndustryBold.otf") format("opentype");
-        font-weight: bold;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      h1,
-      h2,
-      h3 {
-        font-family: "IndustryBlack", sans-serif !important;
-      }
-      .industry {
-        font-family: "IndustryBlack", sans-serif !important;
-      }
-
-      @keyframes fadein {
-        0% {
-          opacity: 0;
-        }
-        ,
-        50% {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
+      :root {
+        --font-sans: Arial, Helvetica, sans-serif;
+        --font-serif: Georgia, "Times New Roman", serif;
       }
     </style>
   </head>
-  <body>
+  <body class="m-0 min-w-[320px]">
     <slot />
-    <style is:global>
-      :root {
-        --font-mono: Menlo, Monaco, Lucida Console, Liberation Mono,
-          DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        --accent: 124, 204, 250;
-        --accent-light: 0, 240, 155;
-        --accent-dark: 49, 49, 249;
-        --accent-gradient: linear-gradient(
-          45deg,
-          rgb(var(--accent-dark)),
-          rgb(var(--accent-light)) 30%,
-          white 60%
-        );
-      }
-      input {
-        border-radius: 0;
-      }
-
-      input[type="search"] {
-        -webkit-appearance: none;
-      }
-
-      main {
-        max-width: calc(100% - 2rem);
-        color: white;
-        width: 1100px;
-        margin: 0 auto;
-        line-height: 1.6;
-      }
-      .container {
-        width: 1100px;
-        padding: 1.5rem 1rem;
-        margin: auto;
-      }
-      .text-gradient {
-        background-image: var(--accent-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-size: 400%;
-        background-position: 0%;
-        font-size: 2.75rem;
-      }
-      html {
-        font-family: system-ui, sans-serif;
-        background-size: 224px;
-      }
-      code {
-        font-family:
-          Menlo,
-          Monaco,
-          Lucida Console,
-          Liberation Mono,
-          DejaVu Sans Mono,
-          Bitstream Vera Sans Mono,
-          Courier New,
-          monospace;
-      }
-
-      header {
-        max-width: 100%;
-        height: auto;
-      }
-      main {
-        color: white;
-
-        line-height: 1.6;
-      }
-      video {
-        max-width: 100%;
-      }
-      body {
-        margin: 0;
-      }
-      h1 {
-        margin-top: 0.25rem;
-      }
-      .text-center {
-        text-align: center;
-      }
-      .spinner {
-        display: block;
-        animation: fadeout 1s;
-      }
-      .card {
-        display: none;
-      }
-
-      #dotone {
-        animation: blink 1s infinite;
-      }
-      #dottwo {
-        animation: blink 1s infinite;
-        animation-delay: 0.25s;
-      }
-      #dotthree {
-        animation: blink 1s infinite;
-        animation-delay: 0.5s;
-      }
-
-      @keyframes blink {
-        0% {
-          opacity: 0;
-        }
-        50% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0;
-        }
-      }
-
-      @keyframes fadein {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      @keyframe fadeout {
-        from {
-          opacity: 1;
-        }
-        to {
-          opacity: 0;
-        }
-      }
-    </style>
   </body>
 </html>

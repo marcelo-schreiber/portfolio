@@ -1,2 +1,19 @@
 @import "tailwindcss";
 @config "../../tailwind.config.mjs";
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+canvas {
+	image-rendering: auto;
+}
+
+svg {
+	shape-rendering: geometricPrecision;
+}
