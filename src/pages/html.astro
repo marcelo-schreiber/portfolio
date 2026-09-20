@@ -57,13 +57,17 @@ GitHub: ${me.github.replace("https://", "")}`;
 /* ---------------------------------------------------------------- */
 /* Shared class strings                                              */
 /* ---------------------------------------------------------------- */
-const eyebrow = "text-[12px] font-bold tracking-[.15em] text-[#c2715d] uppercase";
-const emphasis = "font-serif font-normal italic tracking-[-.08em] text-[#c56f5e]";
+const eyebrow =
+  "text-[12px] font-bold tracking-[.15em] text-[#8e493e] uppercase";
+const emphasis =
+  "font-serif font-normal italic tracking-[-.08em] text-[#a95749]";
 const focusRing =
   "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[#25344e]";
 // invisible radio/checkbox laid over its <label>: the label stays clickable and keyboard-focusable
-const hiddenInput = "absolute inset-0 m-0 cursor-pointer appearance-none opacity-0";
-const trafficLight = "relative grid size-3 cursor-pointer place-items-center rounded-full p-0 text-black/45";
+const hiddenInput =
+  "absolute inset-0 m-0 cursor-pointer appearance-none opacity-0";
+const trafficLight =
+  "relative grid size-3 cursor-pointer place-items-center rounded-full p-0 text-black/45";
 const socialLink =
   "grid place-items-center text-[#25344e] transition-[color,transform,translate,rotate] duration-150 hover:-translate-y-0.5 hover:-rotate-[4deg] hover:text-[#ef775b]";
 const dockItem =
@@ -79,25 +83,25 @@ const nav = [
     id: "home",
     label: "Home",
     state:
-      "text-[#202631] after:opacity-100 group-has-[#work:target,#about:target,#contact:target]/desktop:text-[#8b8c92] group-has-[#work:target,#about:target,#contact:target]/desktop:after:opacity-0 group-has-[#work:target,#about:target,#contact:target]/desktop:hover:text-[#202631]",
+      "text-[#202631] after:opacity-100 group-has-[#work:target,#about:target,#contact:target]/desktop:text-[#5d626c] group-has-[#work:target,#about:target,#contact:target]/desktop:after:opacity-0 group-has-[#work:target,#about:target,#contact:target]/desktop:hover:text-[#202631]",
   },
   {
     id: "work",
     label: "Work",
     state:
-      "text-[#8b8c92] after:opacity-0 hover:text-[#202631] group-has-[#work:target]/desktop:text-[#202631] group-has-[#work:target]/desktop:after:opacity-100",
+      "text-[#5d626c] after:opacity-0 hover:text-[#202631] group-has-[#work:target]/desktop:text-[#202631] group-has-[#work:target]/desktop:after:opacity-100",
   },
   {
     id: "about",
     label: "About",
     state:
-      "text-[#8b8c92] after:opacity-0 hover:text-[#202631] group-has-[#about:target]/desktop:text-[#202631] group-has-[#about:target]/desktop:after:opacity-100",
+      "text-[#5d626c] after:opacity-0 hover:text-[#202631] group-has-[#about:target]/desktop:text-[#202631] group-has-[#about:target]/desktop:after:opacity-100",
   },
   {
     id: "contact",
     label: "Contact",
     state:
-      "text-[#8b8c92] after:opacity-0 hover:text-[#202631] group-has-[#contact:target]/desktop:text-[#202631] group-has-[#contact:target]/desktop:after:opacity-100",
+      "text-[#5d626c] after:opacity-0 hover:text-[#202631] group-has-[#contact:target]/desktop:text-[#202631] group-has-[#contact:target]/desktop:after:opacity-100",
   },
 ];
 ---
@@ -130,13 +134,13 @@ const nav = [
     </header>
 
     <section
-      class="relative flex min-h-[calc(100vh_-_29px)] w-full flex-col items-center overflow-hidden px-4 pt-[38px] pb-24 max-[760px]:pt-5"
+      class="relative flex min-h-[calc(100vh_-_29px)] w-full flex-col items-center overflow-hidden px-4 pt-[38px] max-[760px]:pt-5"
     >
       <!-- Browser window -->
       <article
         aria-label="Portfolio website"
         class:list={[
-          "mx-auto h-[min(820px,calc(100vh_-_105px))] w-[min(1440px,calc(100vw_-_32px))] max-w-[1165px] overflow-hidden rounded-lg border border-[rgba(49,71,83,.38)] bg-white text-[#202631] shadow-[10px_12px_0_rgba(45,70,82,.12),0_24px_55px_rgba(45,76,104,.25)] max-[760px]:h-[calc(100vh_-_128px)]",
+          "relative z-[5] mx-auto h-[min(820px,calc(100vh_-_105px))] w-[min(1440px,calc(100vw_-_32px))] max-w-[1165px] overflow-hidden rounded-lg border border-[rgba(49,71,83,.38)] bg-white text-[#202631] shadow-[10px_12px_0_rgba(45,70,82,.12),0_24px_55px_rgba(45,76,104,.25)] [translate:var(--window-x,0px)_var(--window-y,0px)] max-[760px]:h-[calc(100vh_-_128px)]",
           // maximized (#win-max is checked)
           "group-has-[#win-max:checked]/desktop:fixed group-has-[#win-max:checked]/desktop:inset-x-0 group-has-[#win-max:checked]/desktop:top-[29px] group-has-[#win-max:checked]/desktop:bottom-0 group-has-[#win-max:checked]/desktop:z-20 group-has-[#win-max:checked]/desktop:m-0 group-has-[#win-max:checked]/desktop:h-auto group-has-[#win-max:checked]/desktop:w-auto group-has-[#win-max:checked]/desktop:max-w-none group-has-[#win-max:checked]/desktop:rounded-none",
           // minimized (#win-min is checked)
@@ -144,17 +148,35 @@ const nav = [
         ]}
       >
         <!-- Title bar -->
-        <div class="flex h-[37px] items-center gap-[17px] border-b border-[#aebbc1] bg-[#d9e0e3] px-[13px]">
+        <div
+          data-drag-handle
+          class="flex h-[37px] items-center gap-[17px] border-b border-[#aebbc1] bg-[#d9e0e3] px-[13px]"
+        >
           <div class="flex gap-[7px]">
-            <a href="#home" aria-label="Close" class={`${trafficLight} bg-[#ff625b]`}>
+            <a
+              href="#home"
+              aria-label="Close"
+              class={`${trafficLight} bg-[#ff625b]`}
+            >
               <X size={10} />
             </a>
             <label class={`${trafficLight} bg-[#ffc14c] ${focusRing}`}>
-              <input type="radio" name="win" id="win-min" aria-label="Minimize window" class={hiddenInput} />
+              <input
+                type="radio"
+                name="win"
+                id="win-min"
+                aria-label="Minimize window"
+                class={hiddenInput}
+              />
               <Minus size={10} />
             </label>
             <label class={`${trafficLight} bg-[#2dcf63] ${focusRing}`}>
-              <input type="checkbox" id="win-max" aria-label="Maximize window" class={hiddenInput} />
+              <input
+                type="checkbox"
+                id="win-max"
+                aria-label="Maximize window"
+                class={hiddenInput}
+              />
               <Maximize2 size={9} />
             </label>
           </div>
@@ -174,7 +196,7 @@ const nav = [
           <ArrowLeft size={16} />
           <ArrowRight size={16} class="opacity-[.26]" />
           <div
-            class="m-auto flex h-[25px] max-w-[560px] flex-1 items-center gap-2 rounded-[7px] bg-[#e9ebef] px-3 text-[11px] text-[#717780]"
+            class="m-auto flex h-[25px] max-w-[560px] flex-1 items-center gap-2 rounded-[7px] bg-[#e9ebef] px-3 text-[11px] text-[#525b68]"
           >
             <Search size={13} />
             <span class="flex-1">{me.domain}</span>
@@ -182,25 +204,43 @@ const nav = [
         </div>
 
         <!-- Site nav -->
-        <nav aria-label="Site" class="relative flex h-[65px] items-center bg-[#f8f5ec] px-[38px] max-[760px]:px-[17px]">
+        <nav
+          aria-label="Site"
+          class="relative flex h-[65px] items-center bg-[#f8f5ec] px-[38px] max-[760px]:px-[17px]"
+        >
           <a href="#home" class="flex items-center gap-2.5 p-0">
             <span
-              class="grid size-[29px] -rotate-3 place-items-center rounded-[4px] bg-[#ef775b] text-[11px] font-bold tracking-[-.05em] text-white"
+              class="grid size-[29px] -rotate-3 place-items-center rounded-[4px] bg-[#b65343] text-[11px] font-bold tracking-[-.05em] text-white"
               >{me.initials}</span
             >
-            <small class="font-serif text-[13px] font-bold text-[#232a34] max-[760px]:hidden">{me.name}</small>
+            <small
+              class="font-serif text-[13px] font-bold text-[#232a34] max-[760px]:hidden"
+              >{me.name}</small
+            >
           </a>
           <div
             class="absolute left-1/2 flex -translate-x-1/2 gap-[27px] max-[760px]:static max-[760px]:ml-auto max-[760px]:translate-x-0 max-[760px]:gap-3.5 max-[430px]:gap-[9px]"
           >
-            {nav.map((item) => <a href={`#${item.id}`} class:list={[navBase, item.state]}>{item.label}</a>)}
+            {
+              nav.map((item) => (
+                <a href={`#${item.id}`} class:list={[navBase, item.state]}>
+                  {item.label}
+                </a>
+              ))
+            }
           </div>
           <div
             role="group"
             aria-label="Social links"
             class="mr-3.5 ml-auto flex items-center gap-2.5 max-[760px]:mr-2 max-[760px]:ml-3 max-[760px]:gap-2 [&_svg]:size-3.5 max-[760px]:[&_svg]:w-[13px]"
           >
-            <a href={me.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" class={socialLink}>
+            <a
+              href={me.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+              class={socialLink}
+            >
               <svg viewBox="0 0 24 24" aria-hidden="true"
                 ><path
                   fill="currentColor"
@@ -208,8 +248,16 @@ const nav = [
                 ></path></svg
               >
             </a>
-            <a href={`mailto:${me.email}`} aria-label="Email" class={socialLink}><Mail size={14} /></a>
-            <a href={me.github} target="_blank" rel="noreferrer" aria-label="GitHub" class={socialLink}>
+            <a href={`mailto:${me.email}`} aria-label="Email" class={socialLink}
+              ><Mail size={14} /></a
+            >
+            <a
+              href={me.github}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+              class={socialLink}
+            >
               <svg viewBox="0 0 24 24" aria-hidden="true"
                 ><path
                   fill="currentColor"
@@ -227,17 +275,20 @@ const nav = [
           <!-- Home -->
           <section
             id="home"
-            class="relative min-h-[410px] overflow-hidden border-b border-[#d9d2c6] bg-[#f8f5ec] px-[10%] pt-[70px] pb-[50px] after:absolute after:top-[45px] after:right-[9%] after:size-[200px] after:rounded-full after:bg-[radial-gradient(circle_at_36%_30%,#f9dfb2_0_8%,#ecaa78_9%_28%,#ba6d65_29%_47%,#555777_48%_62%,#343f65_63%)] after:opacity-40 after:blur-[22px] after:saturate-[.8] after:content-[''] max-[760px]:min-h-[460px] max-[760px]:px-6 max-[760px]:pt-[52px] max-[760px]:pb-[100px] max-[760px]:after:top-[100px] max-[760px]:after:-right-[30px]"
+            class="relative isolate min-h-[410px] overflow-hidden border-b border-[#d9d2c6] bg-[#f8f5ec] px-[10%] pt-[70px] pb-[50px] [backface-visibility:hidden] [transform:translateZ(0)] after:absolute after:top-[45px] after:right-[9%] after:size-[200px] after:rounded-full after:bg-[radial-gradient(circle_at_36%_30%,#f9dfb2_0_8%,#ecaa78_9%_28%,#ba6d65_29%_47%,#555777_48%_62%,#343f65_63%)] after:opacity-40 after:saturate-[.8] after:content-[''] max-[760px]:min-h-[460px] max-[760px]:px-6 max-[760px]:pt-[52px] max-[760px]:pb-[100px] max-[760px]:after:top-[100px] max-[760px]:after:-right-[30px]"
           >
             <h1
               class="relative z-[1] mt-[17px] mb-[13px] max-w-[600px] font-serif text-[clamp(37px,5.2vw,65px)] leading-[.98] font-semibold tracking-[-.06em] text-[#202631] max-[430px]:text-[42px]"
             >
               Full-stack software<br />
-              <em class={emphasis}>for industrial assets.</em>
+              <em class={emphasis}>for assets.</em>
             </h1>
-            <p class="relative z-[1] max-w-[350px] text-[17px] leading-[1.65] text-[#777983]">
-              I'm Marcelo, a full-stack developer at {me.company.name}. I build web tools for oil and gas inspection
-              with React, Java, and PostgreSQL.
+            <p
+              class="relative z-[1] max-w-[350px] text-[17px] leading-[1.65] text-[#777983]"
+            >
+              I'm Marcelo, a full-stack developer at {me.company.name}. I build
+              web tools for oil and gas inspection with React, Java, and
+              PostgreSQL.
             </p>
             <div class="relative z-[1] mt-[26px] flex items-center gap-[22px]">
               <a
@@ -246,7 +297,10 @@ const nav = [
               >
                 Explore my work <ArrowRight size={16} />
               </a>
-              <a href="#about" class="flex items-center gap-2 text-[11px] text-[#555d6b]">
+              <a
+                href="#about"
+                class="flex items-center gap-2 text-[11px] text-[#555d6b]"
+              >
                 More about me <ArrowRight size={15} />
               </a>
             </div>
@@ -256,20 +310,33 @@ const nav = [
               <span>Currently</span>
               <strong class="text-[12px] font-semibold text-[#313844]">
                 Building at{" "}
-                <a href={me.company.url} target="_blank" rel="noreferrer" class="text-inherit">
-                  <u class="text-[#b26b5a] underline underline-offset-[3px]">{me.company.name}</u>
+                <a
+                  href={me.company.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="text-inherit"
+                >
+                  <u class="text-[#b26b5a] underline underline-offset-[3px]"
+                    >{me.company.name}</u
+                  >
                 </a>
               </strong>
-              <span>Previously: Petrobras projects via Vidya</span>
             </div>
           </section>
 
           <!-- Work -->
-          <section id="work" class="bg-[#eee9df] px-[10%] py-[60px] max-[760px]:px-6 max-[760px]:py-[45px]">
+          <section
+            id="work"
+            class="bg-[#eee9df] px-[10%] py-[60px] max-[760px]:px-6 max-[760px]:py-[45px]"
+          >
             <div class="mb-[25px] flex items-end justify-between">
               <div>
                 <span class={eyebrow}>Selected work</span>
-                <h2 class="mt-2 font-serif text-[27px] tracking-[-.05em] text-[#222833]">A few things I've made.</h2>
+                <h2
+                  class="mt-2 font-serif text-[27px] tracking-[-.05em] text-[#222833]"
+                >
+                  A few things I've made.
+                </h2>
               </div>
               <a
                 href="#work"
@@ -298,11 +365,15 @@ const nav = [
                     </div>
                     <div class="flex justify-between gap-2 px-px py-[13px]">
                       <div>
-                        <h3 class="font-serif text-[15px] text-[#2c323a]">{project.title}</h3>
-                        <p class="my-1 text-[15px] leading-[1.65] text-[#989ba0]">{project.meta}</p>
+                        <h3 class="font-serif text-[15px] text-[#2c323a]">
+                          {project.title}
+                        </h3>
+                        <p class="my-1 text-[15px] leading-[1.65] text-[#989ba0]">
+                          {project.meta}
+                        </p>
                       </div>
                       <span class="flex items-center gap-1 pt-1 text-[9px] whitespace-nowrap text-[#8c8f94]">
-                        View project <ArrowRight size={13} />
+                        View <ArrowRight size={13} />
                       </span>
                     </div>
                   </a>
@@ -323,21 +394,29 @@ const nav = [
             </div>
             <div>
               <span class={eyebrow}>A little about me</span>
-              <h2 class="mt-2 font-serif text-[30px] font-normal tracking-[-.05em] text-[#222833] max-[760px]:text-[23px]">
+              <h2
+                class="mt-2 font-serif text-[30px] font-normal tracking-[-.05em] text-[#222833] max-[760px]:text-[23px]"
+              >
                 Full-stack, with a backend bias.
               </h2>
-              <p class="max-w-[570px] text-[15px] leading-[1.65] text-[#73757b]">
-                I work on the front end, back end, and deployment of inspection software at {me.company.name} in
-                Curitiba, mostly with React, Java, PostgreSQL, AWS, and Docker. I'm graduating in Computer Science from
-                UFPR in December 2026, and I handle operations and finances for its IEEE Student Branch. Outside work I
-                tinker with ESP32 boards.
+              <p
+                class="max-w-[570px] text-[15px] leading-[1.65] text-[#73757b]"
+              >
+                I work on the front end, back end, and deployment of inspection
+                software at {me.company.name} in Curitiba, mostly with React, Java,
+                PostgreSQL, AWS, and Docker. I'm graduating in Computer Science from
+                UFPR in December 2026.
               </p>
-              <div class="mt-[22px] flex gap-6 text-[10px] text-[#7a7c81] max-[760px]:flex-col max-[760px]:gap-2">
+              <div
+                class="mt-[22px] flex gap-6 text-[10px] text-[#7a7c81] max-[760px]:flex-col max-[760px]:gap-2"
+              >
                 <span class="flex items-center gap-[7px]">
                   <MapPin size={15} class="text-[#c67861]" /> Based in Curitiba, Brazil
                 </span>
                 <span class="flex items-center gap-[7px]">
-                  <CalendarDays size={15} class="text-[#c67861]" /> At {me.company.name} since 2023
+                  <CalendarDays size={15} class="text-[#c67861]" /> At {
+                    me.company.name
+                  } since 2023
                 </span>
               </div>
             </div>
@@ -350,7 +429,9 @@ const nav = [
           >
             <div>
               <span class={eyebrow}>Have a project in mind?</span>
-              <h2 class="mt-2 font-serif text-[37px] leading-[1.05] tracking-[-.05em] text-[#222833]">
+              <h2
+                class="mt-2 font-serif text-[37px] leading-[1.05] tracking-[-.05em] text-[#222833]"
+              >
                 Let's make something<br />
                 <em class={emphasis}>meaningful.</em>
               </h2>
@@ -358,18 +439,31 @@ const nav = [
             <label
               class={`relative flex min-w-[290px] cursor-pointer items-center gap-3.5 rounded-[2px] border border-[#25344e] bg-white px-[18px] py-[17px] text-left shadow-[4px_4px_0_#ef775b] max-[760px]:mt-[25px] max-[760px]:min-w-0 ${focusRing}`}
             >
-              <input type="checkbox" id="mail-sent" aria-label="Start a conversation" class={hiddenInput} />
-              <span class="grid size-[38px] place-items-center rounded-full bg-[#fae7db] text-[#c7765f]">
+              <input
+                type="checkbox"
+                id="mail-sent"
+                aria-label="Start a conversation"
+                class={hiddenInput}
+              />
+              <span
+                class="grid size-[38px] place-items-center rounded-full bg-[#fae7db] text-[#c7765f]"
+              >
                 <Mail size={21} />
               </span>
               <span class="flex flex-1 flex-col gap-[5px]">
-                <span class="text-[10px] text-[#96979b] group-has-[#mail-sent:checked]/desktop:hidden">
+                <span
+                  class="text-[10px] text-[#96979b] group-has-[#mail-sent:checked]/desktop:hidden"
+                >
                   Start a conversation
                 </span>
-                <span class="hidden text-[10px] text-[#96979b] group-has-[#mail-sent:checked]/desktop:inline">
+                <span
+                  class="hidden text-[10px] text-[#96979b] group-has-[#mail-sent:checked]/desktop:inline"
+                >
                   Thanks! I'll be in touch.
                 </span>
-                <strong class="text-[11px] font-semibold text-[#333944]">{me.email}</strong>
+                <strong class="text-[11px] font-semibold text-[#333944]"
+                  >{me.email}</strong
+                >
               </span>
               <ArrowRight size={17} class="text-[#a0a2a4]" />
             </label>
@@ -400,8 +494,17 @@ const nav = [
     >
       <!-- Website: restores the minimized window -->
       <label title="Website" class={`${dockItem} ${focusRing}`}>
-        <input type="radio" name="win" id="win-open" checked aria-label="Show website" class={hiddenInput} />
-        <span class={`${dockIcon} bg-[linear-gradient(135deg,#ef775b_0_35%,#25344e_35%_68%,#dce4df_68%)]`}>
+        <input
+          type="radio"
+          name="win"
+          id="win-open"
+          checked
+          aria-label="Show website"
+          class={hiddenInput}
+        />
+        <span
+          class={`${dockIcon} bg-[linear-gradient(135deg,#ef775b_0_35%,#25344e_35%_68%,#dce4df_68%)]`}
+        >
           <Earth size={25} />
         </span>
       </label>
@@ -441,7 +544,9 @@ const nav = [
       aria-labelledby="readme-title"
       class="m-auto h-fit w-[min(560px,calc(100%_-_48px))] -rotate-[.35deg] overflow-hidden border border-[#25344e] bg-[#f8f5ec] p-0 text-[#25344e] shadow-[8px_8px_0_#25344e,0_18px_35px_rgba(37,52,78,.18)] backdrop:bg-[rgba(29,45,58,.28)] max-[760px]:w-[min(560px,calc(100%_-_24px))]"
     >
-      <header class="flex h-[38px] items-center gap-[18px] border-b border-[#aebbc1] bg-[#d9e0e3] px-3 font-serif text-[12px]">
+      <header
+        class="flex h-[38px] items-center gap-[18px] border-b border-[#aebbc1] bg-[#d9e0e3] px-3 font-serif text-[12px]"
+      >
         <div class="flex gap-[7px]">
           <button
             type="button"
@@ -462,8 +567,15 @@ const nav = [
         class="block min-h-[275px] w-full resize-none bg-[#fffdf7] p-6 font-serif text-[15px] leading-[1.75] text-[#3c4a53] outline-0 max-[760px]:min-h-[240px] max-[760px]:px-[18px] max-[760px]:py-[17px]"
         >{readme}</textarea
       >
-      <footer class="flex items-center justify-between border-t border-[#d2cabc] px-3.5 py-3 text-[11px]">
-        <a href={me.github} target="_blank" rel="noreferrer" class="font-bold text-[#c56853]">
+      <footer
+        class="flex items-center justify-between border-t border-[#d2cabc] px-3.5 py-3 text-[11px]"
+      >
+        <a
+          href={me.github}
+          target="_blank"
+          rel="noreferrer"
+          class="font-bold text-[#c56853]"
+        >
           Open GitHub profile ↗
         </a>
         <button
@@ -485,4 +597,69 @@ const nav = [
     >
     </div>
   </main>
+
+  <script>
+    const windowElement = document.querySelector(
+      "[aria-label='Portfolio website']",
+    );
+    const dragHandle = windowElement?.querySelector("[data-drag-handle]");
+    const maximizeToggle = document.querySelector("#win-max");
+    const maximizeInput =
+      maximizeToggle instanceof HTMLInputElement ? maximizeToggle : null;
+    const isMaximized = () => maximizeInput?.checked === true;
+
+    if (
+      windowElement instanceof HTMLElement &&
+      dragHandle instanceof HTMLElement
+    ) {
+      let startX = 0;
+      let startY = 0;
+      let offsetX = 0;
+      let offsetY = 0;
+      let baseTop = 0;
+
+      dragHandle.addEventListener("pointerdown", (event) => {
+        if (event.button !== 0 || isMaximized()) return;
+        if (
+          event.target instanceof Element &&
+          event.target.closest("a, button, input, label")
+        )
+          return;
+
+        startX = event.clientX;
+        startY = event.clientY;
+        baseTop = windowElement.getBoundingClientRect().top - offsetY;
+        dragHandle.setPointerCapture(event.pointerId);
+        dragHandle.dataset.dragging = "true";
+      });
+
+      dragHandle.addEventListener("pointermove", (event) => {
+        if (!dragHandle.hasPointerCapture(event.pointerId)) return;
+
+        offsetX += event.clientX - startX;
+        offsetY = Math.max(29 - baseTop, offsetY + event.clientY - startY);
+        startX = event.clientX;
+        startY = event.clientY;
+        windowElement.style.setProperty("--window-x", `${offsetX}px`);
+        windowElement.style.setProperty("--window-y", `${offsetY}px`);
+      });
+
+      const stopDragging = (event: PointerEvent) => {
+        if (!dragHandle.hasPointerCapture(event.pointerId)) return;
+        dragHandle.releasePointerCapture(event.pointerId);
+        delete dragHandle.dataset.dragging;
+      };
+
+      dragHandle.addEventListener("pointerup", stopDragging);
+      dragHandle.addEventListener("pointercancel", stopDragging);
+
+      maximizeInput?.addEventListener("change", () => {
+        if (!isMaximized()) return;
+        offsetX = 0;
+        offsetY = 0;
+        windowElement.style.setProperty("--window-x", "0px");
+        windowElement.style.setProperty("--window-y", "0px");
+      });
+    }
+  </script>
 </Layout>
