@@ -1,8 +1,4 @@
 ---
-// src/pages/index.astro
-// Needs: Tailwind v4 (imported in your Layout) and `npm i @lucide/astro`.
-// No client JS: navigation uses #ids + :target, and every toggle is plain HTML/CSS
-// (<details>, the popover attribute, and hidden radios/checkboxes read through :has()).
 import Layout from "../layouts/Layout.astro";
 import {
   ArrowLeft,
@@ -22,9 +18,6 @@ import {
   X,
 } from "@lucide/astro";
 
-/* ---------------------------------------------------------------- */
-/* Your info — edit here                                             */
-/* ---------------------------------------------------------------- */
 const me = {
   name: "Marcelo Schreiber",
   initials: "MS",
@@ -63,7 +56,6 @@ const emphasis =
   "font-serif font-normal italic tracking-[-.08em] text-[#a95749]";
 const focusRing =
   "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[#25344e]";
-// invisible radio/checkbox laid over its <label>: the label stays clickable and keyboard-focusable
 const hiddenInput =
   "absolute inset-0 m-0 cursor-pointer appearance-none opacity-0";
 const trafficLight =
@@ -74,34 +66,28 @@ const dockItem =
   "relative block cursor-pointer p-0 list-none transition-transform duration-[180ms] hover:[transform:translateY(-3px)_rotate(-2deg)] [&::-webkit-details-marker]:hidden";
 const dockIcon =
   "grid size-[43px] place-items-center rounded-[4px] border border-[rgba(37,52,78,.3)] text-white shadow-[2px_2px_0_rgba(37,52,78,.22)] max-[760px]:size-[35px] max-[760px]:[&_svg]:w-[19px] max-[430px]:size-8";
-
-// Active tab = the section that is the current :target. Home is active until another one is.
 const navBase =
-  "relative py-[9px] font-serif text-[13px] after:absolute after:inset-x-0 after:bottom-0 after:m-auto after:h-0.5 after:w-[18px] after:bg-[#ef775b] after:content-['']";
+  "relative py-[9px] font-serif text-[13px] after:absolute after:inset-x-0 after:bottom-0 after:m-auto after:h-0.5 after:w-[18px] after:bg-[#ef775b] after:content-[''] [&.is-active]:text-[#202631] [&.is-active]:after:opacity-100";
 const nav = [
   {
     id: "home",
     label: "Home",
-    state:
-      "text-[#202631] after:opacity-100 group-has-[#work:target,#about:target,#contact:target]/desktop:text-[#5d626c] group-has-[#work:target,#about:target,#contact:target]/desktop:after:opacity-0 group-has-[#work:target,#about:target,#contact:target]/desktop:hover:text-[#202631]",
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631]",
   },
   {
     id: "work",
     label: "Work",
-    state:
-      "text-[#5d626c] after:opacity-0 hover:text-[#202631] group-has-[#work:target]/desktop:text-[#202631] group-has-[#work:target]/desktop:after:opacity-100",
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631]",
   },
   {
     id: "about",
     label: "About",
-    state:
-      "text-[#5d626c] after:opacity-0 hover:text-[#202631] group-has-[#about:target]/desktop:text-[#202631] group-has-[#about:target]/desktop:after:opacity-100",
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631]",
   },
   {
     id: "contact",
     label: "Contact",
-    state:
-      "text-[#5d626c] after:opacity-0 hover:text-[#202631] group-has-[#contact:target]/desktop:text-[#202631] group-has-[#contact:target]/desktop:after:opacity-100",
+    state: "text-[#5d626c] after:opacity-0 hover:text-[#202631]",
   },
 ];
 ---
@@ -127,7 +113,7 @@ const nav = [
       <div class="flex items-center gap-3 text-[11px]">
         <span class="size-[7px] rounded-full bg-[#2cbd7e]"></span>
         <Wifi size={14} />
-        <span class="max-[760px]:hidden">Wed Sep 18 10:42 AM</span>
+        <span id="os-clock" class="max-[760px]:hidden"></span>
         <Search size={14} />
         <span class="font-bold tracking-[2px] max-[760px]:hidden">•••</span>
       </div>
@@ -219,11 +205,15 @@ const nav = [
             >
           </a>
           <div
-            class="absolute left-1/2 flex -translate-x-1/2 gap-[27px] max-[760px]:static max-[760px]:ml-auto max-[760px]:translate-x-0 max-[760px]:gap-3.5 max-[430px]:gap-[9px]"
+            class="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 gap-[27px] max-[760px]:static max-[760px]:ml-auto max-[760px]:translate-x-0 max-[760px]:translate-y-0 max-[760px]:gap-3.5 max-[430px]:gap-[9px]"
           >
             {
               nav.map((item) => (
-                <a href={`#${item.id}`} class:list={[navBase, item.state]}>
+                <a
+                  href={`#${item.id}`}
+                  data-section={item.id}
+                  class:list={[navBase, item.state]}
+                >
                   {item.label}
                 </a>
               ))
@@ -232,7 +222,7 @@ const nav = [
           <div
             role="group"
             aria-label="Social links"
-            class="mr-3.5 ml-auto flex items-center gap-2.5 max-[760px]:mr-2 max-[760px]:ml-3 max-[760px]:gap-2 [&_svg]:size-3.5 max-[760px]:[&_svg]:w-[13px]"
+            class="mr-3.5 ml-auto flex items-center gap-3 max-[760px]:mr-2 max-[760px]:ml-3 max-[760px]:gap-2 [&_svg]:size-[18px] max-[760px]:[&_svg]:size-4"
           >
             <a
               href={me.linkedin}
@@ -599,6 +589,80 @@ const nav = [
   </main>
 
   <script>
+    const clockElement = document.querySelector("#os-clock");
+
+    if (clockElement instanceof HTMLElement) {
+      const updateClock = () => {
+        clockElement.textContent = new Intl.DateTimeFormat(undefined, {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+        }).format(new Date());
+      };
+
+      updateClock();
+      window.setInterval(updateClock, 30_000);
+    }
+
+    const contentScroller = document.querySelector(
+      "#home",
+    )?.parentElement;
+
+    if (contentScroller instanceof HTMLElement) {
+      const navLinks = [
+        ...document.querySelectorAll("a[data-section]"),
+      ];
+      const sections = navLinks
+        .map((link) => document.getElementById(link.getAttribute("data-section") ?? ""))
+        .filter((section): section is HTMLElement => section instanceof HTMLElement);
+      const getSectionTop = (section: HTMLElement) =>
+        section.offsetTop - contentScroller.offsetTop;
+
+      const updateActiveSection = () => {
+        const activeSection = sections.reduce((current, section) => {
+          return getSectionTop(section) <= contentScroller.scrollTop + 80
+            ? section
+            : current;
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.toggle(
+            "is-active",
+            link.getAttribute("data-section") ===
+              activeSection?.id,
+          );
+        });
+      };
+
+      contentScroller.addEventListener("scroll", updateActiveSection, {
+        passive: true,
+      });
+      updateActiveSection();
+
+      document.querySelectorAll("a[href^='#']").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          const targetId = link.getAttribute("href")?.slice(1);
+          const target = targetId
+            ? document.getElementById(targetId)
+            : undefined;
+
+          if (!target) return;
+
+          event.preventDefault();
+          history.pushState(null, "", `#${targetId}`);
+          contentScroller.scrollTo({
+            top: getSectionTop(target),
+            behavior: "smooth",
+          });
+          updateActiveSection();
+        });
+      });
+
+      window.addEventListener("popstate", updateActiveSection);
+    }
+
     const windowElement = document.querySelector(
       "[aria-label='Portfolio website']",
     );
