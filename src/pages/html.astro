@@ -4,9 +4,14 @@ import HomeSection from "../components/HomeSection.astro";
 import WorkSection from "../components/WorkSection.astro";
 import AboutSection from "../components/AboutSection.astro";
 import ContactSection from "../components/ContactSection.astro";
+import ThreeDSortImage from "../assets/3dsort.webp";
+import scribblesImage from "../assets/scribbles-vs-sketches.webp";
+import meImage from "../assets/eu.webp";
+
 import {
   ArrowLeft,
   ArrowRight,
+  DotIcon,
   Earth,
   Folder,
   Mail,
@@ -39,26 +44,26 @@ const alternatePath = Astro.url.pathname.startsWith("/html")
 const copy = isPortuguese
   ? {
       home: "Início", work: "Trabalho", about: "Sobre", contact: "Contato",
-      intro: "Olá, sou Marcelo.", introAccent: "Eu crio software bem feito.",
-      introBody: "Sou Marcelo, desenvolvedor full-stack na Vidya Technology. Crio aplicações web e os backends por trás delas, trabalhando próximo dos sistemas, do deploy aos sockets.",
-      workCta: "Alguns projetos", aboutCta: "Sobre mim", current: "Atualmente", building: "Construindo na",
-      selectedWork: "Projetos selecionados", workHeading: "Algumas coisas que criei.",
-      aboutLabel: "Um pouco sobre mim", aboutHeading: "Full-stack, com viés para backend.",
-      aboutBody: "Trabalho no front-end, back-end e deploy de softwares de inspeção na Vidya Technology em Curitiba, principalmente com React, Vue, Three.js, Java, PostgreSQL, AWS e Docker. Concluo Ciência da Computação na UFPR em dezembro de 2026.",
-      basedIn: "Moro em Curitiba, Brasil", since: "Na empresa desde 2023", talk: "Vamos conversar?",
-      contactHeading: "Vamos construir algo", neat: "bem feito.", emailLabel: "Seu e-mail", messageLabel: "Sua mensagem",
+      intro: "Me chamo Marcelo.", introAccent: "Crio software maneiro.",
+      introBody: "Sou Marcelo, desenvolvedor full-stack na Vidya Technology. Crio aplicações web, trabalhando próximo dos sistemas.",
+      workCta: "Alguns projetos", aboutCta: "Sobre mim", current: "Atualmente", building: "Trabalhando na",
+      selectedWork: "Projetos selecionados", workHeading: "Algumas coisas que fiz.",
+      aboutLabel: "Um pouco sobre mim", aboutHeading: "Full-stack, generalista.",
+      aboutBody: "Gosto de trabalhar em diferentes partes de um sistema, do front-end à infra. Já trabalhei com desenvolvimento web, 3D, jogos, programação de baixo nível e DevOps. Hoje atuo com React, Vue, Three.js, Java, PostgreSQL, AWS e Docker na Vidya Technology e concluo Ciência da Computação na UFPR em dezembro de 2026.",
+      basedIn: "Moro em Curitiba", since: "Trabalhando profissionalmente desde 2023", talk: "Vamos conversar?",
+      contactHeading: "Vamos construir algo", neat: "maneiro.", emailLabel: "Seu e-mail", messageLabel: "Sua mensagem",
       emailPlaceholder: "nome@email.com", messagePlaceholder: "Deixe uma mensagem...", send: "Enviar mensagem",
       success: "Obrigado pelo contato!", error: "Não foi possível enviar sua mensagem.",
     }
   : {
       home: "Home", work: "Work", about: "About", contact: "Contact",
       intro: "Hi, I'm Marcelo.", introAccent: "I build neat software.",
-      introBody: "I'm Marcelo, a full-stack developer at Vidya Technology. I build web apps and the backends behind them, and I like working close to the systems, from deployment to sockets.",
+      introBody: "A full-stack developer. I build web apps, and I like working close to the systems.",
       workCta: "Some of my work", aboutCta: "About me", current: "Currently", building: "Building at",
       selectedWork: "Selected work", workHeading: "A few things I've made.",
-      aboutLabel: "A little about me", aboutHeading: "Full-stack, with a backend bias.",
-      aboutBody: "I work on the front end, back end, and deployment of inspection software at Vidya Technology in Curitiba, mostly with React, Vue, Three.js, Java, PostgreSQL, AWS, and Docker. I'm graduating in Computer Science from UFPR in December 2026.",
-      basedIn: "Based in Curitiba, Brazil", since: "At the company since 2023", talk: "Wanna talk?",
+      aboutLabel: "A little about me", aboutHeading: "Full-stack, Jack-of-all-trades.",
+      aboutBody: "I enjoy working across different parts of a system, from the front end to the infrastructure. I've worked with web development, 3D, game development, low-level programming, and DevOps. I currently work with React, Vue, Three.js, Java, PostgreSQL, AWS, and Docker at Vidya Technology, and I'm completing my Computer Science degree at UFPR in December 2026.",
+      basedIn: "Based in Curitiba, Brazil", since: "Working professionally since 2023", talk: "Wanna talk?",
       contactHeading: "Let's build something", neat: "neat.", emailLabel: "Your email", messageLabel: "Your message",
       emailPlaceholder: "name@email.com", messagePlaceholder: "Leave a message...", send: "Send message",
       success: "Thanks for your submission!", error: "Oops! There was a problem submitting your form.",
@@ -66,29 +71,31 @@ const copy = isPortuguese
 
 const projects = [
   {
-    title: "3d Sort",
-    meta: "Personal project - React + Three.js",
+    title: "3D Sort",
+    meta: "Personal project | React + Three.js",
     letter: "3",
     href: "https://github.com/marcelo-schreiber/3d-sort",
     art: "bg-[linear-gradient(to_bottom_right,#b6ddbd,#e5efc9)]",
+    image: ThreeDSortImage,
   },
   {
     title: "LCS Parallel",
-    meta: "University project - C + OpenMP + MPI",
+    meta: "University project | C + OpenMP + MPI",
     letter: "L",
     href: "https://github.com/marcelo-schreiber/lcs-parallel",
     art: "bg-[linear-gradient(to_bottom_right,#c7d8f5,#e4e8f7)]",
   },
   {
     title: "Scribbles Vs. Sketches",
-    meta: "University project - Python + Pygame",
+    meta: "Personal project | Python + Pygame",
     letter: "S",
     href: "https://github.com/Gustan13/ScribblesXSketches",
     art: "bg-[linear-gradient(to_bottom_right,#f5d0bd,#f3e3c7)]",
+    image: scribblesImage,
   },
   {
     title: "Run User Code",
-    meta: "Personal project - TypeScript + Docker",
+    meta: "Personal project | TypeScript + Docker",
     letter: "R",
     href: "https://github.com/marcelo-schreiber/run-user-code",
     art: "bg-[linear-gradient(to_bottom_right,#d4c7ed,#e7dff0)]",
@@ -159,7 +166,7 @@ const nav = [
       class="flex h-[29px] items-center justify-between bg-white/[.46] px-4 text-[12px] text-[#17263a] backdrop-blur-[18px] dark:bg-[#0a1724]/95 dark:text-[#f3f7fb]"
     >
       <div class="flex items-center gap-[18px]">
-        <span>●</span>
+        <DotIcon />
         <strong class="font-bold">Finder</strong>
         <span>File</span>
         <span class="max-[760px]:hidden">Edit</span>
@@ -325,7 +332,7 @@ const nav = [
 
           <WorkSection copy={copy} projects={projects} />
 
-          <AboutSection copy={copy} me={me} />
+          <AboutSection copy={copy} me={me} image={meImage} />
 
           <ContactSection copy={copy} />
         </div>

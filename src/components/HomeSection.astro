@@ -12,17 +12,17 @@ const emphasis = "font-serif font-normal italic tracking-[-.08em] text-[#a95749]
 
 <section
   id="home"
-  class="relative isolate min-h-[410px] overflow-hidden border-b border-[#d9d2c6] bg-[#f8f5ec] px-[10%] pt-[70px] pb-[50px] text-[#202631] dark:border-[#34566d] dark:bg-[#152b3d] dark:text-[#f3f7fb] [backface-visibility:hidden] [transform:translateZ(0)] after:absolute after:top-[45px] after:right-[9%] after:size-[200px] after:rounded-full after:bg-[radial-gradient(circle_at_36%_30%,#f9dfb2_0_8%,#ecaa78_9%_28%,#ba6d65_29%_47%,#555777_48%_62%,#343f65_63%)] after:opacity-40 after:saturate-[.8] after:content-[''] max-[760px]:min-h-[460px] max-[760px]:px-6 max-[760px]:pt-[52px] max-[760px]:pb-[100px] max-[760px]:after:top-[100px] max-[760px]:after:-right-[30px]"
+  class="relative isolate min-h-102.5 overflow-hidden border-b border-[#d9d2c6] bg-[#f8f5ec] px-[10%] pt-17.5 pb-12.5 text-[#202631] dark:border-[#34566d] dark:bg-[#152b3d] dark:text-[#f3f7fb] backface-hidden transform-[translateZ(0)] after:absolute after:top-11.25 after:right-[9%] after:size-50 after:rounded-full after:bg-[radial-gradient(circle_at_36%_30%,#f9dfb2_0_8%,#ecaa78_9%_28%,#ba6d65_29%_47%,#555777_48%_62%,#343f65_63%)] after:opacity-40 after:saturate-[.8] after:content-[''] max-[760px]:min-h-115 max-[760px]:px-6 max-[760px]:pt-13 max-[760px]:pb-25 max-[760px]:after:top-25 max-[760px]:after:-right-7.5"
 >
-  <h1 class="relative z-[1] mt-[17px] mb-[13px] max-w-[600px] font-serif text-[clamp(40px,5.2vw,68px)] leading-[.98] font-semibold tracking-[-.06em] text-[#202631] dark:text-[#f3f7fb] max-[430px]:text-[44px]">
+  <h1 class="relative z-1 mt-4.25b-[13px] max-w-150 font-serif text-[clamp(40px,5.2vw,68px)] leading-[.98] font-semibold tracking-[-.06em] text-[#202631] dark:text-[#f3f7fb] max-[430px]:text-[44px]">
     {copy.intro}<br /><em class={emphasis}>{copy.introAccent}</em>
   </h1>
-  <p class="relative z-[1] max-w-[350px] text-[18px] leading-[1.65] text-[#777983] dark:text-[#c5d9e6]">{copy.introBody}</p>
-  <div class="relative z-[1] mt-[26px] flex items-center gap-[22px]">
-    <a href="#work" class="flex items-center gap-4 rounded-[2px] bg-[#ef775b] px-[15px] py-3 text-[12px] text-white shadow-[3px_3px_0_#25344e]">{copy.workCta} <ArrowRight size={16} /></a>
+  <p class="relative z-1 max-w-87.5 text-[18px] leading-[1.65] text-[#777983] dark:text-[#c5d9e6]">{copy.introBody}</p>
+  <div class="relative z-1 mt-6.5 flex items-center gap-5.5">
+    <a href="#work" class="flex items-center gap-4 rounded-xs bg-[#ef775b] px-3.75 py-3 text-[12px] text-white shadow-[3px_3px_0_#25344e]">{copy.workCta} <ArrowRight size={16} /></a>
     <a href="#about" class="flex items-center gap-2 text-[12px] text-[#555d6b] dark:text-[#d5e6f0]">{copy.aboutCta} <ArrowRight size={15} /></a>
   </div>
-  <div class="absolute right-[11%] bottom-[52px] z-[1] flex flex-col gap-1.5 text-[15px] text-[#8e9094] dark:text-[#c5d9e6] max-[760px]:right-auto max-[760px]:bottom-[30px] max-[760px]:left-6">
+  <div class="absolute right-[11%] bottom-13 z-1 flex flex-col gap-1.5 text-[15px] text-[#8e9094] dark:text-[#c5d9e6] max-[760px]:right-auto max-[760px]:bottom-7.5 max-[760px]:left-6">
     <span>{copy.current}</span>
     <strong class="text-[13px] font-semibold text-[#313844] dark:text-[#f3f7fb]">{copy.building}{" "}<a href={me.company.url} target="_blank" rel="noreferrer" class="text-inherit"><u class="text-[#b26b5a] underline underline-offset-[3px] dark:text-[#ff9b82]">{me.company.name}</u></a></strong>
   </div>
