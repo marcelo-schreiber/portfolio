@@ -1,13 +1,12 @@
 # ![Portfolio](/screenshots/landing-marcelo-schreiber.jpg)
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/34335266-2c0a-4bf7-8a84-21fca9690bf0/deploy-status)](https://app.netlify.com/projects/marcelo-schreiber/deploys)
+
 This is a minimal portfolio website built with Astro and Tailwind CSS.
 
 ## Table of Contents
 
 * [Demo](#demo)
-* [Site](#site)
-  * [Landing Page](#landing-page)
-  * [Contact Form](#contact-form)
 * [Built with](#built-with)
 * [Installation](#installation)
 * [License](https://github.com/leabs/shadowstack-portfolio/blob/main/LICENSE)
@@ -15,18 +14,6 @@ This is a minimal portfolio website built with Astro and Tailwind CSS.
 ## Demo
 
 Here is a working live demo:  <https://marcelo-schreiber.com>
-
-## Site
-
-### Landing Page
-
-The landing page contains a hero section with a profile picture, a short bio, a project section and a contact form.
-
-![Landing Page](/screenshots/landing-marcelo-schreiber.jpg)
-
-### Contact Form
-
-![Contact Form](/screenshots/form-marcelo-schreiber.jpg)
 
 ## Built with
 
@@ -38,7 +25,7 @@ The landing page contains a hero section with a profile picture, a short bio, a 
 1 Requirements
 
 * [Node.js](https://nodejs.org/en/)
-* [npm](https://www.npmjs.com/)
+* [pnpm](https://pnpm.io/)
 
 2.1 Clone the repository
 
@@ -49,15 +36,11 @@ git clone https://github.com/marcelo-schreiber/portfolio
 2.2 Install dependencies
 
 ```bash
-npm install
+pnpm install
 ```
 
 2.3 Start the development server
 
 ```bash
-npm run dev
+pnpm dev
 ```
-
-## [License](https://github.com/leabs/shadowstack-portfolio/blob/main/LICENSE)
-
-MIT © [leabs](https://github.com/leabs)
