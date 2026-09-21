@@ -195,6 +195,7 @@ export default function Experience() {
             <Html
               transform
               wrapperClass="htmlScreen"
+              zIndexRange={[10, 0]}
               distanceFactor={screenDistanceFactor}
               position={screenPosition}
               rotation-x={screenRotationX}

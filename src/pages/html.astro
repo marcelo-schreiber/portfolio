@@ -531,6 +531,8 @@ const nav = [
 
     const contactForm = document.querySelector("#contact-form");
     const contactStatus = document.querySelector("#contact-status");
+    const successMessage = contactForm?.getAttribute("data-success") ?? "";
+    const errorMessage = contactForm?.getAttribute("data-error") ?? "";
     contactForm?.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (!(contactForm instanceof HTMLFormElement) || !(contactStatus instanceof HTMLElement)) return;
@@ -541,10 +543,10 @@ const nav = [
           body: new FormData(contactForm),
           headers: { Accept: "application/json" },
         });
-        contactStatus.textContent = response.ok ? "{copy.success}" : "{copy.error}";
+        contactStatus.textContent = response.ok ? successMessage : errorMessage;
         if (response.ok) contactForm.reset();
       } catch {
-        contactStatus.textContent = "{copy.error}";
+        contactStatus.textContent = errorMessage;
       }
     });
 
@@ -558,6 +560,10 @@ const nav = [
     const maximizeInput =
       maximizeToggle instanceof HTMLInputElement ? maximizeToggle : null;
     const isMaximized = () => maximizeInput?.checked === true;
+
+    if (maximizeInput && window.matchMedia("(max-width: 799px)").matches) {
+      maximizeInput.checked = true;
+    }
 
     if (minimizeToggle instanceof HTMLInputElement && openToggle instanceof HTMLInputElement) {
       openToggle.addEventListener("click", (event) => {
