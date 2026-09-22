@@ -4,9 +4,9 @@ import HomeSection from "../components/HomeSection.astro";
 import WorkSection from "../components/WorkSection.astro";
 import AboutSection from "../components/AboutSection.astro";
 import ContactSection from "../components/ContactSection.astro";
-import ThreeDSortImage from "../assets/3dsort.webp";
+import ThreeDSortImage from "../assets/3d-sort-demo.gif";
 import scribblesImage from "../assets/scribbles-vs-sketches.webp";
-import meImage from "../assets/eu.webp";
+import lcsImage from "../assets/lcs.webp";
 
 import {
   ArrowLeft,
@@ -34,6 +34,7 @@ const me = {
   linkedin: "https://www.linkedin.com/in/marcelo-sch",
   company: { name: "Vidya Technology", url: "https://vidyatec.com" },
 };
+const meImage = "https://avatars.githubusercontent.com/u/64107011";
 
 const locale = Astro.currentLocale ?? "en";
 const isPortuguese = locale === "pt";
@@ -61,7 +62,7 @@ const copy = isPortuguese
       introBody: "A full-stack developer. I build web apps, and I like working close to the systems.",
       workCta: "Some of my work", aboutCta: "About me", current: "Currently", building: "Building at",
       selectedWork: "Selected work", workHeading: "A few things I've made.",
-      aboutLabel: "A little about me", aboutHeading: "Full-stack, Jack-of-all-trades.",
+      aboutLabel: "A little about me", aboutHeading: "Full-stack, all-rounder.",
       aboutBody: "I enjoy working across different parts of a system. I've worked with web development, 3D, game development, low-level programming, and DevOps. I currently work with React, Vue, Three.js, Java, PostgreSQL, AWS, and Docker at Vidya Technology, and I'm completing my Computer Science degree at UFPR in December 2026.",
       basedIn: "Based in Curitiba, Brazil", since: "Working professionally since 2023", talk: "Wanna talk?",
       contactHeading: "Let's build something", neat: "neat.", emailLabel: "Your email", messageLabel: "Your message",
@@ -92,6 +93,7 @@ const projects = [
     letter: "L",
     href: "https://github.com/marcelo-schreiber/lcs-parallel",
     art: "bg-[linear-gradient(to_bottom_right,#c7d8f5,#e4e8f7)]",
+    image: lcsImage,
   },
   {
     title: "Run User Code",
