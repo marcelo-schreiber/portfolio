@@ -1,8 +1,10 @@
-# ![Portfolio](/screenshots/landing-marcelo-schreiber.jpg)
+# ![Portfolio](/demo/demo-portfolio.gif)
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/34335266-2c0a-4bf7-8a84-21fca9690bf0/deploy-status)](https://app.netlify.com/projects/marcelo-schreiber/deploys)
 
-This is a minimal portfolio website built with Astro and Tailwind CSS.
+## Portfolio
+
+This is a portfolio website built with Astro, TypeScript, React, React Three Fiber and Tailwind CSS.
 
 ## Table of Contents
 
@@ -17,8 +19,11 @@ Here is a working live demo:  <https://marcelo-schreiber.com>
 
 ## Built with
 
-* [Astro](https://astro.build/) - Astro is a new kind of static site generator that delivers lightning-fast performance.
-* [Tailwind](https://tailwindcss.com/) - A utility-first CSS framework for rapidly building custom designs.
+* [Astro](https://astro.build/) - Astro is a new kind of static site generator.
+* [TypeScript](https://www.typescriptlang.org/) - Typesafe JavaScript.
+* [React](https://reactjs.org/) - Front-end JavaScript library
+* [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) - A React renderer for Three.js.
+* [Tailwind](https://tailwindcss.com/) - A utility-first CSS framework.
 
 ## Installation
 
