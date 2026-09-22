@@ -162,7 +162,10 @@ export default function Experience() {
         azimuth={[-1, 0.75]}
         snap
       >
-        <Float rotationIntensity={isScreenHovered ? 0.4 : 0.1}>
+        <Float
+          floatIntensity={isScreenHovered ? 0.0 : 0.85}
+          rotationIntensity={isScreenHovered ? 0.0 : 0.4}
+        >
           <Text
             font="./IndustryBold.otf"
             color={textColor}
