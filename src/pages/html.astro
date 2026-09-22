@@ -165,21 +165,25 @@ const nav = [
     <header
       class="flex h-[29px] items-center justify-between bg-white/[.46] px-4 text-[12px] text-[#17263a] backdrop-blur-[18px] dark:bg-[#0a1724]/95 dark:text-[#f3f7fb]"
     >
-      <div class="flex items-center gap-[18px]">
-        <DotIcon />
-        <strong class="font-bold">Finder</strong>
-        <span>File</span>
+      <div class="flex items-center gap-[18px] max-[760px]:gap-0">
+        <DotIcon class="max-[760px]:hidden" />
+        <span
+          class="hidden size-5 -rotate-3 place-items-center rounded-[3px] bg-[#b65343] text-[9px] font-bold tracking-[-.05em] text-white max-[760px]:grid"
+          >{me.initials}</span
+        >
+        <strong class="font-bold max-[760px]:hidden">Finder</strong>
+        <span class="max-[760px]:hidden">File</span>
         <span class="max-[760px]:hidden">Edit</span>
         <span class="max-[760px]:hidden">View</span>
         <span class="max-[760px]:hidden">Go</span>
         <span class="max-[760px]:hidden">Window</span>
         <span class="max-[760px]:hidden">Help</span>
       </div>
-      <div class="flex items-center gap-3 text-[11px]">
-        <span class="size-[7px] rounded-full bg-[#2cbd7e]"></span>
-        <Wifi size={14} />
+      <div class="flex items-center gap-3 text-[11px] max-[760px]:gap-0">
+        <span class="size-[7px] rounded-full bg-[#2cbd7e] max-[760px]:hidden"></span>
+        <Wifi size={14} class="max-[760px]:hidden" />
         <span id="os-clock" class="max-[760px]:hidden"></span>
-        <Search size={14} />
+        <Search size={14} class="max-[760px]:hidden" />
         <span class="font-bold tracking-[2px] max-[760px]:hidden">•••</span>
         <a href={alternatePath} class="font-bold uppercase text-[#8e493e]">{alternateLocale}</a>
       </div>
