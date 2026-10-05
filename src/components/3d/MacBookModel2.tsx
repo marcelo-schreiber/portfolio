@@ -50,7 +50,7 @@ type ModelProps = JSX.IntrinsicElements["group"] & {
 export default function Model(props: ModelProps) {
   const hasOpenedLid = useRef(false);
   const { nodes, materials } = useGLTF(
-    "/macbook-small-opt.glb",
+    "https://bnxj81q9iw.ufs.sh/f/e4B6MY9bdUcqe4wpGEobdUcqSyoPNA2jFYKxT6p7MEBngv9V?ext=.glb",
   ) as unknown as GLTFResult;
 
   const { rotation } = useSpring({
@@ -177,4 +177,6 @@ export default function Model(props: ModelProps) {
   );
 }
 
-useGLTF.preload("/macbook-small-opt.glb");
+useGLTF.preload(
+  "https://bnxj81q9iw.ufs.sh/f/e4B6MY9bdUcqe4wpGEobdUcqSyoPNA2jFYKxT6p7MEBngv9V?ext=.glb",
+);
