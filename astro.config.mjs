@@ -11,6 +11,7 @@ export default defineConfig({
     },
   },
   vite: {
+    assetsInclude: ["**/*.glb"],
     optimizeDeps: {
       force: true,
     },

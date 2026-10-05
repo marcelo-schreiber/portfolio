@@ -7,40 +7,18 @@ import {
   Text,
   Sparkles,
 } from "@react-three/drei";
-import MacBook from "./MacBookModel";
-import { useState, useEffect } from "react";
+import MacBook from "./MacBookModel2.tsx";
+import { useState } from "react";
 import { Perf } from "r3f-perf";
 import { useHash } from "../../hooks/useHash";
 import { useControls } from "leva";
 import { useCameraController } from "../../hooks/useCameraControler";
-// import ParticleBackground from "./Background.tsx";
 
 export default function Experience() {
   const isDebug = useHash("debug");
   const [isScreenHovered, setIsScreenHovered] = useState(false);
   const [isScreenZoomed, setIsScreenZoomed] = useState(false);
-  const [screenOpacity, setScreenOpacity] = useState(0);
-  const [isLidOpen, setIsLidOpen] = useState(false);
-
-  // Fade in screen after lid opens
-  useEffect(() => {
-    if (isLidOpen) {
-      // Delay screen turn on slightly after lid opens
-      const timer = setTimeout(() => {
-        const fadeInterval = setInterval(() => {
-          setScreenOpacity((prev) => {
-            if (prev >= 1) {
-              clearInterval(fadeInterval);
-              return 1;
-            }
-            return prev + 0.05;
-          });
-        }, 30);
-        return () => clearInterval(fadeInterval);
-      }, 230);
-      return () => clearTimeout(timer);
-    }
-  }, [isLidOpen]);
+  const [isLidOpened, setIsLidOpened] = useState(false);
 
   // Debug controls organized in folders
   const {
@@ -105,9 +83,9 @@ export default function Experience() {
     rotationX: screenRotationX,
     distanceFactor: screenDistanceFactor,
   } = useControls("Screen", {
-    position: { value: [0, 1.5, -1.36], step: 0.01 },
+    position: { value: [0.0, 1.53, -1.41], step: 0.01 },
     rotationX: { value: -0.256, min: -Math.PI, max: Math.PI, step: 0.01 },
-    distanceFactor: { value: 1.17, min: 0.5, max: 3, step: 0.01 },
+    distanceFactor: { value: 1.2, min: 0.5, max: 3, step: 0.01 },
   });
 
   // Camera controller hook
@@ -129,20 +107,7 @@ export default function Experience() {
   return (
     <>
       {isDebug && <Perf position="top-left" />}
-      <Environment
-        preset={environmentPreset}
-        background={false}
-        environmentIntensity={0.5}
-      />
-      <Sparkles
-        count={particleCount}
-        speed={particleSpeed}
-        opacity={particleOpacity}
-        color={particleColor}
-        size={particleSize}
-        scale={particleScale}
-        noise={particleNoise}
-      />
+      <Environment preset={environmentPreset} background={false} />
       <Sparkles
         count={particleCount}
         speed={particleSpeed}
@@ -186,15 +151,7 @@ export default function Experience() {
             rotation={[0.1, Math.PI, 0]}
             position={[0, 0.55, -1.15]}
           />
-          <MacBook
-            position-y={-1.3}
-            onRotationChange={(rotation) => {
-              // Consider lid "open" when rotation is close to final position
-              if (rotation < 2 && !isLidOpen) {
-                setIsLidOpen(true);
-              }
-            }}
-          >
+          <MacBook position-y={-1.3} onLidOpened={() => setIsLidOpened(true)}>
             <Html
               transform
               wrapperClass="htmlScreen"
@@ -207,8 +164,10 @@ export default function Experience() {
                 title="Marcelo Schreiber Portfolio"
                 src="./en/html"
                 style={{
-                  opacity: screenOpacity,
-                  transition: "opacity 0.35s ease-in-out",
+                  opacity: isLidOpened ? 1 : 0,
+                  animation: isLidOpened
+                    ? "screenFadeIn 2000ms ease-out"
+                    : "none",
                 }}
                 onLoad={handleScreenLoad}
                 onPointerEnter={() =>
