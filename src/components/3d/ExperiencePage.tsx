@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import LoadingScreen from "./LoadingScreen";
+
 const MyCanvas = lazy(() => import("./Canvas"));
 const LevaPanel = lazy(async () => {
   const { Leva } = await import("leva");
@@ -12,7 +13,8 @@ export default function ExperiencePage() {
 
   useEffect(() => {
     const updateDebugState = () => {
-      setIsDebug(window.location.hash === "#debug");
+      const debugEnabled = window.location.hash === "#debug";
+      setIsDebug(debugEnabled);
     };
 
     updateDebugState();
@@ -28,8 +30,8 @@ export default function ExperiencePage() {
       return () => window.cancelIdleCallback(idleId);
     }
 
-    const timeoutId = window.setTimeout(loadCanvas, 100);
-    return () => window.clearTimeout(timeoutId);
+    const timeoutId = setTimeout(loadCanvas, 100);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (
@@ -39,11 +41,9 @@ export default function ExperiencePage() {
           <MyCanvas />
         </Suspense>
       )}
-      {isDebug && (
-        <Suspense fallback={null}>
-          <LevaPanel />
-        </Suspense>
-      )}
+      <Suspense fallback={null}>
+        <LevaPanel hidden={!isDebug} />
+      </Suspense>
     </>
   );
 }
