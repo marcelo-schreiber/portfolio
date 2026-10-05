@@ -1,6 +1,5 @@
 import {
   Html,
-  ContactShadows,
   Float,
   PresentationControls,
   Text,
@@ -169,14 +168,6 @@ export default function Experience() {
           </MacBook>
         </Float>
       </PresentationControls>
-
-      <ContactShadows
-        position-y={-1.4}
-        scale={5}
-        opacity={0.4}
-        blur={2.4}
-        far={1.6}
-      />
     </>
   );
 }
