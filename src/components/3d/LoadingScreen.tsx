@@ -1,14 +1,3 @@
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, TorusKnot } from "@react-three/drei";
-
-function SpinningTorus() {
-  return (
-    <TorusKnot args={[0.9, 0.25, 64, 8, 2, 3]}>
-      <meshBasicMaterial color="white" wireframe />
-    </TorusKnot>
-  );
-}
-
 export default function LoadingScreen() {
   return (
     <div
@@ -25,25 +14,20 @@ export default function LoadingScreen() {
         zIndex: 1000,
       }}
     >
-      <div style={{ width: 180, height: 180 }}>
-        <Canvas
-          camera={{ position: [0, 0, 3.2] }}
-          gl={{ antialias: true }}
-          style={{ background: "transparent" }}
-        >
-          <SpinningTorus />
-          <OrbitControls
-            enableZoom={false}
-            enablePan={false}
-            autoRotate
-            autoRotateSpeed={18}
-          />
-        </Canvas>
-      </div>
+      <div
+        style={{
+          width: 120,
+          height: 120,
+          border: "2px solid rgba(255, 255, 255, 0.3)",
+          borderTopColor: "white",
+          borderRadius: "50%",
+          animation: "spin 0.8s linear infinite",
+        }}
+      />
       <div
         style={{
           color: "#fff",
-          fontFamily: "IndustryBlack, sans-serif",
+          fontFamily: "sans-serif",
           fontSize: "1.2rem",
           marginTop: 8,
           letterSpacing: 1,
@@ -58,12 +42,8 @@ export default function LoadingScreen() {
         <span id="dotthree">.</span>
       </div>
       <style>{`
-        @font-face {
-          font-family: 'IndustryBlack';
-          src: url('/IndustryBold.otf') format('opentype');
-          font-weight: bold;
-          font-style: normal;
-          font-display: swap;
+        @keyframes spin {
+          to { transform: rotate(360deg); }
         }
         #dotone {
           animation: blink 1s infinite;

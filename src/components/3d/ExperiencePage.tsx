@@ -1,18 +1,49 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import LoadingScreen from "./LoadingScreen";
-import { Leva } from "leva";
-import { useHash } from "../../hooks/useHash";
 const MyCanvas = lazy(() => import("./Canvas"));
+const LevaPanel = lazy(async () => {
+  const { Leva } = await import("leva");
+  return { default: Leva };
+});
 
 export default function ExperiencePage() {
-  const isDebug = useHash("debug");
+  const [isDebug, setIsDebug] = useState(false);
+  const [isCanvasReady, setIsCanvasReady] = useState(false);
+
+  useEffect(() => {
+    const updateDebugState = () => {
+      setIsDebug(window.location.hash === "#debug");
+    };
+
+    updateDebugState();
+    window.addEventListener("hashchange", updateDebugState);
+    return () => window.removeEventListener("hashchange", updateDebugState);
+  }, []);
+
+  useEffect(() => {
+    const loadCanvas = () => setIsCanvasReady(true);
+
+    if ("requestIdleCallback" in window) {
+      const idleId = window.requestIdleCallback(loadCanvas, { timeout: 1000 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timeoutId = window.setTimeout(loadCanvas, 100);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
 
   return (
     <>
-      <Suspense fallback={<LoadingScreen />}>
-        <MyCanvas />
-      </Suspense>
-      <Leva hidden={!isDebug} />
+      {isCanvasReady && (
+        <Suspense fallback={<LoadingScreen />}>
+          <MyCanvas />
+        </Suspense>
+      )}
+      {isDebug && (
+        <Suspense fallback={null}>
+          <LevaPanel />
+        </Suspense>
+      )}
     </>
   );
 }
