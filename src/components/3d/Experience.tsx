@@ -107,7 +107,11 @@ export default function Experience() {
   return (
     <>
       {isDebug && <Perf position="top-left" />}
-      <Environment preset={environmentPreset} background={false} />
+      <Environment
+        preset={environmentPreset}
+        background={false}
+        environmentIntensity={1.5}
+      />
       <Sparkles
         count={particleCount}
         speed={particleSpeed}
