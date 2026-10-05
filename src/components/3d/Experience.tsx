@@ -1,7 +1,5 @@
 import {
   Html,
-  ContactShadows,
-  Environment,
   Float,
   PresentationControls,
   Text,
@@ -29,24 +27,6 @@ export default function Experience() {
     hoveredPosition: { value: [0.15, 1.4, 1.35], step: 0.05 },
     defaultPosition: { value: [-3.5, -11, 4], step: 0.05 },
     lookAtTarget: { value: [-0.05, 0.4, -1.4], step: 0.01 },
-  });
-
-  const { preset: environmentPreset } = useControls("Environment", {
-    preset: {
-      value: "city" as const,
-      options: [
-        "apartment",
-        "city",
-        "dawn",
-        "forest",
-        "lobby",
-        "night",
-        "park",
-        "studio",
-        "sunset",
-        "warehouse",
-      ] as const,
-    },
   });
 
   const {
@@ -104,14 +84,14 @@ export default function Experience() {
     );
   };
 
+  const { lightPosition, lightIntensity } = useControls("Light", {
+    lightPosition: { value: [5.3, 7.7, -5.3], step: 0.1 },
+    lightIntensity: { value: 4, min: 0, max: 100, step: 1 },
+  });
+
   return (
     <>
       {isDebug && <Perf position="top-left" />}
-      <Environment
-        preset={environmentPreset}
-        background={false}
-        environmentIntensity={1.5}
-      />
       <Sparkles
         count={particleCount}
         speed={particleSpeed}
@@ -122,7 +102,8 @@ export default function Experience() {
         noise={particleNoise}
       />
 
-      {/* <color args={["#73628a"]} attach="background" /> */}
+      <ambientLight intensity={5} />
+      <directionalLight position={lightPosition} intensity={lightIntensity} />
       <PresentationControls
         global
         rotation={[0.13, 0.1, 0]}
@@ -170,7 +151,7 @@ export default function Experience() {
                 style={{
                   opacity: isLidOpened ? 1 : 0,
                   animation: isLidOpened
-                    ? "screenFadeIn 2000ms ease-out"
+                    ? "screenFadeIn 2200ms ease-out"
                     : "none",
                 }}
                 onLoad={handleScreenLoad}
@@ -187,14 +168,6 @@ export default function Experience() {
           </MacBook>
         </Float>
       </PresentationControls>
-
-      <ContactShadows
-        position-y={-1.4}
-        scale={5}
-        opacity={0.4}
-        blur={2.4}
-        far={1.6}
-      />
     </>
   );
 }
